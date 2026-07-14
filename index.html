@@ -381,11 +381,9 @@
     setInterval(updateHeaderClock, 1000);
     updateHeaderClock();
 
-    // Login Handler with SweetAlert
+    // Login Handler with SweetAlert & Time Restrictions
     function handleJoin() {
       const rawInput = document.getElementById('usernameInput').value;
-      
-      // Clean leading/trailing spaces and normalize capitalization
       const cleanedUsername = rawInput.trim().toLowerCase();
       
       if (!cleanedUsername) {
@@ -398,26 +396,54 @@
         return;
       }
 
-      // Strict check against ONLY "avadhoot" and "ethan"
-      if (ALLOWED_USERS.includes(cleanedUsername)) {
-        Swal.fire({
-          icon: 'success',
-          title: 'Welcome, ' + rawInput.trim() + '!',
-          text: 'Connecting to your meeting room...',
-          timer: 1500,
-          showConfirmButton: false,
-          willClose: () => {
-            window.location.href = MEETING_LINK;
-          }
-        });
-      } else {
+      // Check username validity first
+      if (!ALLOWED_USERS.includes(cleanedUsername)) {
         Swal.fire({
           icon: 'warning',
-          title: 'Username Not Recognized',
-          text: 'Only authorized users (avadhoot, ethan) can join this meeting room.',
+          title: 'Access Denied',
+          text: 'We do not recognise this username in our system. Contact your meeting organiser.',
           confirmButtonColor: '#4285F4'
         });
+        return;
       }
+
+      // Time Validation (Must be between 6:00 PM and 7:00 PM)
+      const now = new Date();
+      const currentHour = now.getHours(); // 0 to 23 (18 = 6 PM, 19 = 7 PM)
+
+      if (currentHour < 18) {
+        // Joined before 6 PM
+        Swal.fire({
+          icon: 'info',
+          title: 'Meeting Not Started',
+          text: 'The meeting room opens at 6:00 PM. Please check back then.',
+          confirmButtonColor: '#4285F4'
+        });
+        return;
+      } 
+      
+      if (currentHour >= 19) {
+        // Joined at or after 7 PM
+        Swal.fire({
+          icon: 'error',
+          title: 'Meeting Closed',
+          text: 'The meeting session ended at 7:00 PM and is no longer accepting participants.',
+          confirmButtonColor: '#4285F4'
+        });
+        return;
+      }
+
+      // User is authorized AND within 6:00 PM - 7:00 PM window
+      Swal.fire({
+        icon: 'success',
+        title: 'Welcome, ' + rawInput.trim() + '!',
+        text: 'Connecting to your meeting room...',
+        timer: 1500,
+        showConfirmButton: false,
+        willClose: () => {
+          window.location.href = MEETING_LINK;
+        }
+      });
     }
 
     // Trigger on Enter Key
