@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Group (Google Meet Class)</title>
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <!-- SweetAlert2 Library -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <style>
     *, *::before, *::after {
@@ -49,7 +50,6 @@
     .header-right {
       display: flex;
       align-items: center;
-      gap: 16px;
       color: #3c4043;
     }
 
@@ -57,20 +57,6 @@
       font-size: 18px;
       color: #3c4043;
       font-weight: 500;
-      margin-right: 8px;
-    }
-
-    .profile-avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: #34A853; /* Green Brand Color */
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 500;
-      font-size: 15px;
     }
 
     /* Main Container */
@@ -117,7 +103,7 @@
     .action-row {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 12px;
       margin-bottom: 32px;
     }
 
@@ -125,7 +111,7 @@
       position: relative;
       display: flex;
       align-items: center;
-      width: 320px;
+      width: 280px;
     }
 
     .input-icon {
@@ -152,6 +138,24 @@
       border-color: #2684FC;
       box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.25);
       padding-left: 43px;
+    }
+
+    .join-btn {
+      height: 48px;
+      padding: 0 24px;
+      background: #1a73e8;
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      font-family: 'Google Sans', Roboto, Arial, sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .join-btn:hover {
+      background: #1557b0;
     }
 
     .divider {
@@ -282,7 +286,6 @@
 
     <div class="header-right">
       <span class="clock-display" id="clock"></span>
-      <div class="profile-avatar" id="avatarInitial">S</div>
     </div>
   </header>
 
@@ -304,6 +307,7 @@
             </svg>
             <input type="text" id="usernameInput" placeholder="Enter your username" autocomplete="off">
           </div>
+          <button class="join-btn" id="joinBtn">Join</button>
         </div>
 
         <div class="divider"></div>
@@ -350,10 +354,10 @@
 
   <script>
     // Configuration Variables
-    const MEETING_LINK = "https://meet.google.com/mtd-wwtd-bup";
+    const MEETING_LINK = "meet.google.com/kax-mtnn-gon";
     const ALLOWED_USERS = ["avadhoot", "ethan"];
 
-    // Live Auto-Updating Clock
+    // Real-Time Auto-Updating Clock (Format: 4:37 PM • Tue, Jul 14)
     function updateHeaderClock() {
       const now = new Date();
       
@@ -377,44 +381,51 @@
     setInterval(updateHeaderClock, 1000);
     updateHeaderClock();
 
-    // Dynamically update profile avatar initial based on typed username
-    document.getElementById('usernameInput').addEventListener('input', (e) => {
-      const val = e.target.value.trim();
-      document.getElementById('avatarInitial').textContent = val ? val[0].toUpperCase() : 'S';
-    });
-
-    // Username Enter Listener & Authorization Check
-    document.getElementById('usernameInput').addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        // Get the typed name and convert to lowercase for easy comparison
-        const typedName = e.target.value.trim();
-        const usernameCheck = typedName.toLowerCase();
-        
-        if (!typedName) return;
-
-        if (ALLOWED_USERS.includes(usernameCheck)) {
-          // Authorized User - Redirect
-          Swal.fire({
-            icon: 'success',
-            title: 'Welcome, ' + typedName + '!',
-            text: 'Connecting to your meeting room...',
-            timer: 1500,
-            showConfirmButton: false,
-            willClose: () => {
-              window.location.href = MEETING_LINK;
-            }
-          });
-        } else {
-          // Unauthorized User - Show Error
-          Swal.fire({
-            icon: 'error',
-            title: 'Access Denied',
-            text: 'Sorry, that username is not authorized to join this meeting.',
-            confirmButtonColor: '#4285F4'
-          });
-        }
+    // Login Handler with SweetAlert
+    function handleJoin() {
+      const typedName = document.getElementById('usernameInput').value.trim();
+      const usernameCheck = typedName.toLowerCase();
+      
+      if (!typedName) {
+        Swal.fire({
+          icon: 'info',
+          title: 'Name Required',
+          text: 'Please enter your username to join.',
+          confirmButtonColor: '#4285F4'
+        });
+        return;
       }
+
+      if (ALLOWED_USERS.includes(usernameCheck)) {
+        // Authorized User -> Redirect to Google Meet Link
+        Swal.fire({
+          icon: 'success',
+          title: 'Welcome, ' + typedName + '!',
+          text: 'Connecting to your meeting room...',
+          timer: 1500,
+          showConfirmButton: false,
+          willClose: () => {
+            window.location.href = MEETING_LINK;
+          }
+        });
+      } else {
+        // Warning Popup for Unrecognized Usernames
+        Swal.fire({
+          icon: 'warning',
+          title: 'Username Not Recognised',
+          text: 'We do not recognise this username in our database. Please verify your username and try again. If you need access, please contact your administrator.',
+          confirmButtonColor: '#4285F4'
+        });
+      }
+    }
+
+    // Trigger on Enter Key
+    document.getElementById('usernameInput').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') handleJoin();
     });
+
+    // Trigger on Join Button Click
+    document.getElementById('joinBtn').addEventListener('click', handleJoin);
   </script>
 </body>
 </html>
