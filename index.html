@@ -1,357 +1,420 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Group (Google Meet Class)| Meeting Room</title>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Google+Sans:wght@400;500&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<style>
-  *, *::before, *::after {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Group (Google Meet Class)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-  :root {
-    --bg: #202124;
-    --surface: #28292c;
-    --surface-2: #3c4043;
-    --blue: #8ab4f8;
-    --blue-solid: #1a73e8;
-    --text: #e8eaed;
-    --text-muted: #9aa0a6;
-    --border: #5f6368;
-    --red: #ea4335;
-    --green: #34a853;
-  }
+    /* Page background using Google 4-Color gradient */
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, 
+        rgba(66, 133, 244, 0.12) 0%, 
+        rgba(234, 67, 53, 0.10) 35%, 
+        rgba(251, 188, 5, 0.10) 70%, 
+        rgba(52, 168, 83, 0.12) 100%
+      );
+      font-family: 'Google Sans', 'Roboto', Arial, sans-serif;
+      color: #202124;
+      display: flex;
+      flex-direction: column;
+    }
 
-  body {
-    min-height: 100vh;
-    background: var(--bg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Google Sans', 'Roboto', Arial, sans-serif;
-    color: var(--text);
-    padding: 24px;
-  }
+    /* Top Navigation Header */
+    .header {
+      height: 64px;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
+    }
 
-  .topbar {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    height: 64px;
-    display: flex;
-    align-items: center;
-    padding: 0 24px;
-    font-size: 22px;
-    font-weight: 400;
-    color: var(--text-muted);
-    letter-spacing: 0.01em;
-  }
-  .topbar b { color: var(--text); font-weight: 500; margin-right: 6px; }
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-  .clock-badge {
-    position: fixed;
-    top: 20px; right: 24px;
-    font-size: 13px;
-    color: var(--text-muted);
-    font-family: 'Roboto', Arial, sans-serif;
-  }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      color: #3c4043;
+    }
 
-  .wrap {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 56px;
-    flex-wrap: wrap;
-    max-width: 980px;
-    width: 100%;
-  }
+    .clock-display {
+      font-size: 18px;
+      color: #3c4043;
+      font-weight: 500;
+      margin-right: 8px;
+    }
 
-  .preview {
-    width: 420px;
-    max-width: 92vw;
-  }
-  .tile {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 16 / 10;
-    background: var(--surface);
-    border-radius: 12px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .avatar {
-    width: 96px;
-    height: 96px;
-    border-radius: 50%;
-    background: var(--blue-solid);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 36px;
-    font-weight: 500;
-    color: #fff;
-    letter-spacing: 0.02em;
-  }
-  .tile-tag {
-    position: absolute;
-    bottom: 12px;
-    left: 14px;
-    font-size: 12px;
-    color: var(--text-muted);
-    background: rgba(0,0,0,0.35);
-    padding: 4px 10px;
-    border-radius: 6px;
-  }
+    .profile-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #34A853; /* Green Brand Color */
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 500;
+      font-size: 15px;
+    }
 
-  .controls {
-    display: flex;
-    justify-content: center;
-    gap: 14px;
-    margin-top: 18px;
-  }
-  .control-btn {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: var(--surface-2);
-    border: none;
-    color: var(--text);
-    font-size: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  .control-btn:hover { background: #4a4d51; }
-  .control-btn.off { background: var(--red); }
-  .control-btn.off:hover { background: #d33b2c; }
+    /* Main Container */
+    .main-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 48px;
+      width: 100%;
+    }
 
-  .device-row {
-    margin-top: 16px;
-    text-align: center;
-    font-size: 12px;
-    color: var(--text-muted);
-  }
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 64px;
+      width: 100%;
+    }
 
-  .join-panel {
-    width: 340px;
-    max-width: 92vw;
-  }
-  .join-title {
-    font-size: 26px;
-    font-weight: 400;
-    color: var(--text);
-    margin-bottom: 8px;
-  }
-  .join-sub {
-    font-size: 14px;
-    color: var(--text-muted);
-    margin-bottom: 28px;
-    line-height: 1.5;
-  }
+    /* Left Column */
+    .left-col {
+      max-width: 480px;
+    }
 
-  .field-label {
-    font-size: 12px;
-    color: var(--text-muted);
-    margin-bottom: 6px;
-    display: block;
-  }
+    .main-heading {
+      font-size: 44px;
+      line-height: 52px;
+      font-weight: 400;
+      color: #202124;
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
 
-  .input-wrap { margin-bottom: 20px; }
-  input {
-    width: 100%;
-    padding: 13px 14px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    color: var(--text);
-    font-family: 'Roboto', Arial, sans-serif;
-    font-size: 14px;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  input::placeholder { color: #6f7378; }
-  input:focus { border-color: var(--blue); border-width: 2px; padding: 12px 13px; }
+    .sub-heading {
+      font-size: 18px;
+      line-height: 24px;
+      color: #4a4e51;
+      margin-bottom: 32px;
+    }
 
-  .btn {
-    width: 100%;
-    padding: 13px;
-    background: var(--blue-solid);
-    border: none;
-    border-radius: 24px;
-    color: #fff;
-    font-family: 'Google Sans', 'Roboto', Arial, sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: 0.01em;
-    cursor: pointer;
-    transition: background 0.2s, opacity 0.2s;
-  }
-  .btn:hover { background: #1765cc; }
-  .btn.disabled {
-    background: var(--surface-2);
-    color: var(--text-muted);
-    cursor: not-allowed;
-    opacity: 0.7;
-  }
-  .btn.disabled:hover { background: var(--surface-2); }
+    .action-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
 
-  .meta-row {
-    margin-top: 24px;
-    padding-top: 18px;
-    border-top: 1px solid var(--surface-2);
-    font-size: 12px;
-    color: var(--text-muted);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .status-dot {
-    display: inline-block;
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--green);
-    margin-right: 6px;
-  }
-  .status-dot.closed { background: var(--red); }
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: 320px;
+    }
 
-  .swal2-popup {
-    background: var(--surface) !important;
-    border: 1px solid var(--surface-2) !important;
-    color: var(--text) !important;
-    font-family: 'Google Sans', 'Roboto', Arial, sans-serif !important;
-    border-radius: 12px !important;
-  }
-  .swal2-title { color: #fff !important; font-weight: 500 !important; }
-  .swal2-content { color: var(--text-muted) !important; }
-  .swal2-confirm {
-    background: var(--blue-solid) !important;
-    border: none !important;
-    color: #fff !important;
-    border-radius: 20px !important;
-    font-family: 'Google Sans', 'Roboto', Arial, sans-serif !important;
-    padding: 8px 24px !important;
-  }
+    .input-icon {
+      position: absolute;
+      left: 14px;
+      color: #4285F4; /* Blue accent icon */
+      pointer-events: none;
+    }
 
-  @media (max-width: 760px) {
-    .wrap { flex-direction: column; gap: 32px; }
-    .topbar { font-size: 18px; }
-  }
-</style>
+    .input-wrapper input {
+      width: 100%;
+      height: 48px;
+      padding: 0 16px 0 44px;
+      border: 1.5px solid #4285F4;
+      background: #ffffff;
+      border-radius: 6px;
+      font-size: 16px;
+      color: #1f1f1f;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .input-wrapper input:focus {
+      border-color: #2684FC;
+      box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.25);
+      padding-left: 43px;
+    }
+
+    .divider {
+      height: 1px;
+      background: rgba(0, 0, 0, 0.12);
+      margin-bottom: 24px;
+    }
+
+    .learn-more {
+      font-size: 14px;
+      color: #5f6368;
+    }
+
+    .learn-more a {
+      color: #2684FC;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .learn-more a:hover {
+      text-decoration: underline;
+    }
+
+    /* Right Column Illustration / Carousel */
+    .right-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+    }
+
+    .carousel-wrapper {
+      position: relative;
+      width: 360px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .carousel-image {
+      width: 330px;
+      height: 330px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      position: relative;
+    }
+
+    .nav-arrow {
+      position: absolute;
+      top: 150px;
+      background: none;
+      border: none;
+      font-size: 20px;
+      color: #5f6368;
+      cursor: pointer;
+      padding: 8px;
+    }
+
+    .nav-arrow.left { left: -32px; }
+    .nav-arrow.right { right: -32px; }
+
+    .carousel-title {
+      font-size: 24px;
+      font-weight: 400;
+      color: #202124;
+      margin-bottom: 8px;
+    }
+
+    .carousel-desc {
+      font-size: 14px;
+      line-height: 20px;
+      color: #5f6368;
+      max-width: 320px;
+      margin-bottom: 24px;
+    }
+
+    .carousel-dots {
+      display: flex;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #dadce0;
+    }
+
+    .dot.active {
+      background: #34A853; /* Green accent dot */
+    }
+
+    @media (max-width: 960px) {
+      .content-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      .main-container {
+        padding: 32px 24px;
+      }
+      .right-col {
+        display: none;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<div class="topbar"><b>The Group</b> Meeting Room</div>
-<div class="clock-badge" id="clock"></div>
-
-<div class="wrap">
-  <div class="preview">
-    <div class="tile">
-      <div class="avatar" id="avatarInitial">?</div>
-      <div class="tile-tag">Camera is off</div>
-    </div>
-    <div class="controls">
-      <button class="control-btn off" type="button" title="Camera off">📷</button>
-      <button class="control-btn off" type="button" title="Mic off">🎙</button>
-    </div>
-    <div class="device-row">No camera or microphone connected</div>
-  </div>
-
-  <div class="join-panel">
-    <div class="join-title">Ready to join?</div>
-    <div class="join-sub">No one else is here. Enter your name to request access to this meeting.</div>
-
-    <label class="field-label">Your name</label>
-    <div class="input-wrap">
-      <input id="name" type="text" placeholder="Enter your name" autocomplete="off">
+  <!-- Top Navigation Header -->
+  <header class="header">
+    <div class="logo-container">
+      <svg width="184" height="40" viewBox="0 0 184 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12.5 15.6V24.4C12.5 25.5 13.4 26.4 14.5 26.4H20.5V13.6H14.5C13.4 13.6 12.5 14.5 12.5 15.6Z" fill="#00AC47"/>
+        <path d="M26.5 13.6H20.5V26.4H26.5C27.6 26.4 28.5 25.5 28.5 24.4V15.6C28.5 14.5 27.6 13.6 26.5 13.6Z" fill="#FBBC05"/>
+        <path d="M20.5 7.6H14.5C13.4 7.6 12.5 8.5 12.5 9.6V13.6H20.5V7.6Z" fill="#EA4335"/>
+        <path d="M20.5 26.4H12.5V30.4C12.5 31.5 13.4 32.4 14.5 32.4H20.5V26.4Z" fill="#34A853"/>
+        <path d="M28.5 9.6C28.5 8.5 27.6 7.6 26.5 7.6H20.5V13.6H28.5V9.6Z" fill="#4285F4"/>
+        <path d="M34.5 16.1L28.5 20L34.5 23.9V16.1Z" fill="#00AC47"/>
+        <text x="44" y="25" font-family="'Google Sans', Roboto, Arial" font-size="20" fill="#5f6368">Google <tspan font-weight="500" fill="#202124">Meet</tspan></text>
+      </svg>
     </div>
 
-    <button class="btn" id="joinBtn" onclick="join()"><span id="joinBtnLabel">Request Access</span></button>
-
-    <div class="meta-row">
-      <div><span class="status-dot" id="statusDot"></span><span id="statusText">Open now</span></div>
-      <div>Closes 7:00 PM IST</div>
+    <div class="header-right">
+      <span class="clock-display" id="clock"></span>
+      <div class="profile-avatar" id="avatarInitial">S</div>
     </div>
-  </div>
-</div>
+  </header>
 
-<script>
-  const MEETING_URL = 'https://meet.google.com/mwf-faaf-vjy';
-  const ALLOWED = ['avadhoot','ethan'];
-  const CLOSE_MINUTES = 19 * 60;
+  <!-- Main Content Area -->
+  <main class="main-container">
+    <div class="content-grid">
+      
+      <!-- Left Column -->
+      <div class="left-col">
+        <h1 class="main-heading">The Group<br>(Google Meet Class)</h1>
+        <p class="sub-heading">
+          We re-engineered the service we built for secure business meetings, Google Meet, to make it free and available for all.
+        </p>
 
-  const style = {
-    background:'#28292c',
-    color:'#e8eaed',
-    confirmButtonColor:'#1a73e8',
-    customClass:{popup:'swal2-popup',title:'swal2-title',confirmButton:'swal2-confirm'}
-  };
+        <div class="action-row">
+          <div class="input-wrapper">
+            <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20 5H4c-1.1 0-1.99.9-1.99 2L2 17c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm-9 3h2v2h-2V8zm0 3h2v2h-2v-2zM8 8h2v2H8V8zm0 3h2v2H8v-2zm-1 5H5v-2h2v2zm0-3H5v-2h2v2zm0-3H5V8h2v2zm9 7H8v-2h8v2zm0-3h-2v-2h2v2zm0-3h-2V8h2v2zm3 6h-2v-2h2v2zm0-3h-2v-2h2v2zm0-3h-2V8h2v2z"/>
+            </svg>
+            <input type="text" id="usernameInput" placeholder="Enter your username" autocomplete="off">
+          </div>
+        </div>
 
-  function isOpen(){
-    const now = new Date();
-    return (now.getHours()*60 + now.getMinutes()) < CLOSE_MINUTES;
-  }
+        <div class="divider"></div>
 
-  function refreshRoomState(){
-    const open = isOpen();
-    const btn = document.getElementById('joinBtn');
-    const dot = document.getElementById('statusDot');
-    const statusText = document.getElementById('statusText');
+        <p class="learn-more">
+          <a href="#">Learn more</a> about Google Meet
+        </p>
+      </div>
 
-    if(open){
-      btn.classList.remove('disabled');
-      dot.classList.remove('closed');
-      statusText.textContent = 'Open now';
-    } else {
-      btn.classList.add('disabled');
-      dot.classList.add('closed');
-      statusText.textContent = 'Room closed';
+      <!-- Right Illustration Column -->
+      <div class="right-col">
+        <button class="nav-arrow left">&lt;</button>
+        
+        <div class="carousel-wrapper">
+          <div class="carousel-image">
+            <svg width="260" height="200" viewBox="0 0 200 160">
+              <circle cx="100" cy="50" r="28" fill="#4285F4"/>
+              <path d="M88 46 L95 40 L95 60 L88 54 Z" fill="#ffffff"/>
+              <path d="M100 40 L112 50 L100 60 Z" fill="#ffffff"/>
+              <path d="M40 70 C40 60 50 50 60 50 L55 110 L30 110 Z" fill="#FBBC05"/>
+              <path d="M160 70 C160 60 150 50 140 50 L145 110 L170 110 Z" fill="#34A853"/>
+              <rect x="50" y="80" width="100" height="4" fill="#4285F4" opacity="0.3"/>
+            </svg>
+          </div>
+
+          <h2 class="carousel-title">Get a link you can share</h2>
+          <p class="carousel-desc">
+            Enter your username to connect directly to your scheduled meeting room.
+          </p>
+
+          <div class="carousel-dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+        </div>
+
+        <button class="nav-arrow right">&gt;</button>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    // Configuration Variables
+    const MEETING_LINK = "https://meet.google.com/mtd-wwtd-bup";
+    const ALLOWED_USERS = ["avadhoot", "ethan"];
+
+    // Live Auto-Updating Clock
+    function updateHeaderClock() {
+      const now = new Date();
+      
+      let hours = now.getHours();
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12;
+      hours = hours ? hours : 12;
+      
+      const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      
+      const dayName = days[now.getDay()];
+      const monthName = months[now.getMonth()];
+      const dayNum = now.getDate();
+
+      const timeString = `${hours}:${minutes} ${ampm} • ${dayName}, ${monthName} ${dayNum}`;
+      document.getElementById('clock').textContent = timeString;
     }
-  }
 
-  function updateClock(){
-    const n=new Date();
-    const h=String(n.getHours()).padStart(2,'0');
-    const m=String(n.getMinutes()).padStart(2,'0');
-    const s=String(n.getSeconds()).padStart(2,'0');
-    document.getElementById('clock').textContent=h+':'+m+':'+s+' IST';
-    refreshRoomState();
-  }
-  setInterval(updateClock,1000);
-  updateClock();
+    setInterval(updateHeaderClock, 1000);
+    updateHeaderClock();
 
-  document.getElementById('name').addEventListener('input', e=>{
-    const v = e.target.value.trim();
-    document.getElementById('avatarInitial').textContent = v ? v[0].toUpperCase() : '?';
-  });
+    // Dynamically update profile avatar initial based on typed username
+    document.getElementById('usernameInput').addEventListener('input', (e) => {
+      const val = e.target.value.trim();
+      document.getElementById('avatarInitial').textContent = val ? val[0].toUpperCase() : 'S';
+    });
 
-  function join(){
-    if(!isOpen()){
-      Swal.fire({...style,icon:'error',title:'Session ended',text:'This meeting room closed at 7:00 PM.'});
-      return;
-    }
+    // Username Enter Listener & Authorization Check
+    document.getElementById('usernameInput').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        // Get the typed name and convert to lowercase for easy comparison
+        const typedName = e.target.value.trim();
+        const usernameCheck = typedName.toLowerCase();
+        
+        if (!typedName) return;
 
-    const name=document.getElementById('name').value.trim().toLowerCase();
-    if(!name){
-      Swal.fire({...style,icon:'warning',title:'Name required',text:'Please enter your name to continue.'});
-      return;
-    }
-    if(!ALLOWED.includes(name)){
-      Swal.fire({...style,icon:'warning',title:'Access denied',text:'Only authorized personnel may enter this room.'});
-      return;
-    }
-
-    Swal.fire({...style,icon:'success',title:'Identity verified',text:'Connecting you to the meeting…'});
-    setTimeout(()=>{ window.location.href = MEETING_URL; },1600);
-  }
-
-  document.getElementById('name').addEventListener('keydown',e=>{ if(e.key==='Enter') join(); });
-</script>
+        if (ALLOWED_USERS.includes(usernameCheck)) {
+          // Authorized User - Redirect
+          Swal.fire({
+            icon: 'success',
+            title: 'Welcome, ' + typedName + '!',
+            text: 'Connecting to your meeting room...',
+            timer: 1500,
+            showConfirmButton: false,
+            willClose: () => {
+              window.location.href = MEETING_LINK;
+            }
+          });
+        } else {
+          // Unauthorized User - Show Error
+          Swal.fire({
+            icon: 'error',
+            title: 'Access Denied',
+            text: 'Sorry, that username is not authorized to join this meeting.',
+            confirmButtonColor: '#4285F4'
+          });
+        }
+      }
+    });
+  </script>
 </body>
 </html>
