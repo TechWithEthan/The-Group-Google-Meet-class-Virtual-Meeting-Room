@@ -117,7 +117,7 @@
     .input-icon {
       position: absolute;
       left: 14px;
-      color: #4285F4; /* Blue accent icon */
+      color: #4285F4;
       pointer-events: none;
     }
 
@@ -137,7 +137,6 @@
     .input-wrapper input:focus {
       border-color: #2684FC;
       box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.25);
-      padding-left: 43px;
     }
 
     .join-btn {
@@ -251,7 +250,7 @@
     }
 
     .dot.active {
-      background: #34A853; /* Green accent dot */
+      background: #34A853;
     }
 
     @media (max-width: 960px) {
@@ -313,13 +312,13 @@
         <div class="divider"></div>
 
         <p class="learn-more">
-          <a href="#">Learn more</a> about Google Meet
+          <a href="https://support.google.com/meet" target="_blank" rel="noopener">Learn more</a> about Google Meet
         </p>
       </div>
 
       <!-- Right Illustration Column -->
       <div class="right-col">
-        <button class="nav-arrow left">&lt;</button>
+        <button class="nav-arrow left" aria-label="Previous">&lt;</button>
         
         <div class="carousel-wrapper">
           <div class="carousel-image">
@@ -346,18 +345,19 @@
           </div>
         </div>
 
-        <button class="nav-arrow right">&gt;</button>
+        <button class="nav-arrow right" aria-label="Next">&gt;</button>
       </div>
 
     </div>
   </main>
 
   <script>
-    // Configuration Variables
-    const MEETING_LINK = "meet.google.com/kax-mtnn-gon";
+    const MEETING_LINK = "https://meet.google.com/kax-mtnn-gon";
+    
+    // EXCLUSIVELY PERMITTED USERNAMES
     const ALLOWED_USERS = ["avadhoot", "ethan"];
 
-    // Real-Time Auto-Updating Clock (Format: 4:37 PM • Tue, Jul 14)
+    // Real-Time Auto-Updating Clock
     function updateHeaderClock() {
       const now = new Date();
       
@@ -383,10 +383,12 @@
 
     // Login Handler with SweetAlert
     function handleJoin() {
-      const typedName = document.getElementById('usernameInput').value.trim();
-      const usernameCheck = typedName.toLowerCase();
+      const rawInput = document.getElementById('usernameInput').value;
       
-      if (!typedName) {
+      // Clean leading/trailing spaces and normalize capitalization
+      const cleanedUsername = rawInput.trim().toLowerCase();
+      
+      if (!cleanedUsername) {
         Swal.fire({
           icon: 'info',
           title: 'Name Required',
@@ -396,11 +398,11 @@
         return;
       }
 
-      if (ALLOWED_USERS.includes(usernameCheck)) {
-        // Authorized User -> Redirect to Google Meet Link
+      // Strict check against ONLY "avadhoot" and "ethan"
+      if (ALLOWED_USERS.includes(cleanedUsername)) {
         Swal.fire({
           icon: 'success',
-          title: 'Welcome, ' + typedName + '!',
+          title: 'Welcome, ' + rawInput.trim() + '!',
           text: 'Connecting to your meeting room...',
           timer: 1500,
           showConfirmButton: false,
@@ -409,11 +411,10 @@
           }
         });
       } else {
-        // Warning Popup for Unrecognized Usernames
         Swal.fire({
           icon: 'warning',
-          title: 'Username Not Recognised',
-          text: 'We do not recognise this username in our database. Please verify your username and try again. If you need access, please contact your administrator.',
+          title: 'Username Not Recognized',
+          text: 'Only authorized users (avadhoot, ethan) can join this meeting room.',
           confirmButtonColor: '#4285F4'
         });
       }
