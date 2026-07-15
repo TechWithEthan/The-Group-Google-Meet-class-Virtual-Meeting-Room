@@ -13,14 +13,14 @@
       padding: 0;
       box-sizing: border-box;
     }
-
-    /* Base Setup */
+    
+    /* Base Layout Setup */
     html, body {
       width: 100%;
       height: 100%;
     }
-
-    /* Page background using Google 4-Color gradient */
+    
+    /* Page background using modern Google 4-Color gradient blend */
     body {
       min-height: 100vh;
       background: linear-gradient(135deg, 
@@ -35,8 +35,8 @@
       flex-direction: column;
       overflow-x: hidden;
     }
-
-    /* Top Navigation Header */
+    
+    /* Top Sticky Navigation Header */
     .header {
       height: 64px;
       padding: 0 24px;
@@ -50,26 +50,23 @@
       top: 0;
       z-index: 100;
     }
-
     .logo-container {
       display: flex;
       align-items: center;
       gap: 8px;
     }
-
     .header-right {
       display: flex;
       align-items: center;
       color: #3c4043;
     }
-
     .clock-display {
       font-size: 16px;
       color: #3c4043;
       font-weight: 500;
     }
-
-    /* Main Layout Container */
+    
+    /* Main Grid Structure */
     .main-container {
       flex: 1;
       display: flex;
@@ -80,7 +77,6 @@
       padding: 40px 24px;
       width: 100%;
     }
-
     .content-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -88,14 +84,13 @@
       gap: 64px;
       width: 100%;
     }
-
-    /* Left Column */
+    
+    /* Left Interaction Column */
     .left-col {
       width: 100%;
       max-width: 480px;
       margin: 0 auto;
     }
-
     .main-heading {
       font-size: clamp(28px, 5vw, 44px);
       line-height: 1.2;
@@ -104,14 +99,12 @@
       margin-bottom: 16px;
       letter-spacing: -0.5px;
     }
-
     .sub-heading {
       font-size: clamp(15px, 2.5vw, 18px);
       line-height: 1.45;
       color: #4a4e51;
       margin-bottom: 32px;
     }
-
     .action-row {
       display: flex;
       align-items: center;
@@ -119,21 +112,18 @@
       margin-bottom: 32px;
       width: 100%;
     }
-
     .input-wrapper {
       position: relative;
       display: flex;
       align-items: center;
       flex: 1;
     }
-
     .input-icon {
       position: absolute;
       left: 14px;
       color: #4285F4;
       pointer-events: none;
     }
-
     .input-wrapper input {
       width: 100%;
       height: 48px;
@@ -146,12 +136,10 @@
       outline: none;
       transition: border-color 0.2s, box-shadow 0.2s;
     }
-
     .input-wrapper input:focus {
       border-color: #2684FC;
       box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.25);
     }
-
     .join-btn {
       height: 48px;
       padding: 0 28px;
@@ -166,33 +154,28 @@
       white-space: nowrap;
       transition: background 0.2s;
     }
-
     .join-btn:hover {
       background: #1557b0;
     }
-
     .divider {
       height: 1px;
       background: rgba(0, 0, 0, 0.12);
       margin-bottom: 24px;
     }
-
     .learn-more {
       font-size: 14px;
       color: #5f6368;
     }
-
     .learn-more a {
       color: #2684FC;
       text-decoration: none;
       font-weight: 500;
     }
-
     .learn-more a:hover {
       text-decoration: underline;
     }
-
-    /* Right Column Illustration / Carousel */
+    
+    /* Right Illustration Carousel Column */
     .right-col {
       display: flex;
       flex-direction: column;
@@ -201,7 +184,6 @@
       position: relative;
       width: 100%;
     }
-
     .carousel-wrapper {
       position: relative;
       width: 100%;
@@ -210,7 +192,6 @@
       flex-direction: column;
       align-items: center;
     }
-
     .carousel-image {
       width: min(300px, 80vw);
       height: min(300px, 80vw);
@@ -223,12 +204,10 @@
       margin-bottom: 24px;
       position: relative;
     }
-
     .carousel-image svg {
       width: 75%;
       height: auto;
     }
-
     .nav-arrow {
       position: absolute;
       top: 40%;
@@ -240,17 +219,14 @@
       cursor: pointer;
       padding: 8px;
     }
-
     .nav-arrow.left { left: 0; }
     .nav-arrow.right { right: 0; }
-
     .carousel-title {
       font-size: 22px;
       font-weight: 400;
       color: #202124;
       margin-bottom: 8px;
     }
-
     .carousel-desc {
       font-size: 14px;
       line-height: 20px;
@@ -258,78 +234,63 @@
       max-width: 320px;
       margin-bottom: 24px;
     }
-
     .carousel-dots {
       display: flex;
       gap: 8px;
     }
-
     .dot {
       width: 6px;
       height: 6px;
       border-radius: 50%;
       background: #dadce0;
     }
-
     .dot.active {
       background: #34A853;
     }
-
-    /* RESPONSIVE BREAKPOINTS */
-
-    /* Tablet Screens (1024px and down) */
+    
+    /* Responsive Breakpoints */
     @media (max-width: 1024px) {
       .content-grid {
         gap: 32px;
       }
     }
-
-    /* Mobile & Small Screens (768px and down) */
     @media (max-width: 768px) {
       .header {
         padding: 0 16px;
       }
-
       .clock-display {
         font-size: 14px;
       }
-
       .main-container {
         padding: 24px 16px;
       }
-
       .content-grid {
         grid-template-columns: 1fr;
         gap: 32px;
       }
-
       .left-col {
         text-align: left;
       }
-
       .action-row {
         flex-direction: column;
         align-items: stretch;
         gap: 12px;
       }
-
       .input-wrapper {
         width: 100%;
       }
-
       .join-btn {
         width: 100%;
       }
-
       .right-col {
-        display: none; /* Hide heavy illustration on mobile for cleaner UX */
+        display: none; /* Auto-hides visual layouts on compact screen widths */
       }
     }
   </style>
 </head>
 <body>
-
-  <!-- Top Navigation Header -->
+  
+  <!-- Navigation Header with Clock -->
   <header class="header">
     <div class="logo-container">
       <svg width="150" height="32" viewBox="0 0 184 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -342,23 +303,21 @@
         <text x="44" y="25" font-family="'Google Sans', Roboto, Arial" font-size="20" fill="#5f6368">Google <tspan font-weight="500" fill="#202124">Meet</tspan></text>
       </svg>
     </div>
-
     <div class="header-right">
       <span class="clock-display" id="clock"></span>
     </div>
   </header>
 
-  <!-- Main Content Area -->
+  <!-- Centered Content Grid Container -->
   <main class="main-container">
     <div class="content-grid">
       
-      <!-- Left Column -->
+      <!-- Input Panel -->
       <div class="left-col">
         <h1 class="main-heading">The Group<br>(Google Meet Class)</h1>
         <p class="sub-heading">
           We re-engineered the service we built for secure business meetings, Google Meet, to make it free and available for all.
         </p>
-
         <div class="action-row">
           <div class="input-wrapper">
             <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -368,18 +327,15 @@
           </div>
           <button class="join-btn" id="joinBtn">Join</button>
         </div>
-
         <div class="divider"></div>
-
         <p class="learn-more">
           <a href="https://support.google.com/meet" target="_blank" rel="noopener">Learn more</a> about Google Meet
         </p>
       </div>
 
-      <!-- Right Illustration Column -->
+      <!-- Right Column Graphic Panel -->
       <div class="right-col">
         <button class="nav-arrow left" aria-label="Previous">&lt;</button>
-        
         <div class="carousel-wrapper">
           <div class="carousel-image">
             <svg width="260" height="200" viewBox="0 0 200 160">
@@ -391,10 +347,132 @@
               <rect x="50" y="80" width="100" height="4" fill="#4285F4" opacity="0.3"/>
             </svg>
           </div>
-
           <h2 class="carousel-title">Get a link you can share</h2>
           <p class="carousel-desc">
             Enter your username to connect directly to your scheduled meeting room.
+          </p>
+          <div class="carousel-dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+        </div>
+        <button class="nav-arrow right" aria-label="Next">&gt;</button>
+      </div>
+      
+    </div>
+  </main>
+
+  <script>
+    const MEETING_LINK = "https://meet.google.com/kax-mtnn-gon";
+    
+    // EXCLUSIVELY PERMITTED USERNAMES
+    const ALLOWED_USERS = ["avadhoot", "ethan"];
+
+    // Real-Time Auto-Updating Clock Display
+    function updateHeaderClock() {
+      const now = new Date();
+      
+      let hours = now.getHours();
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12;
+      hours = hours ? hours : 12;
+      
+      const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      
+      const dayName = days[now.getDay()];
+      const monthName = months[now.getMonth()];
+      const dayNum = now.getDate();
+
+      const timeString = `${hours}:${minutes} ${ampm} • ${dayName}, ${monthName} ${dayNum}`;
+      document.getElementById('clock').textContent = timeString;
+    }
+    setInterval(updateHeaderClock, 1000);
+    updateHeaderClock();
+
+    // Verification Logic for Allowed Users and 6:00 PM - 7:00 PM time block
+    function handleJoin() {
+      const rawInput = document.getElementById('usernameInput').value;
+      const cleanedUsername = rawInput.trim().toLowerCase();
+      
+      if (!cleanedUsername) {
+        Swal.fire({
+          icon: 'info',
+          title: 'Name Required',
+          text: 'Please enter your username to join.',
+          confirmButtonColor: '#4285F4'
+        });
+        return;
+      }
+
+      // Check username validity against the access list
+      if (!ALLOWED_USERS.includes(cleanedUsername)) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Access Denied',
+          text: 'We do not recognise this username in our system. Contact your meeting organiser.',
+          confirmButtonColor: '#4285F4'
+        });
+        return;
+      }
+
+      const now = new Date();
+      const currentHour = now.getHours(); // 24-hour scale (0-23)
+      
+      // Fixed PM targets for all days
+      const startHour = 18;       // 18:00 is exactly 6:00 PM
+      const endHour = 19;         // 19:00 is exactly 7:00 PM
+      const displayStart = "6:00 PM";
+      const displayEnd = "7:00 PM";
+
+      // Time restrictions validation
+      if (currentHour < startHour) {
+        Swal.fire({
+          icon: 'info',
+          title: 'Meeting Not Started',
+          text: `The meeting room opens at ${displayStart}. Please check back then.`,
+          confirmButtonColor: '#4285F4'
+        });
+        return;
+      } 
+      
+      if (currentHour >= endHour) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Meeting Closed',
+          text: `The meeting session ended at ${displayEnd} and is no longer accepting participants.`,
+          confirmButtonColor: '#4285F4'
+        });
+        return;
+      }
+
+      // Successful validation route
+      Swal.fire({
+        icon: 'success',
+        title: 'Welcome, ' + rawInput.trim() + '!',
+        text: 'Connecting to your meeting room...',
+        timer: 1500,
+        showConfirmButton: false,
+        willClose: () => {
+          window.location.href = MEETING_LINK;
+        }
+      });
+    }
+
+    // Trigger on Enter Key Press inside text container
+    document.getElementById('usernameInput').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') handleJoin();
+    });
+
+    // Trigger on Action Button Click
+    document.getElementById('joinBtn').addEventListener('click', handleJoin);
+  </script>
+</body>
+</html>
+tly to your scheduled meeting room.
           </p>
 
           <div class="carousel-dots">
