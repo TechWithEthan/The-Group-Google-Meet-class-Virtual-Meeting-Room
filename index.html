@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -284,7 +283,7 @@
         width: 100%;
       }
       .right-col {
-        display: none; /* Auto-hides visual layouts on compact screen widths */
+        display: none;
       }
     }
   </style>
@@ -361,12 +360,13 @@
         </div>
         <button class="nav-arrow right" aria-label="Next">&gt;</button>
       </div>
-      
+
     </div>
   </main>
 
   <script>
-    const MEETING_LINK = "meet.google.com/ezb-nots-aoq ";
+    // Cleaned URL (removed trailing space)
+    const MEETING_LINK = "https://meet.google.com/rwk-opeq-wie?hs=122&authuser=0";
     
     // EXCLUSIVELY PERMITTED USERNAMES
     const ALLOWED_USERS = ["avadhoot", "ethan"];
@@ -391,135 +391,11 @@
       const timeString = `${hours}:${minutes} ${ampm} • ${dayName}, ${monthName} ${dayNum}`;
       document.getElementById('clock').textContent = timeString;
     }
-    setInterval(updateHeaderClock, 1000);
-    updateHeaderClock();
-
-    // Verification Logic for Allowed Users and 6:00 PM - 7:00 PM time block
-    function handleJoin() {
-      const rawInput = document.getElementById('usernameInput').value;
-      const cleanedUsername = rawInput.trim().toLowerCase();
-      
-      if (!cleanedUsername) {
-        Swal.fire({
-          icon: 'info',
-          title: 'Name Required',
-          text: 'Please enter your username to join.',
-          confirmButtonColor: '#4285F4'
-        });
-        return;
-      }
-
-      // Check username validity against the access list
-      if (!ALLOWED_USERS.includes(cleanedUsername)) {
-        Swal.fire({
-          icon: 'warning',
-          title: 'Access Denied',
-          text: 'We do not recognise this username in our system. Contact your meeting organiser.',
-          confirmButtonColor: '#4285F4'
-        });
-        return;
-      }
-
-      const now = new Date();
-      const currentHour = now.getHours(); // 24-hour scale (0-23)
-      
-      // Fixed PM targets for all days
-      const startHour = 18;       // 18:00 is exactly 6:00 PM
-      const endHour = 19;         // 19:00 is exactly 7:00 PM
-      const displayStart = "6:00 PM";
-      const displayEnd = "7:00 PM";
-
-      // Time restrictions validation
-      if (currentHour < startHour) {
-        Swal.fire({
-          icon: 'info',
-          title: 'Meeting Not Started',
-          text: `The meeting room opens at ${displayStart}. Please check back then.`,
-          confirmButtonColor: '#4285F4'
-        });
-        return;
-      } 
-      
-      if (currentHour >= endHour) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Meeting Closed',
-          text: `The meeting session ended at ${displayEnd} and is no longer accepting participants.`,
-          confirmButtonColor: '#4285F4'
-        });
-        return;
-      }
-
-      // Successful validation route
-      Swal.fire({
-        icon: 'success',
-        title: 'Welcome, ' + rawInput.trim() + '!',
-        text: 'Connecting to your meeting room...',
-        timer: 1500,
-        showConfirmButton: false,
-        willClose: () => {
-          window.location.href = MEETING_LINK;
-        }
-      });
-    }
-
-    // Trigger on Enter Key Press inside text container
-    document.getElementById('usernameInput').addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') handleJoin();
-    });
-
-    // Trigger on Action Button Click
-    document.getElementById('joinBtn').addEventListener('click', handleJoin);
-  </script>
-</body>
-</html>
-          </p>
-
-          <div class="carousel-dots">
-            <span class="dot active"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
-          </div>
-        </div>
-
-        <button class="nav-arrow right" aria-label="Next">&gt;</button>
-      </div>
-
-    </div>
-  </main>
-
-  <script>
-    const MEETING_LINK = "https://meet.google.com/rwk-opeq-wie?hs=122&authuser=0 ";
-    
-    // EXCLUSIVELY PERMITTED USERNAMES
-    const ALLOWED_USERS = ["avadhoot", "ethan"];
-
-    // Real-Time Auto-Updating Clock
-    function updateHeaderClock() {
-      const now = new Date();
-      
-      let hours = now.getHours();
-      const minutes = String(now.getMinutes()).padStart(2, '0');
-      const ampm = hours >= 12 ? 'PM' : 'AM';
-      hours = hours % 12;
-      hours = hours ? hours : 12;
-      
-      const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-      
-      const dayName = days[now.getDay()];
-      const monthName = months[now.getMonth()];
-      const dayNum = now.getDate();
-
-      const timeString = `${hours}:${minutes} ${ampm} • ${dayName}, ${monthName} ${dayNum}`;
-      document.getElementById('clock').textContent = timeString;
-    }
 
     setInterval(updateHeaderClock, 1000);
     updateHeaderClock();
 
-    // Login Handler with SweetAlert & Time Restrictions
+    // Login Handler with SweetAlert & Corrected Time Restrictions (6:00 PM - 7:00 PM)
     function handleJoin() {
       const rawInput = document.getElementById('usernameInput').value;
       const cleanedUsername = rawInput.trim().toLowerCase();
@@ -545,11 +421,11 @@
         return;
       }
 
-      // Time Validation (Must be between 6:00 PM and 7:00 PM)
+      // Time Validation (18 = 6:00 PM, 19 = 7:00 PM)
       const now = new Date();
-      const currentHour = now.getHours(); // 0 to 23 (18 = 6 PM, 19 = 7 PM)
+      const currentHour = now.getHours(); 
 
-      if (currentHour < 16) {
+      if (currentHour < 18) {
         // Joined before 6 PM
         Swal.fire({
           icon: 'info',
@@ -560,7 +436,7 @@
         return;
       } 
       
-      if (currentHour >= 17) {
+      if (currentHour >= 19) {
         // Joined at or after 7 PM
         Swal.fire({
           icon: 'error',
@@ -571,7 +447,7 @@
         return;
       }
 
-      // User is authorized AND within 6:00 PM - 7:00 PM window
+      // User authorized AND within 6:00 PM - 7:00 PM window
       Swal.fire({
         icon: 'success',
         title: 'Welcome, ' + rawInput.trim() + '!',
