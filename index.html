@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8"> 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Group (Google Meet Class)</title>
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
@@ -33,80 +33,440 @@
       color: #202124;
       display: flex;
       flex-direction: column;
-      overflow-x: hidden;      overflow-x: hidden;
+      overflow-x: hidden;
     }
-
-    .card {
-      background: #ffffff;
-      padding: 32px;
-      border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-      max-width: 450px;
-      width: 100%;
-      text-align: center;
+    
+    /* Top Sticky Navigation Header */
+    .header {
+      height: 64px;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
-
-    h1 {
-      font-size: 24px;
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .header-right {
+      display: flex;
+      align-items: center;
+      color: #3c4043;
+    }
+    .clock-display {
+      font-size: 16px;
+      color: #3c4043;
       font-weight: 500;
-      margin-bottom: 12px;
-      color: #1a73e8;
     }
-
-    p {
-      color: #5f6368;
-      font-size: 15px;
-      margin-bottom: 24px;
-      line-height: 1.5;
+    
+    /* Main Grid Structure */
+    .main-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 40px 24px;
+      width: 100%;
     }
-
-    .btn-join {
-      background-color: #1a73e8;
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 64px;
+      width: 100%;
+    }
+    
+    /* Left Interaction Column */
+    .left-col {
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    .main-heading {
+      font-size: clamp(28px, 5vw, 44px);
+      line-height: 1.2;
+      font-weight: 400;
+      color: #202124;
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+    .sub-heading {
+      font-size: clamp(15px, 2.5vw, 18px);
+      line-height: 1.45;
+      color: #4a4e51;
+      margin-bottom: 32px;
+    }
+    .action-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
+      width: 100%;
+    }
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      flex: 1;
+    }
+    .input-icon {
+      position: absolute;
+      left: 14px;
+      color: #4285F4;
+      pointer-events: none;
+    }
+    .input-wrapper input {
+      width: 100%;
+      height: 48px;
+      padding: 0 16px 0 44px;
+      border: 1.5px solid #4285F4;
+      background: #ffffff;
+      border-radius: 6px;
+      font-size: 16px;
+      color: #1f1f1f;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .input-wrapper input:focus {
+      border-color: #2684FC;
+      box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.25);
+    }
+    .join-btn {
+      height: 48px;
+      padding: 0 28px;
+      background: #1a73e8;
       color: #ffffff;
       border: none;
-      padding: 12px 28px;
-      font-size: 16px;
+      border-radius: 6px;
+      font-family: 'Google Sans', Roboto, Arial, sans-serif;
+      font-size: 15px;
       font-weight: 500;
-      border-radius: 8px;
       cursor: pointer;
-      transition: background-color 0.2s ease, box-shadow 0.2s ease;
-      text-decoration: none;
-      display: inline-block;
+      white-space: nowrap;
+      transition: background 0.2s;
     }
-
-    .btn-join:hover {
-      background-color: #1557b0;
-      box-shadow: 0 2px 6px rgba(26, 115, 232, 0.4);
+    .join-btn:hover {
+      background: #1557b0;
+    }
+    .divider {
+      height: 1px;
+      background: rgba(0, 0, 0, 0.12);
+      margin-bottom: 24px;
+    }
+    .learn-more {
+      font-size: 14px;
+      color: #5f6368;
+    }
+    .learn-more a {
+      color: #2684FC;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .learn-more a:hover {
+      text-decoration: underline;
+    }
+    
+    /* Right Illustration Carousel Column */
+    .right-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      width: 100%;
+    }
+    .carousel-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 360px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .carousel-image {
+      width: min(300px, 80vw);
+      height: min(300px, 80vw);
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      position: relative;
+    }
+    .carousel-image svg {
+      width: 75%;
+      height: auto;
+    }
+    .nav-arrow {
+      position: absolute;
+      top: 40%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      font-size: 20px;
+      color: #5f6368;
+      cursor: pointer;
+      padding: 8px;
+    }
+    .nav-arrow.left { left: 0; }
+    .nav-arrow.right { right: 0; }
+    .carousel-title {
+      font-size: 22px;
+      font-weight: 400;
+      color: #202124;
+      margin-bottom: 8px;
+    }
+    .carousel-desc {
+      font-size: 14px;
+      line-height: 20px;
+      color: #5f6368;
+      max-width: 320px;
+      margin-bottom: 24px;
+    }
+    .carousel-dots {
+      display: flex;
+      gap: 8px;
+    }
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #dadce0;
+    }
+    .dot.active {
+      background: #34A853;
+    }
+    
+    /* Responsive Breakpoints */
+    @media (max-width: 1024px) {
+      .content-grid {
+        gap: 32px;
+      }
+    }
+    @media (max-width: 768px) {
+      .header {
+        padding: 0 16px;
+      }
+      .clock-display {
+        font-size: 14px;
+      }
+      .main-container {
+        padding: 24px 16px;
+      }
+      .content-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+      .left-col {
+        text-align: left;
+      }
+      .action-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+      }
+      .input-wrapper {
+        width: 100%;
+      }
+      .join-btn {
+        width: 100%;
+      }
+      .right-col {
+        display: none;
+      }
     }
   </style>
 </head>
 <body>
+  
+  <!-- Navigation Header with Clock -->
+  <header class="header">
+    <div class="logo-container">
+      <svg width="150" height="32" viewBox="0 0 184 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12.5 15.6V24.4C12.5 25.5 13.4 26.4 14.5 26.4H20.5V13.6H14.5C13.4 13.6 12.5 14.5 12.5 15.6Z" fill="#00AC47"/>
+        <path d="M26.5 13.6H20.5V26.4H26.5C27.6 26.4 28.5 25.5 28.5 24.4V15.6C28.5 14.5 27.6 13.6 26.5 13.6Z" fill="#FBBC05"/>
+        <path d="M20.5 7.6H14.5C13.4 7.6 12.5 8.5 12.5 9.6V13.6H20.5V7.6Z" fill="#EA4335"/>
+        <path d="M20.5 26.4H12.5V30.4C12.5 31.5 13.4 32.4 14.5 32.4H20.5V26.4Z" fill="#34A853"/>
+        <path d="M28.5 9.6C28.5 8.5 27.6 7.6 26.5 7.6H20.5V13.6H28.5V9.6Z" fill="#4285F4"/>
+        <path d="M34.5 16.1L28.5 20L34.5 23.9V16.1Z" fill="#00AC47"/>
+        <text x="44" y="25" font-family="'Google Sans', Roboto, Arial" font-size="20" fill="#5f6368">Google <tspan font-weight="500" fill="#202124">Meet</tspan></text>
+      </svg>
+    </div>
+    <div class="header-right">
+      <span class="clock-display" id="clock"></span>
+    </div>
+  </header>
 
-  <div class="card">
-    <h1>The Group Class</h1>
-    <p>Click below to join the scheduled Google Meet session.</p>
-    <button id="joinBtn" class="btn-join">Join Meeting</button>
-  </div>
+  <!-- Centered Content Grid Container -->
+  <main class="main-container">
+    <div class="content-grid">
+      
+      <!-- Input Panel -->
+      <div class="left-col">
+        <h1 class="main-heading">The Group<br>(Google Meet Class)</h1>
+        <p class="sub-heading">
+          We re-engineered the service we built for secure business meetings, Google Meet, to make it free and available for all.
+        </p>
+        <div class="action-row">
+          <div class="input-wrapper">
+            <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20 5H4c-1.1 0-1.99.9-1.99 2L2 17c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm-9 3h2v2h-2V8zm0 3h2v2h-2v-2zM8 8h2v2H8V8zm0 3h2v2H8v-2zm-1 5H5v-2h2v2zm0-3H5v-2h2v2zm0-3H5V8h2v2zm9 7H8v-2h8v2zm0-3h-2v-2h2v2zm0-3h-2V8h2v2zm3 6h-2v-2h2v2zm0-3h-2v-2h2v2zm0-3h-2V8h2v2z"/>
+            </svg>
+            <input type="text" id="usernameInput" placeholder="Enter your username" autocomplete="off">
+          </div>
+          <button class="join-btn" id="joinBtn">Join</button>
+        </div>
+        <div class="divider"></div>
+        <p class="learn-more">
+          <a href="https://support.google.com/meet" target="_blank" rel="noopener">Learn more</a> about Google Meet
+        </p>
+      </div>
+
+      <!-- Right Column Graphic Panel -->
+      <div class="right-col">
+        <button class="nav-arrow left" aria-label="Previous">&lt;</button>
+        <div class="carousel-wrapper">
+          <div class="carousel-image">
+            <svg width="260" height="200" viewBox="0 0 200 160">
+              <circle cx="100" cy="50" r="28" fill="#4285F4"/>
+              <path d="M88 46 L95 40 L95 60 L88 54 Z" fill="#ffffff"/>
+              <path d="M100 40 L112 50 L100 60 Z" fill="#ffffff"/>
+              <path d="M40 70 C40 60 50 50 60 50 L55 110 L30 110 Z" fill="#FBBC05"/>
+              <path d="M160 70 C160 60 150 50 140 50 L145 110 L170 110 Z" fill="#34A853"/>
+              <rect x="50" y="80" width="100" height="4" fill="#4285F4" opacity="0.3"/>
+            </svg>
+          </div>
+          <h2 class="carousel-title">Get a link you can share</h2>
+          <p class="carousel-desc">
+            Enter your username to connect directly to your scheduled meeting room.
+          </p>
+          <div class="carousel-dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+        </div>
+        <button class="nav-arrow right" aria-label="Next">&gt;</button>
+      </div>
+
+    </div>
+  </main>
 
   <script>
-    // Updated Meet Link
-    const MEET_URL = "https://meet.google.com/rxm-asnc-gih";
+    // Updated Meeting Link
+    const MEETING_LINK = "https://meet.google.com/gap-kaif-nbq";
+    
+    // EXCLUSIVELY PERMITTED USERNAMES
+    const ALLOWED_USERS = ["avadhoot", "ethan"];
 
-    document.getElementById("joinBtn").addEventListener("click", function() {
+    // Real-Time Auto-Updating Clock Display
+    function updateHeaderClock() {
+      const now = new Date();
+      
+      let hours = now.getHours();
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12;
+      hours = hours ? hours : 12;
+      
+      const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      
+      const dayName = days[now.getDay()];
+      const monthName = months[now.getMonth()];
+      const dayNum = now.getDate();
+
+      const timeString = `${hours}:${minutes} ${ampm} • ${dayName}, ${monthName} ${dayNum}`;
+      document.getElementById('clock').textContent = timeString;
+    }
+
+    setInterval(updateHeaderClock, 1000);
+    updateHeaderClock();
+
+    // Login Handler with Daily 6:00 PM - 7:00 PM Time Restrictions
+    function handleJoin() {
+      const rawInput = document.getElementById('usernameInput').value;
+      const cleanedUsername = rawInput.trim().toLowerCase();
+      
+      if (!cleanedUsername) {
+        Swal.fire({
+          icon: 'info',
+          title: 'Name Required',
+          text: 'Please enter your username to join.',
+          confirmButtonColor: '#4285F4'
+        });
+        return;
+      }
+
+      // Check username validity
+      if (!ALLOWED_USERS.includes(cleanedUsername)) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Access Denied',
+          text: 'We do not recognise this username in our system. Contact your meeting organiser.',
+          confirmButtonColor: '#4285F4'
+        });
+        return;
+      }
+
+      // Daily Time Validation (18 = 6:00 PM, 19 = 7:00 PM)
+      const now = new Date();
+      const currentHour = now.getHours(); 
+
+      if (currentHour < 18) {
+        // Attempted to join before 6:00 PM
+        Swal.fire({
+          icon: 'info',
+          title: 'Meeting Not Started',
+          text: 'The meeting room opens daily at 6:00 PM. Please check back then.',
+          confirmButtonColor: '#4285F4'
+        });
+        return;
+      } 
+      
+      if (currentHour >= 19) {
+        // Attempted to join at or after 7:00 PM
+        Swal.fire({
+          icon: 'error',
+          title: 'Meeting Closed',
+          text: 'The daily meeting session ended at 7:00 PM and is no longer accepting participants.',
+          confirmButtonColor: '#4285F4'
+        });
+        return;
+      }
+
+      // User authorized AND within the daily 6:00 PM – 7:00 PM window (18:00:00 to 18:59:59)
       Swal.fire({
-        title: 'Ready to join?',
-        text: 'You will be redirected to the Google Meet session.',
-        icon: 'info',
-        showCancelButton: true,
-        confirmButtonColor: '#1a73e8',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Join Now'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          window.open(MEET_URL, '_blank');
+        icon: 'success',
+        title: 'Welcome, ' + rawInput.trim() + '!',
+        text: 'Connecting to your meeting room...',
+        timer: 1500,
+        showConfirmButton: false,
+        willClose: () => {
+          window.location.href = MEETING_LINK;
         }
       });
+    }
+
+    // Trigger on Enter Key
+    document.getElementById('usernameInput').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') handleJoin();
     });
+
+    // Trigger on Join Button Click
+    document.getElementById('joinBtn').addEventListener('click', handleJoin);
   </script>
 </body>
 </html>
