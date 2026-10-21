@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"> 
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Group (Google Meet Class)</title>
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
@@ -14,13 +14,11 @@
       box-sizing: border-box;
     }
     
-    /* Base Layout Setup */
     html, body {
       width: 100%;
       height: 100%;
     }
     
-    /* Page background using modern Google 4-Color gradient blend */
     body {
       min-height: 100vh;
       background: linear-gradient(135deg, 
@@ -36,7 +34,6 @@
       overflow-x: hidden;
     }
     
-    /* Top Sticky Navigation Header */
     .header {
       height: 64px;
       padding: 0 24px;
@@ -66,7 +63,6 @@
       font-weight: 500;
     }
     
-    /* Main Grid Structure */
     .main-container {
       flex: 1;
       display: flex;
@@ -85,7 +81,6 @@
       width: 100%;
     }
     
-    /* Left Interaction Column */
     .left-col {
       width: 100%;
       max-width: 480px;
@@ -175,7 +170,6 @@
       text-decoration: underline;
     }
     
-    /* Right Illustration Carousel Column */
     .right-col {
       display: flex;
       flex-direction: column;
@@ -248,7 +242,6 @@
       background: #34A853;
     }
     
-    /* Responsive Breakpoints */
     @media (max-width: 1024px) {
       .content-grid {
         gap: 32px;
@@ -289,14 +282,13 @@
   </style>
 </head>
 <body>
-  
   <!-- Navigation Header with Clock -->
   <header class="header">
     <div class="logo-container">
       <svg width="150" height="32" viewBox="0 0 184 40" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M12.5 15.6V24.4C12.5 25.5 13.4 26.4 14.5 26.4H20.5V13.6H14.5C13.4 13.6 12.5 14.5 12.5 15.6Z" fill="#00AC47"/>
         <path d="M26.5 13.6H20.5V26.4H26.5C27.6 26.4 28.5 25.5 28.5 24.4V15.6C28.5 14.5 27.6 13.6 26.5 13.6Z" fill="#FBBC05"/>
-        <path d="M20.5 7.6H14.5C13.4 7.6 12.5 8.5 12.5 9.6V13.6H20.5V7.6Z" fill="#EA4335"/>
+        <path d="M20.5 7.6H14.5C20.5 7.6 12.5 8.5 12.5 9.6V13.6H20.5V7.6Z" fill="#EA4335"/>
         <path d="M20.5 26.4H12.5V30.4C12.5 31.5 13.4 32.4 14.5 32.4H20.5V26.4Z" fill="#34A853"/>
         <path d="M28.5 9.6C28.5 8.5 27.6 7.6 26.5 7.6H20.5V13.6H28.5V9.6Z" fill="#4285F4"/>
         <path d="M34.5 16.1L28.5 20L34.5 23.9V16.1Z" fill="#00AC47"/>
@@ -311,7 +303,6 @@
   <!-- Centered Content Grid Container -->
   <main class="main-container">
     <div class="content-grid">
-      
       <!-- Input Panel -->
       <div class="left-col">
         <h1 class="main-heading">The Group<br>(Google Meet Class)</h1>
@@ -360,23 +351,21 @@
         </div>
         <button class="nav-arrow right" aria-label="Next">&gt;</button>
       </div>
-
     </div>
   </main>
 
   <script>
-    // Meeting links: the original daily meeting link is unchanged.
+    // Meeting links
     const MEETING_LINK = "https://meet.google.com/gap-kaif-nbq";
     const GUEST_MEETING_LINK = "https://meet.google.com/dtk-znwh-knf";
 
-    // Permitted usernames
-    const ALLOWED_USERS = ["avadhot", "ethan", "guest"];
+    // Permitted usernames (added both 'avadhoot' and 'avadhot')
+    const ALLOWED_USERS = ["avadhoot", "avadhot", "ethan", "guest"];
     const GUEST_DATE = "2026-10-20";
 
     // Real-Time Auto-Updating Clock Display
     function updateHeaderClock() {
       const now = new Date();
-
       let hours = now.getHours();
       const minutes = String(now.getMinutes()).padStart(2, '0');
       const ampm = hours >= 12 ? 'PM' : 'AM';
@@ -430,7 +419,7 @@
         String(now.getDate()).padStart(2, '0')
       ].join('-');
 
-      // Guest access is only available on October 20, 2026.
+      // Guest access check
       if (cleanedUsername === "guest") {
         if (localDate !== GUEST_DATE) {
           Swal.fire({
@@ -455,7 +444,7 @@
         return;
       }
 
-      // Daily access for avadhot and ethan: 6:00 PM to before 7:00 PM.
+      // Daily access for avadhoot and ethan: 6:00 PM to before 7:00 PM (18:00 - 18:59)
       if (currentHour < 18) {
         Swal.fire({
           icon: 'info',
