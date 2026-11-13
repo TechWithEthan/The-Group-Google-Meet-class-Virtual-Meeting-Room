@@ -17,10 +17,14 @@
     html, body {
       width: 100%;
       height: 100%;
+      overscroll-behavior: none;
+      overscroll-behavior-y: none;
+      -webkit-overflow-scrolling: auto;
     }
 
     body {
       min-height: 100vh;
+      min-height: 100dvh;
       /* Crisp Daylight Corporate Background */
       background-color: #f8fafc;
       background-image: 
@@ -453,11 +457,12 @@
         height: 68px;
       }
       .main-container {
-        padding: 32px 16px;
+        padding: 24px 16px;
+        align-items: flex-start;
       }
       .content-grid {
         grid-template-columns: 1fr;
-        gap: 36px;
+        gap: 32px;
       }
       .action-row {
         flex-direction: column;
@@ -465,6 +470,14 @@
       }
       .join-btn {
         width: 100%;
+      }
+    }
+
+    /* Fix excessive empty vertical space on tall portrait screens (e.g., mobile "Desktop site" mode) */
+    @media (orientation: portrait) {
+      .main-container {
+        align-items: flex-start;
+        padding-top: 36px;
       }
     }
   </style>
@@ -619,6 +632,38 @@
     window.addEventListener('contextmenu', (e) => {
       e.preventDefault();
     });
+
+    // 4. Block mobile pull-to-refresh gesture via touchstart / touchmove
+    let touchStartY = 0;
+    let lastReloadToastTime = 0;
+
+    window.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 1) {
+        touchStartY = e.touches[0].clientY;
+      }
+    }, { passive: true });
+
+    window.addEventListener('touchmove', (e) => {
+      if (e.touches.length !== 1) return;
+      const touchCurrentY = e.touches[0].clientY;
+      const pullDeltaY = touchCurrentY - touchStartY;
+      const scrollTop = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
+
+      // Intercept downward pull when at the top of the page to block mobile pull-to-refresh
+      if (scrollTop <= 0 && pullDeltaY > 8) {
+        if (e.cancelable) {
+          e.preventDefault();
+        }
+        const now = Date.now();
+        if (now - lastReloadToastTime > 2500) {
+          lastReloadToastTime = now;
+          Toast.fire({
+            icon: 'warning',
+            title: 'Page reload is disabled'
+          });
+        }
+      }
+    }, { passive: false });
 
     // ---------- SweetAlert helpers ----------
 
