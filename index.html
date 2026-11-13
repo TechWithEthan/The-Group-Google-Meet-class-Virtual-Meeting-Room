@@ -2,30 +2,47 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Group ( Google meet class )  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>The Group ( Google meet class )</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <!-- SweetAlert2 Library -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <style>
+    :root {
+      /* Fluid design tokens that scale from 320px phones up to 4K TV displays */
+      --header-height: clamp(60px, 6.5vh, 110px);
+      --header-px: clamp(14px, 4vw, 80px);
+      --container-max: clamp(1180px, 84vw, 2400px);
+      --container-py: clamp(20px, 4.5vh, 80px);
+      --container-px: clamp(14px, 4vw, 64px);
+      --grid-gap: clamp(28px, 5vw, 110px);
+      --radius-sm: clamp(6px, 0.5vw, 14px);
+      --radius-md: clamp(8px, 0.7vw, 18px);
+      --radius-lg: clamp(14px, 1.1vw, 28px);
+      --control-height: clamp(48px, 4.2vw, 76px);
+    }
+
     *, *::before, *::after {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
-    html, body {
+    html {
       width: 100%;
       height: 100%;
+      -webkit-text-size-adjust: 100%;
     }
 
     body {
+      width: 100%;
       min-height: 100vh;
+      min-height: 100dvh;
       /* Crisp Daylight Corporate Background */
       background-color: #f8fafc;
       background-image: 
-        radial-gradient(1000px circle at 15% 10%, rgba(219, 234, 254, 0.7), transparent 60%),
-        radial-gradient(800px circle at 85% 90%, rgba(224, 231, 255, 0.5), transparent 60%),
+        radial-gradient(65vw circle at 15% 10%, rgba(219, 234, 254, 0.7), transparent 60%),
+        radial-gradient(55vw circle at 85% 90%, rgba(224, 231, 255, 0.5), transparent 60%),
         linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       color: #0f172a;
@@ -35,12 +52,18 @@
       position: relative;
     }
 
+    /* High-visibility focus ring for TV remote D-pad & keyboard accessibility */
+    :focus-visible {
+      outline: 3px solid #2563eb;
+      outline-offset: 2px;
+    }
+
     /* Architectural Dot-Matrix Pattern with Radial Fade */
     .bg-pattern {
       position: fixed;
       inset: 0;
-      background-image: radial-gradient(#cbd5e1 1.25px, transparent 1.25px);
-      background-size: 28px 28px;
+      background-image: radial-gradient(#cbd5e1 clamp(1px, 0.1vw, 2px), transparent clamp(1px, 0.1vw, 2px));
+      background-size: clamp(22px, 2vw, 44px) clamp(22px, 2vw, 44px);
       mask-image: radial-gradient(ellipse 80% 70% at 50% 45%, #000 35%, transparent 100%);
       -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 45%, #000 35%, transparent 100%);
       opacity: 0.55;
@@ -50,7 +73,7 @@
 
     /* Subtle Structural Accent Line at Top */
     .top-accent-bar {
-      height: 3px;
+      height: clamp(3px, 0.3vh, 6px);
       width: 100%;
       background: linear-gradient(90deg, #1e40af 0%, #2563eb 50%, #0ea5e9 100%);
       position: fixed;
@@ -61,32 +84,36 @@
 
     /* Header Styling */
     .header {
-      height: 76px;
-      padding: 0 48px;
+      min-height: var(--header-height);
+      padding: 8px var(--header-px);
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 12px;
       border-bottom: 1px solid #e2e8f0;
       background: rgba(255, 255, 255, 0.88);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       position: sticky;
-      top: 3px;
+      top: clamp(3px, 0.3vh, 6px);
       z-index: 100;
     }
 
     .brand-logo {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: clamp(8px, 1vw, 18px);
       text-decoration: none;
+      min-width: 0;
+      flex: 1 1 auto;
     }
 
     .brand-icon {
-      width: 38px;
-      height: 38px;
+      width: clamp(34px, 3vw, 58px);
+      height: clamp(34px, 3vw, 58px);
+      flex-shrink: 0;
       background: #1e40af;
-      border-radius: 8px;
+      border-radius: var(--radius-md);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -94,21 +121,30 @@
       box-shadow: 0 2px 6px rgba(30, 64, 175, 0.25);
     }
 
+    .brand-icon svg {
+      width: clamp(18px, 1.6vw, 30px);
+      height: clamp(18px, 1.6vw, 30px);
+    }
+
     .brand-title-group {
       display: flex;
       flex-direction: column;
+      min-width: 0;
     }
 
     .brand-text {
-      font-size: 17px;
+      font-size: clamp(14px, 1.35vw, 26px);
       font-weight: 700;
       letter-spacing: -0.3px;
       color: #0f172a;
-      line-height: 1.2;
+      line-height: 1.25;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .brand-subtext {
-      font-size: 11px;
+      font-size: clamp(10px, 0.85vw, 16px);
       font-weight: 500;
       color: #64748b;
       text-transform: uppercase;
@@ -118,26 +154,29 @@
     .header-right {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: clamp(6px, 0.7vw, 14px);
       background: #f8fafc;
-      padding: 8px 16px;
-      border-radius: 8px;
+      padding: clamp(6px, 0.6vw, 14px) clamp(10px, 1.2vw, 24px);
+      border-radius: var(--radius-md);
       border: 1px solid #e2e8f0;
+      flex-shrink: 0;
     }
 
     .status-dot {
-      width: 8px;
-      height: 8px;
+      width: clamp(7px, 0.6vw, 13px);
+      height: clamp(7px, 0.6vw, 13px);
       background-color: #10b981;
       border-radius: 50%;
       box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+      flex-shrink: 0;
     }
 
     .clock-display {
-      font-size: 13px;
+      font-size: clamp(11px, 1vw, 20px);
       color: #334155;
       font-weight: 500;
       font-variant-numeric: tabular-nums;
+      white-space: nowrap;
     }
 
     /* Main Content Layout */
@@ -146,9 +185,9 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      max-width: 1240px;
+      max-width: var(--container-max);
       margin: 0 auto;
-      padding: 48px 32px;
+      padding: var(--container-py) var(--container-px);
       width: 100%;
       z-index: 1;
     }
@@ -157,43 +196,44 @@
       display: grid;
       grid-template-columns: 1.15fr 0.85fr;
       align-items: center;
-      gap: 72px;
+      gap: var(--grid-gap);
       width: 100%;
     }
 
     /* Left Column */
     .left-col {
       width: 100%;
-      max-width: 540px;
+      max-width: clamp(500px, 44vw, 960px);
     }
 
     .badge {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: clamp(6px, 0.6vw, 12px);
       background: #eff6ff;
       color: #1d4ed8;
-      font-size: 12px;
+      font-size: clamp(11px, 0.95vw, 19px);
       font-weight: 600;
-      padding: 6px 12px;
-      border-radius: 6px;
-      margin-bottom: 20px;
+      padding: clamp(5px, 0.5vw, 10px) clamp(10px, 1vw, 20px);
+      border-radius: var(--radius-sm);
+      margin-bottom: clamp(14px, 1.6vw, 32px);
       border: 1px solid #bfdbfe;
       letter-spacing: 0.3px;
     }
 
     .badge svg {
-      width: 14px;
-      height: 14px;
+      width: clamp(13px, 1.1vw, 22px);
+      height: clamp(13px, 1.1vw, 22px);
+      flex-shrink: 0;
     }
 
     .main-heading {
-      font-size: clamp(34px, 4vw, 46px);
-      line-height: 1.15;
+      font-size: clamp(28px, 3.6vw, 76px);
+      line-height: 1.13;
       font-weight: 700;
       color: #0f172a;
-      margin-bottom: 16px;
-      letter-spacing: -0.8px;
+      margin-bottom: clamp(12px, 1.3vw, 28px);
+      letter-spacing: -0.02em;
     }
 
     .main-heading span {
@@ -201,17 +241,17 @@
     }
 
     .sub-heading {
-      font-size: 16px;
+      font-size: clamp(14px, 1.25vw, 26px);
       line-height: 1.6;
       color: #475569;
-      margin-bottom: 32px;
+      margin-bottom: clamp(22px, 2.5vw, 48px);
     }
 
     .action-row {
       display: flex;
       align-items: center;
-      gap: 12px;
-      margin-bottom: 28px;
+      gap: clamp(10px, 1vw, 20px);
+      margin-bottom: clamp(22px, 2.2vw, 44px);
       width: 100%;
     }
 
@@ -220,11 +260,14 @@
       display: flex;
       align-items: center;
       flex: 1;
+      width: 100%;
     }
 
     .input-icon {
       position: absolute;
-      left: 16px;
+      left: clamp(14px, 1.2vw, 24px);
+      width: clamp(17px, 1.4vw, 28px);
+      height: clamp(17px, 1.4vw, 28px);
       color: #64748b;
       pointer-events: none;
       transition: color 0.2s;
@@ -232,12 +275,12 @@
 
     .input-wrapper input {
       width: 100%;
-      height: 50px;
-      padding: 0 16px 0 46px;
+      height: var(--control-height);
+      padding: 0 clamp(14px, 1.2vw, 24px) 0 clamp(42px, 3.4vw, 68px);
       border: 1px solid #cbd5e1;
       background: #ffffff;
-      border-radius: 8px;
-      font-size: 15px;
+      border-radius: var(--radius-md);
+      font-size: clamp(15px, 1.2vw, 24px);
       font-family: inherit;
       color: #0f172a;
       outline: none;
@@ -263,14 +306,14 @@
     }
 
     .join-btn {
-      height: 50px;
-      padding: 0 28px;
+      height: var(--control-height);
+      padding: 0 clamp(24px, 2.2vw, 48px);
       background: #1d4ed8;
       color: #ffffff;
       border: none;
-      border-radius: 8px;
+      border-radius: var(--radius-md);
       font-family: inherit;
-      font-size: 15px;
+      font-size: clamp(15px, 1.2vw, 24px);
       font-weight: 600;
       cursor: pointer;
       white-space: nowrap;
@@ -290,14 +333,16 @@
     .divider {
       height: 1px;
       background: #e2e8f0;
-      margin-bottom: 20px;
+      margin-bottom: clamp(16px, 1.6vw, 32px);
     }
 
     .meta-footer {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-size: 13px;
+      flex-wrap: wrap;
+      gap: 10px 16px;
+      font-size: clamp(12px, 1.05vw, 21px);
       color: #64748b;
     }
 
@@ -318,7 +363,7 @@
       width: 100%;
       background: #ffffff;
       border: 1px solid #e2e8f0;
-      border-radius: 16px;
+      border-radius: var(--radius-lg);
       box-shadow: 
         0 4px 6px -1px rgba(15, 23, 42, 0.04),
         0 20px 30px -8px rgba(15, 23, 42, 0.06);
@@ -326,7 +371,7 @@
     }
 
     .card-top-bar {
-      padding: 16px 24px;
+      padding: clamp(12px, 1.3vw, 26px) clamp(18px, 1.8vw, 36px);
       background: #f8fafc;
       border-bottom: 1px solid #e2e8f0;
       display: flex;
@@ -335,7 +380,7 @@
     }
 
     .card-top-title {
-      font-size: 12px;
+      font-size: clamp(11px, 0.95vw, 19px);
       font-weight: 600;
       color: #475569;
       text-transform: uppercase;
@@ -344,16 +389,16 @@
 
     .carousel-nav-group {
       display: flex;
-      gap: 6px;
+      gap: clamp(6px, 0.5vw, 12px);
     }
 
     .nav-arrow {
       background: #ffffff;
       border: 1px solid #cbd5e1;
-      width: 28px;
-      height: 28px;
-      border-radius: 6px;
-      font-size: 11px;
+      width: clamp(28px, 2.3vw, 48px);
+      height: clamp(28px, 2.3vw, 48px);
+      border-radius: var(--radius-sm);
+      font-size: clamp(11px, 0.95vw, 19px);
       color: #475569;
       cursor: pointer;
       display: flex;
@@ -369,7 +414,7 @@
     }
 
     .carousel-body {
-      padding: 40px 32px;
+      padding: clamp(28px, 3.2vw, 68px) clamp(20px, 2.5vw, 52px);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -381,6 +426,12 @@
       flex-direction: column;
       align-items: center;
       width: 100%;
+      animation: fadeSlide 0.25s ease-out;
+    }
+
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .carousel-slide.active {
@@ -388,78 +439,174 @@
     }
 
     .carousel-image {
-      width: 72px;
-      height: 72px;
-      border-radius: 14px;
+      width: clamp(60px, 5.5vw, 116px);
+      height: clamp(60px, 5.5vw, 116px);
+      border-radius: var(--radius-lg);
       background: #eff6ff;
       border: 1px solid #dbeafe;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 24px;
+      margin-bottom: clamp(18px, 1.8vw, 36px);
       color: #1d4ed8;
     }
 
+    .carousel-image svg {
+      width: clamp(28px, 2.5vw, 54px);
+      height: clamp(28px, 2.5vw, 54px);
+    }
+
     .carousel-title {
-      font-size: 18px;
+      font-size: clamp(17px, 1.45vw, 30px);
       font-weight: 600;
       color: #0f172a;
-      margin-bottom: 10px;
+      margin-bottom: clamp(8px, 0.8vw, 18px);
     }
 
     .carousel-desc {
-      font-size: 14px;
+      font-size: clamp(13.5px, 1.1vw, 23px);
       line-height: 1.6;
       color: #475569;
-      max-width: 320px;
-      min-height: 46px;
-      margin-bottom: 24px;
+      max-width: clamp(280px, 28vw, 580px);
+      min-height: clamp(44px, 4.2vw, 84px);
+      margin-bottom: clamp(20px, 1.8vw, 38px);
     }
 
     .carousel-dots {
       display: flex;
-      gap: 6px;
+      gap: clamp(6px, 0.5vw, 12px);
+      align-items: center;
     }
 
     .dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 3px;
+      width: clamp(6px, 0.55vw, 12px);
+      height: clamp(6px, 0.55vw, 12px);
+      border-radius: 999px;
       background: #cbd5e1;
       cursor: pointer;
       transition: all 0.25s ease;
     }
 
     .dot.active {
-      width: 20px;
+      width: clamp(20px, 1.7vw, 36px);
       background: #1d4ed8;
     }
 
-    /* Responsive Queries */
-    @media (max-width: 1024px) {
+    /* ==========================================================
+       DEVICE BREAKPOINTS (Phones, Tablets, Laptops, 1080p/4K TVs)
+       ========================================================== */
+
+    /* Tablets & Mobile Landscape/Portrait (Single-Column Cohesive Layout) */
+    @media (max-width: 900px) {
       .content-grid {
-        gap: 40px;
+        grid-template-columns: 1fr;
+        max-width: 580px;
+        margin: 0 auto;
+        gap: 32px;
+      }
+
+      .left-col {
+        max-width: 100%;
+      }
+
+      .carousel-desc {
+        max-width: 440px;
+        min-height: auto;
       }
     }
 
-    @media (max-width: 768px) {
-      .header {
-        padding: 0 20px;
-        height: 68px;
-      }
-      .main-container {
-        padding: 32px 16px;
-      }
-      .content-grid {
-        grid-template-columns: 1fr;
-        gap: 36px;
-      }
+    /* Standard Phones */
+    @media (max-width: 640px) {
       .action-row {
         flex-direction: column;
         align-items: stretch;
       }
+
       .join-btn {
         width: 100%;
+      }
+
+      .nav-arrow {
+        width: 34px;
+        height: 34px;
+      }
+    }
+
+    /* Small Phones (320px - 480px) */
+    @media (max-width: 480px) {
+      .header {
+        padding: 8px 12px;
+        gap: 8px;
+      }
+
+      .brand-text {
+        font-size: 13.5px;
+      }
+
+      .header-right {
+        padding: 5px 9px;
+        gap: 6px;
+      }
+
+      .clock-display {
+        font-size: 11px;
+      }
+
+      .main-container {
+        padding: 20px 14px 28px;
+      }
+
+      .main-heading {
+        font-size: clamp(24px, 7.5vw, 30px);
+      }
+
+      .meta-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+      }
+
+      .carousel-body {
+        padding: 24px 16px;
+      }
+    }
+
+    /* Extra Small Phones (<= 360px) */
+    @media (max-width: 360px) {
+      .header {
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 10px 12px;
+      }
+
+      .brand-logo {
+        justify-content: center;
+        width: 100%;
+      }
+
+      .header-right {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    /* Large Desktop Monitors & Full HD Smart TVs (1600px+) */
+    @media (min-width: 1600px) {
+      .swal2-popup {
+        font-size: 1.2rem !important;
+        width: 32em !important;
+        padding: 2em !important;
+        border-radius: 18px !important;
+      }
+    }
+
+    /* 2K / 4K Ultra HD Smart TVs (2400px+) */
+    @media (min-width: 2400px) {
+      .swal2-popup {
+        font-size: 1.65rem !important;
+        width: 36em !important;
+        padding: 2.5em !important;
+        border-radius: 24px !important;
       }
     }
   </style>
@@ -480,7 +627,7 @@
         </svg>
       </div>
       <div class="brand-title-group">
-        <span class="brand-text">The Group ( Google meet class )  </span>
+        <span class="brand-text">The Group ( Google meet class )</span>
         <span class="brand-subtext"></span>
       </div>
     </a>
@@ -500,7 +647,7 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
           Authorized Session Access
         </div>
-        <h1 class="main-heading">Virtual Classroom &<br><span>Briefing Portal</span></h1>
+        <h1 class="main-heading">Virtual Classroom &amp;<br><span>Briefing Portal</span></h1>
         <p class="sub-heading">
           Enter your assigned participant username below to authenticate and join your scheduled Google Meet session.
         </p>
@@ -622,9 +769,16 @@
 
     dots.forEach(dot => {
       dot.addEventListener('click', (e) => {
-        const index = parseInt(e.target.getAttribute('data-index'));
+        const index = parseInt(e.target.getAttribute('data-index'), 10);
         showSlide(index);
       });
+    });
+
+    // Keyboard / TV Remote Left & Right Arrow Support for Carousel
+    document.addEventListener('keydown', (e) => {
+      if (document.activeElement === document.getElementById('usernameInput')) return;
+      if (e.key === 'ArrowRight') showSlide(currentSlide + 1);
+      if (e.key === 'ArrowLeft') showSlide(currentSlide - 1);
     });
 
     // Auto rotate carousel every 5 seconds
