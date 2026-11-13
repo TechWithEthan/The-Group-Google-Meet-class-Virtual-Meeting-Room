@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Group — Enterprise Class Portal</title>
+  <title>The Group (Google Meet Class)</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <!-- SweetAlert2 Library -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -435,6 +435,11 @@
       background: #1d4ed8;
     }
 
+    /* SweetAlert2 font match */
+    .swal2-popup {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
     /* Responsive Queries */
     @media (max-width: 1024px) {
       .content-grid {
@@ -480,8 +485,7 @@
         </svg>
       </div>
       <div class="brand-title-group">
-        <span class="brand-text">The Group</span>
-        <span class="brand-subtext">Communications Portal</span>
+        <span class="brand-text">The Group (Google meet class)</span>
       </div>
     </a>
     <div class="header-right">
@@ -510,14 +514,14 @@
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
               <circle cx="12" cy="7" r="4"></circle>
             </svg>
-            <input type="text" id="usernameInput" placeholder="Enter corporate username" autocomplete="off">
+            <input type="text" id="usernameInput" placeholder="Enter username" autocomplete="off">
           </div>
           <button class="join-btn" id="joinBtn">Join Session</button>
         </div>
         <div class="divider"></div>
         <div class="meta-footer">
           <span>Session Window: 6:00 PM – 7:00 PM</span>
-          <a href="https://support.google.com/meet" target="_blank" rel="noopener">IT Support Desk →</a>
+          <a href="https://support.google.com/meet" id="supportLink" target="_blank" rel="noopener">IT Support Desk →</a>
         </div>
       </div>
 
@@ -580,6 +584,100 @@
     const ALLOWED_USERS = ["avadhoot", "avadhot", "ethan", "guest"];
     const GUEST_DATE = "2026-10-20";
 
+    const BRAND_COLOR = '#1d4ed8';
+
+    // ---------- SweetAlert helpers ----------
+
+    // Corner toast (non-blocking notifications)
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 2500,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer);
+        toast.addEventListener('mouseleave', Swal.resumeTimer);
+      }
+    });
+
+    // Escape user input before placing it in alert HTML
+    function escapeHtml(str) {
+      return str.replace(/[&<>"']/g, (c) => ({
+        '&': '&', '<': '<', '>': '>', '"': '"', "'": '''
+      }[c]));
+    }
+
+    function formatCountdown(ms) {
+      const total = Math.max(0, Math.floor(ms / 1000));
+      const h = Math.floor(total / 3600);
+      const m = Math.floor((total % 3600) / 60);
+      const s = total % 60;
+      const pad = (n) => String(n).padStart(2, '0');
+      return `${pad(h)}:${pad(m)}:${pad(s)}`;
+    }
+
+    // "Ready to join?" confirm dialog, then a toast while redirecting
+    function confirmAndJoin(displayName, link) {
+      Swal.fire({
+        icon: 'question',
+        title: 'Ready to join?',
+        html: 'You are about to join the session as <b>' + escapeHtml(displayName) + '</b>.',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, join now',
+        cancelButtonText: 'Not yet',
+        confirmButtonColor: BRAND_COLOR,
+        cancelButtonColor: '#64748b',
+        reverseButtons: true
+      }).then((result) => {
+        if (!result.isConfirmed) return;
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Welcome, ' + escapeHtml(displayName) + '!',
+          text: 'Connecting to your meeting room...',
+          timer: 1500,
+          showConfirmButton: false,
+          willClose: () => {
+            window.location.href = link;
+          }
+        });
+      });
+    }
+
+    // "Meeting Not Started" alert with live countdown to 6:00 PM
+    function showNotStartedAlert() {
+      const target = new Date();
+      target.setHours(18, 0, 0, 0);
+      let timerInterval;
+
+      Swal.fire({
+        icon: 'info',
+        title: 'Meeting Not Started',
+        html:
+          'The meeting room opens daily at 6:00 PM.<br><br>' +
+          'Opens in <b id="countdown"></b>',
+        confirmButtonColor: BRAND_COLOR,
+        didOpen: () => {
+          const el = Swal.getHtmlContainer().querySelector('#countdown');
+          const tick = () => {
+            const left = target - new Date();
+            if (left <= 0) {
+              el.textContent = 'now. Please click Join again.';
+              clearInterval(timerInterval);
+              return;
+            }
+            el.textContent = formatCountdown(left);
+          };
+          tick();
+          timerInterval = setInterval(tick, 1000);
+        },
+        willClose: () => {
+          clearInterval(timerInterval);
+        }
+      });
+    }
+
     // Real-Time Auto-Updating Clock Display
     function updateHeaderClock() {
       const now = new Date();
@@ -635,15 +733,16 @@
     // Access Handler Logic
     function handleJoin() {
       const rawInput = document.getElementById('usernameInput').value;
-      const cleanedUsername = rawInput.trim().toLowerCase();
+      const displayName = rawInput.trim();
+      const cleanedUsername = displayName.toLowerCase();
 
+      // Toast instead of a centered popup for the empty field
       if (!cleanedUsername) {
-        Swal.fire({
+        Toast.fire({
           icon: 'info',
-          title: 'Username Required',
-          text: 'Please enter your assigned username to proceed.',
-          confirmButtonColor: '#1d4ed8'
+          title: 'Please enter your username'
         });
+        document.getElementById('usernameInput').focus();
         return;
       }
 
@@ -652,7 +751,7 @@
           icon: 'warning',
           title: 'Access Denied',
           text: 'We do not recognise this username in our system. Contact your meeting organiser.',
-          confirmButtonColor: '#1d4ed8'
+          confirmButtonColor: BRAND_COLOR
         });
         return;
       }
@@ -672,32 +771,18 @@
             icon: 'error',
             title: 'Guest Access Expired',
             text: 'The guest meeting link is only available on October 20, 2026.',
-            confirmButtonColor: '#1d4ed8'
+            confirmButtonColor: BRAND_COLOR
           });
           return;
         }
 
-        Swal.fire({
-          icon: 'success',
-          title: 'Welcome, ' + rawInput.trim() + '!',
-          text: 'Connecting to your guest meeting room...',
-          timer: 1500,
-          showConfirmButton: false,
-          willClose: () => {
-            window.location.href = GUEST_MEETING_LINK;
-          }
-        });
+        confirmAndJoin(displayName, GUEST_MEETING_LINK);
         return;
       }
 
       // Daily access for avadhoot and ethan: 6:00 PM to before 7:00 PM (18:00 - 18:59)
       if (currentHour < 18) {
-        Swal.fire({
-          icon: 'info',
-          title: 'Meeting Not Started',
-          text: 'The meeting room opens daily at 6:00 PM. Please check back then.',
-          confirmButtonColor: '#1d4ed8'
-        });
+        showNotStartedAlert();
         return;
       }
 
@@ -706,22 +791,39 @@
           icon: 'error',
           title: 'Meeting Closed',
           text: 'The daily meeting session ended at 7:00 PM and is no longer accepting participants.',
-          confirmButtonColor: '#1d4ed8'
+          confirmButtonColor: BRAND_COLOR
         });
         return;
       }
 
+      confirmAndJoin(displayName, MEETING_LINK);
+    }
+
+    // Alert on the "IT Support Desk" link
+    document.getElementById('supportLink').addEventListener('click', (e) => {
+      e.preventDefault();
+      const url = e.currentTarget.href;
+
       Swal.fire({
-        icon: 'success',
-        title: 'Welcome, ' + rawInput.trim() + '!',
-        text: 'Connecting to your meeting room...',
-        timer: 1500,
-        showConfirmButton: false,
-        willClose: () => {
-          window.location.href = MEETING_LINK;
+        icon: 'question',
+        title: 'Need help?',
+        html: 'This opens the Google Meet support page in a new tab.<br>Your current page will stay open.',
+        showCancelButton: true,
+        confirmButtonText: 'Open Support',
+        cancelButtonText: 'Cancel',
+        confirmButtonColor: BRAND_COLOR,
+        cancelButtonColor: '#64748b',
+        reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.open(url, '_blank', 'noopener');
+          Toast.fire({
+            icon: 'success',
+            title: 'Opening support page'
+          });
         }
       });
-    }
+    });
 
     // Event Listeners for Joining
     document.getElementById('usernameInput').addEventListener('keydown', (e) => {
