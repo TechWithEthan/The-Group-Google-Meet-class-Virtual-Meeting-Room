@@ -584,6 +584,42 @@
 
     const BRAND_COLOR = '#1d4ed8';
 
+    // Flag to allow legitimate redirect to Google Meet without triggering reload blocker
+    let isRedirectingToMeet = false;
+
+    // ---------- Reload Blocking Logic ----------
+
+    // 1. Block browser reload / refresh button via beforeunload (unless redirecting to Meet)
+    window.addEventListener('beforeunload', (e) => {
+      if (!isRedirectingToMeet) {
+        e.preventDefault();
+        e.returnValue = '';
+        return '';
+      }
+    });
+
+    // 2. Block keyboard reload shortcuts (F5, Ctrl+R, Cmd+R, Ctrl+Shift+R, Cmd+Shift+R)
+    window.addEventListener('keydown', (e) => {
+      const key = e.key ? e.key.toLowerCase() : '';
+      const isF5 = e.key === 'F5' || e.keyCode === 116;
+      const isCtrlOrCmdR = (e.ctrlKey || e.metaKey) && key === 'r';
+
+      if (isF5 || isCtrlOrCmdR) {
+        e.preventDefault();
+        e.stopPropagation();
+        Toast.fire({
+          icon: 'warning',
+          title: 'Page reload is disabled'
+        });
+        return false;
+      }
+    }, { capture: true });
+
+    // 3. Prevent right-click context menu reload
+    window.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+    });
+
     // ---------- SweetAlert helpers ----------
 
     // Corner toast (non-blocking notifications)
@@ -774,6 +810,7 @@
       }
 
       // Immediately move to Google Meet once the username is verified during 6:00 PM - 7:00 PM
+      isRedirectingToMeet = true;
       window.location.href = MEETING_LINK;
     }
 
