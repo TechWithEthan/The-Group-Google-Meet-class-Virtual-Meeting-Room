@@ -17,15 +17,11 @@
     html, body {
       width: 100%;
       height: 100%;
-      overscroll-behavior: none;
-      overscroll-behavior-y: none;
-      -webkit-overflow-scrolling: auto;
+      overscroll-behavior-y: none; /* Disable pull-to-refresh on mobile browsers */
     }
 
     body {
       min-height: 100vh;
-      min-height: 100dvh;
-      /* Crisp Daylight Corporate Background */
       background-color: #f8fafc;
       background-image: 
         radial-gradient(1000px circle at 15% 10%, rgba(219, 234, 254, 0.7), transparent 60%),
@@ -109,14 +105,6 @@
       letter-spacing: -0.3px;
       color: #0f172a;
       line-height: 1.2;
-    }
-
-    .brand-subtext {
-      font-size: 11px;
-      font-weight: 500;
-      color: #64748b;
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
     }
 
     .header-right {
@@ -462,7 +450,7 @@
       }
       .content-grid {
         grid-template-columns: 1fr;
-        gap: 32px;
+        gap: 36px;
       }
       .action-row {
         flex-direction: column;
@@ -470,14 +458,6 @@
       }
       .join-btn {
         width: 100%;
-      }
-    }
-
-    /* Fix excessive empty vertical space on tall portrait screens (e.g., mobile "Desktop site" mode) */
-    @media (orientation: portrait) {
-      .main-container {
-        align-items: flex-start;
-        padding-top: 36px;
       }
     }
   </style>
@@ -533,7 +513,7 @@
         </div>
         <div class="divider"></div>
         <div class="meta-footer">
-          <span>Session Window: 6:00 PM – 7:00 PM (Mon – Sun)</span>
+          <span>Session Window: 6:00 PM – 7:00 PM (Mon–Sun)</span>
           <a href="https://support.google.com/meet" id="supportLink" target="_blank" rel="noopener">IT Support Desk →</a>
         </div>
       </div>
@@ -564,7 +544,7 @@
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
             </div>
             <h2 class="carousel-title">Verified Roster</h2>
-            <p class="carousel-desc">Only registered member credentials (avadhoot &amp; ethan) are permitted to route to the active conference bridge.</p>
+            <p class="carousel-desc">Only registered member credentials (avadhoot, ethan) are permitted to route to the active conference bridge.</p>
           </div>
 
           <!-- Slide 3 -->
@@ -572,8 +552,8 @@
             <div class="carousel-image">
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
             </div>
-            <h2 class="carousel-title">Direct Session Routing</h2>
-            <p class="carousel-desc">Authenticated members joining during the active 6:00 PM – 7:00 PM window are connected directly to Google Meet.</p>
+            <h2 class="carousel-title">Secure Portal</h2>
+            <p class="carousel-desc">Browser refreshes and navigation attempts are restricted during active session periods.</p>
           </div>
 
           <!-- Dots Indicator -->
@@ -594,98 +574,57 @@
 
     // Permitted usernames
     const ALLOWED_USERS = ["avadhoot", "avadhot", "ethan"];
-
     const BRAND_COLOR = '#1d4ed8';
 
-    // Flag to allow legitimate redirect to Google Meet without triggering reload blocker
-    let isRedirectingToMeet = false;
+    // Flag to allow navigation specifically when successfully redirecting to Google Meet
+    let isRedirecting = false;
 
-    // ---------- Reload Blocking Logic ----------
-
-    // 1. Block browser reload / refresh button via beforeunload (unless redirecting to Meet)
-    window.addEventListener('beforeunload', (e) => {
-      if (!isRedirectingToMeet) {
+    // Block reload shortcuts (F5, Ctrl+R, Cmd+R, Ctrl+Shift+R, Cmd+Shift+R) silently
+    window.addEventListener('keydown', (e) => {
+      if (
+        e.key === 'F5' ||
+        ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'r') ||
+        ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'r')
+      ) {
         e.preventDefault();
-        e.returnValue = '';
-        return '';
       }
     });
 
-    // 2. Block keyboard reload shortcuts (F5, Ctrl+R, Cmd+R, Ctrl+Shift+R, Cmd+Shift+R)
-    window.addEventListener('keydown', (e) => {
-      const key = e.key ? e.key.toLowerCase() : '';
-      const isF5 = e.key === 'F5' || e.keyCode === 116;
-      const isCtrlOrCmdR = (e.ctrlKey || e.metaKey) && key === 'r';
-
-      if (isF5 || isCtrlOrCmdR) {
-        e.preventDefault();
-        e.stopPropagation();
-        Toast.fire({
-          icon: 'warning',
-          title: 'Page reload is disabled'
-        });
-        return false;
-      }
-    }, { capture: true });
-
-    // 3. Prevent right-click context menu reload
+    // Block right-click context menu
     window.addEventListener('contextmenu', (e) => {
       e.preventDefault();
     });
 
-    // 4. Block mobile pull-to-refresh gesture via touchstart / touchmove
-    let touchStartY = 0;
-    let lastReloadToastTime = 0;
-
-    window.addEventListener('touchstart', (e) => {
-      if (e.touches.length === 1) {
-        touchStartY = e.touches[0].clientY;
+    // Block browser refresh/navigation attempt silently via beforeunload
+    window.addEventListener('beforeunload', (e) => {
+      if (!isRedirecting) {
+        e.preventDefault();
+        e.returnValue = '';
       }
+    });
+
+    // Disable mobile pull-to-refresh gestures silently
+    let touchStartY = 0;
+    window.addEventListener('touchstart', (e) => {
+      touchStartY = e.touches[0].clientY;
     }, { passive: true });
 
     window.addEventListener('touchmove', (e) => {
-      if (e.touches.length !== 1) return;
-      const touchCurrentY = e.touches[0].clientY;
-      const pullDeltaY = touchCurrentY - touchStartY;
-      const scrollTop = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
-
-      // Intercept downward pull when at the top of the page to block mobile pull-to-refresh
-      if (scrollTop <= 0 && pullDeltaY > 8) {
-        if (e.cancelable) {
-          e.preventDefault();
-        }
-        const now = Date.now();
-        if (now - lastReloadToastTime > 2500) {
-          lastReloadToastTime = now;
-          Toast.fire({
-            icon: 'warning',
-            title: 'Page reload is disabled'
-          });
-        }
+      const touchY = e.touches[0].clientY;
+      const touchDelta = touchY - touchStartY;
+      if (window.scrollY === 0 && touchDelta > 0) {
+        e.preventDefault();
       }
     }, { passive: false });
 
-    // ---------- SweetAlert helpers ----------
-
-    // Corner toast (non-blocking notifications)
+    // Toast helper for empty field warning
     const Toast = Swal.mixin({
       toast: true,
       position: 'top-end',
       showConfirmButton: false,
       timer: 2500,
-      timerProgressBar: true,
-      didOpen: (toast) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer);
-        toast.addEventListener('mouseleave', Swal.resumeTimer);
-      }
+      timerProgressBar: true
     });
-
-    // Escape user input before placing it in alert HTML
-    function escapeHtml(str) {
-      return str.replace(/[&<>"']/g, (c) => ({
-        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-      }[c]));
-    }
 
     function formatCountdown(ms) {
       const total = Math.max(0, Math.floor(ms / 1000));
@@ -696,35 +635,7 @@
       return `${pad(h)}:${pad(m)}:${pad(s)}`;
     }
 
-    // "Ready to join?" confirm dialog, then a modal while redirecting
-    function confirmAndJoin(displayName, link) {
-      Swal.fire({
-        icon: 'question',
-        title: 'Ready to join?',
-        html: 'You are about to join the session as <b>' + escapeHtml(displayName) + '</b>.',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, join now',
-        cancelButtonText: 'Not yet',
-        confirmButtonColor: BRAND_COLOR,
-        cancelButtonColor: '#64748b',
-        reverseButtons: true
-      }).then((result) => {
-        if (!result.isConfirmed) return;
-
-        Swal.fire({
-          icon: 'success',
-          title: 'Welcome, ' + escapeHtml(displayName) + '!',
-          text: 'Connecting to your meeting room...',
-          timer: 1500,
-          showConfirmButton: false,
-          willClose: () => {
-            window.location.href = link;
-          }
-        });
-      });
-    }
-
-    // "Meeting Not Started" alert with live countdown to 6:00 PM
+    // Meeting Not Started alert with live countdown to 6:00 PM
     function showNotStartedAlert() {
       const target = new Date();
       target.setHours(18, 0, 0, 0);
@@ -734,7 +645,7 @@
         icon: 'info',
         title: 'Meeting Not Started',
         html:
-          'The meeting room opens daily (Monday – Sunday) at 6:00 PM.<br><br>' +
+          'The meeting room opens daily at 6:00 PM.<br><br>' +
           'Opens in <b id="countdown"></b>',
         confirmButtonColor: BRAND_COLOR,
         didOpen: () => {
@@ -804,18 +715,16 @@
       });
     });
 
-    // Auto rotate carousel every 5 seconds
     setInterval(() => {
       showSlide(currentSlide + 1);
     }, 5000);
 
-    // Access Handler Logic — Enforces 6:00 PM - 7:00 PM window and immediately moves to Google Meet once verified
+    // Access Handler Logic
     function handleJoin() {
       const rawInput = document.getElementById('usernameInput').value;
       const displayName = rawInput.trim();
       const cleanedUsername = displayName.toLowerCase();
 
-      // Toast notification if the username field is empty
       if (!cleanedUsername) {
         Toast.fire({
           icon: 'info',
@@ -825,12 +734,11 @@
         return;
       }
 
-      // Check if username is authorized (avadhoot, avadhot, or ethan)
       if (!ALLOWED_USERS.includes(cleanedUsername)) {
         Swal.fire({
           icon: 'warning',
           title: 'Access Denied',
-          text: 'Only authorized usernames (avadhoot, ethan) are permitted to join this meeting.',
+          text: 'We do not recognise this username in our system. Contact your meeting organiser.',
           confirmButtonColor: BRAND_COLOR
         });
         return;
@@ -839,7 +747,7 @@
       const now = new Date();
       const currentHour = now.getHours();
 
-      // Daily access for avadhoot and ethan: 6:00 PM to 7:00 PM (18:00 - 18:59, Monday to Sunday)
+      // Daily access: 6:00 PM to before 7:00 PM (18:00 - 18:59)
       if (currentHour < 18) {
         showNotStartedAlert();
         return;
@@ -854,12 +762,12 @@
         return;
       }
 
-      // Immediately move to Google Meet once the username is verified during 6:00 PM - 7:00 PM
-      isRedirectingToMeet = true;
+      // Valid credentials within schedule -> allow redirect
+      isRedirecting = true;
       window.location.href = MEETING_LINK;
     }
 
-    // 4. Alert on the "IT Support Desk" link
+    // Support Link Dialog
     document.getElementById('supportLink').addEventListener('click', (e) => {
       e.preventDefault();
       const url = e.currentTarget.href;
@@ -877,10 +785,6 @@
       }).then((result) => {
         if (result.isConfirmed) {
           window.open(url, '_blank', 'noopener');
-          Toast.fire({
-            icon: 'success',
-            title: 'Opening support page'
-          });
         }
       });
     });
