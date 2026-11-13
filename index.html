@@ -714,6 +714,256 @@
       Swal.fire({
         icon: 'success',
         title: 'Welcome, ' + rawInput.trim() + '!',
+        text: 'Connecting to >
+
+  <!-- Top Corporate Brand Bar & Architectural Dot Pattern -->
+  <div class="top-accent-bar"></div>
+  <div class="bg-pattern"></div>
+
+  <!-- Navigation Header -->
+  <header class="header">
+    <a href="#" class="brand-logo">
+      <div class="brand-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 10l5-5v14l-5-5"></path>
+          <rect x="4" y="6" width="11" height="12" rx="2"></rect>
+        </svg>
+      </div>
+      <div class="brand-title-group">
+        <span class="brand-text">The Group</span>
+        <span class="brand-subtext">Communications Portal</span>
+      </div>
+    </a>
+    <div class="header-right">
+      <span class="status-dot"></span>
+      <span class="clock-display" id="clock"></span>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-container">
+    <div class="content-grid">
+      
+      <!-- Left Column: Credentials Input -->
+      <div class="left-col">
+        <div class="badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          Authorized Session Access
+        </div>
+        <h1 class="main-heading">Virtual Classroom &<br><span>Briefing Portal</span></h1>
+        <p class="sub-heading">
+          Enter your assigned participant username below to authenticate and join your scheduled Google Meet session.
+        </p>
+        <div class="action-row">
+          <div class="input-wrapper">
+            <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <input type="text" id="usernameInput" placeholder="Enter corporate username" autocomplete="off">
+          </div>
+          <button class="join-btn" id="joinBtn">Join Session</button>
+        </div>
+        <div class="divider"></div>
+        <div class="meta-footer">
+          <span>Session Window: 6:00 PM – 7:00 PM</span>
+          <a href="https://support.google.com/meet" target="_blank" rel="noopener">IT Support Desk →</a>
+        </div>
+      </div>
+
+      <!-- Right Column: Structured Info Card -->
+      <div class="right-col">
+        <div class="card-top-bar">
+          <span class="card-top-title">Portal Guidelines</span>
+          <div class="carousel-nav-group">
+            <button class="nav-arrow" id="prevSlide" aria-label="Previous Slide">❮</button>
+            <button class="nav-arrow" id="nextSlide" aria-label="Next Slide">❯</button>
+          </div>
+        </div>
+
+        <div class="carousel-body">
+          <!-- Slide 1 -->
+          <div class="carousel-slide active" data-index="0">
+            <div class="carousel-image">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            </div>
+            <h2 class="carousel-title">Scheduled Availability</h2>
+            <p class="carousel-desc">Live sessions operate strictly between 6:00 PM and 7:00 PM daily. Early or late connections are automatically restricted.</p>
+          </div>
+
+          <!-- Slide 2 -->
+          <div class="carousel-slide" data-index="1">
+            <div class="carousel-image">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            </div>
+            <h2 class="carousel-title">Verified Roster</h2>
+            <p class="carousel-desc">Only registered member credentials are permitted to route to the active conference bridge.</p>
+          </div>
+
+          <!-- Slide 3 -->
+          <div class="carousel-slide" data-index="2">
+            <div class="carousel-image">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            </div>
+            <h2 class="carousel-title">Temporary Guest Passes</h2>
+            <p class="carousel-desc">External guests may connect using the guest credential exclusively on scheduled event dates.</p>
+          </div>
+
+          <!-- Dots Indicator -->
+          <div class="carousel-dots" id="carouselDots">
+            <span class="dot active" data-index="0"></span>
+            <span class="dot" data-index="1"></span>
+            <span class="dot" data-index="2"></span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    // Meeting Links
+    const MEETING_LINK = "https://meet.google.com/gap-kaif-nbq";
+    const GUEST_MEETING_LINK = "https://meet.google.com/dtk-znwh-knf";
+
+    // Permitted usernames
+    const ALLOWED_USERS = ["avadhoot", "avadhot", "ethan", "guest"];
+    const GUEST_DATE = "2026-10-20";
+
+    // Real-Time Auto-Updating Clock Display
+    function updateHeaderClock() {
+      const now = new Date();
+      let hours = now.getHours();
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12;
+      hours = hours ? hours : 12;
+
+      const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+      const dayName = days[now.getDay()];
+      const monthName = months[now.getMonth()];
+      const dayNum = now.getDate();
+
+      const timeString = `${hours}:${minutes} ${ampm} • ${dayName}, ${monthName} ${dayNum}`;
+      document.getElementById('clock').textContent = timeString;
+    }
+
+    setInterval(updateHeaderClock, 1000);
+    updateHeaderClock();
+
+    // Carousel Logic
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.carousel-slide');
+    const dots = document.querySelectorAll('.dot');
+
+    function showSlide(index) {
+      slides.forEach(slide => slide.classList.remove('active'));
+      dots.forEach(dot => dot.classList.remove('active'));
+      
+      currentSlide = (index + slides.length) % slides.length;
+      slides[currentSlide].classList.add('active');
+      dots[currentSlide].classList.add('active');
+    }
+
+    document.getElementById('nextSlide').addEventListener('click', () => showSlide(currentSlide + 1));
+    document.getElementById('prevSlide').addEventListener('click', () => showSlide(currentSlide - 1));
+
+    dots.forEach(dot => {
+      dot.addEventListener('click', (e) => {
+        const index = parseInt(e.target.getAttribute('data-index'));
+        showSlide(index);
+      });
+    });
+
+    // Auto rotate carousel every 5 seconds
+    setInterval(() => {
+      showSlide(currentSlide + 1);
+    }, 5000);
+
+    // Access Handler Logic
+    function handleJoin() {
+      const rawInput = document.getElementById('usernameInput').value;
+      const cleanedUsername = rawInput.trim().toLowerCase();
+
+      if (!cleanedUsername) {
+        Swal.fire({
+          icon: 'info',
+          title: 'Username Required',
+          text: 'Please enter your assigned username to proceed.',
+          confirmButtonColor: '#1d4ed8'
+        });
+        return;
+      }
+
+      if (!ALLOWED_USERS.includes(cleanedUsername)) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Access Denied',
+          text: 'We do not recognise this username in our system. Contact your meeting organiser.',
+          confirmButtonColor: '#1d4ed8'
+        });
+        return;
+      }
+
+      const now = new Date();
+      const currentHour = now.getHours();
+      const localDate = [
+        now.getFullYear(),
+        String(now.getMonth() + 1).padStart(2, '0'),
+        String(now.getDate()).padStart(2, '0')
+      ].join('-');
+
+      // Guest access check
+      if (cleanedUsername === "guest") {
+        if (localDate !== GUEST_DATE) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Guest Access Expired',
+            text: 'The guest meeting link is only available on October 20, 2026.',
+            confirmButtonColor: '#1d4ed8'
+          });
+          return;
+        }
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Welcome, ' + rawInput.trim() + '!',
+          text: 'Connecting to your guest meeting room...',
+          timer: 1500,
+          showConfirmButton: false,
+          willClose: () => {
+            window.location.href = GUEST_MEETING_LINK;
+          }
+        });
+        return;
+      }
+
+      // Daily access for avadhoot and ethan: 6:00 PM to before 7:00 PM (18:00 - 18:59)
+      if (currentHour < 18) {
+        Swal.fire({
+          icon: 'info',
+          title: 'Meeting Not Started',
+          text: 'The meeting room opens daily at 6:00 PM. Please check back then.',
+          confirmButtonColor: '#1d4ed8'
+        });
+        return;
+      }
+
+      if (currentHour >= 19) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Meeting Closed',
+          text: 'The daily meeting session ended at 7:00 PM and is no longer accepting participants.',
+          confirmButtonColor: '#1d4ed8'
+        });
+        return;
+      }
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Welcome, ' + rawInput.trim() + '!',
         text: 'Connecting to 
       color: #475569;
       text-transform: uppercase;
