@@ -2,47 +2,30 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  <title>The Group ( Google meet class )</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Group — Enterprise Class Portal</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <!-- SweetAlert2 Library -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <style>
-    :root {
-      /* Fluid design tokens that scale from 320px phones up to 4K TV displays */
-      --header-height: clamp(60px, 6.5vh, 110px);
-      --header-px: clamp(14px, 4vw, 80px);
-      --container-max: clamp(1180px, 84vw, 2400px);
-      --container-py: clamp(20px, 4.5vh, 80px);
-      --container-px: clamp(14px, 4vw, 64px);
-      --grid-gap: clamp(28px, 5vw, 110px);
-      --radius-sm: clamp(6px, 0.5vw, 14px);
-      --radius-md: clamp(8px, 0.7vw, 18px);
-      --radius-lg: clamp(14px, 1.1vw, 28px);
-      --control-height: clamp(48px, 4.2vw, 76px);
-    }
-
     *, *::before, *::after {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
-    html {
+    html, body {
       width: 100%;
       height: 100%;
-      -webkit-text-size-adjust: 100%;
     }
 
     body {
-      width: 100%;
       min-height: 100vh;
-      min-height: 100dvh;
       /* Crisp Daylight Corporate Background */
       background-color: #f8fafc;
       background-image: 
-        radial-gradient(65vw circle at 15% 10%, rgba(219, 234, 254, 0.7), transparent 60%),
-        radial-gradient(55vw circle at 85% 90%, rgba(224, 231, 255, 0.5), transparent 60%),
+        radial-gradient(1000px circle at 15% 10%, rgba(219, 234, 254, 0.7), transparent 60%),
+        radial-gradient(800px circle at 85% 90%, rgba(224, 231, 255, 0.5), transparent 60%),
         linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       color: #0f172a;
@@ -52,18 +35,12 @@
       position: relative;
     }
 
-    /* High-visibility focus ring for TV remote D-pad & keyboard accessibility */
-    :focus-visible {
-      outline: 3px solid #2563eb;
-      outline-offset: 2px;
-    }
-
     /* Architectural Dot-Matrix Pattern with Radial Fade */
     .bg-pattern {
       position: fixed;
       inset: 0;
-      background-image: radial-gradient(#cbd5e1 clamp(1px, 0.1vw, 2px), transparent clamp(1px, 0.1vw, 2px));
-      background-size: clamp(22px, 2vw, 44px) clamp(22px, 2vw, 44px);
+      background-image: radial-gradient(#cbd5e1 1.25px, transparent 1.25px);
+      background-size: 28px 28px;
       mask-image: radial-gradient(ellipse 80% 70% at 50% 45%, #000 35%, transparent 100%);
       -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 45%, #000 35%, transparent 100%);
       opacity: 0.55;
@@ -73,7 +50,7 @@
 
     /* Subtle Structural Accent Line at Top */
     .top-accent-bar {
-      height: clamp(3px, 0.3vh, 6px);
+      height: 3px;
       width: 100%;
       background: linear-gradient(90deg, #1e40af 0%, #2563eb 50%, #0ea5e9 100%);
       position: fixed;
@@ -84,36 +61,32 @@
 
     /* Header Styling */
     .header {
-      min-height: var(--header-height);
-      padding: 8px var(--header-px);
+      height: 76px;
+      padding: 0 48px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
       border-bottom: 1px solid #e2e8f0;
       background: rgba(255, 255, 255, 0.88);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       position: sticky;
-      top: clamp(3px, 0.3vh, 6px);
+      top: 3px;
       z-index: 100;
     }
 
     .brand-logo {
       display: flex;
       align-items: center;
-      gap: clamp(8px, 1vw, 18px);
+      gap: 12px;
       text-decoration: none;
-      min-width: 0;
-      flex: 1 1 auto;
     }
 
     .brand-icon {
-      width: clamp(34px, 3vw, 58px);
-      height: clamp(34px, 3vw, 58px);
-      flex-shrink: 0;
+      width: 38px;
+      height: 38px;
       background: #1e40af;
-      border-radius: var(--radius-md);
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -121,30 +94,21 @@
       box-shadow: 0 2px 6px rgba(30, 64, 175, 0.25);
     }
 
-    .brand-icon svg {
-      width: clamp(18px, 1.6vw, 30px);
-      height: clamp(18px, 1.6vw, 30px);
-    }
-
     .brand-title-group {
       display: flex;
       flex-direction: column;
-      min-width: 0;
     }
 
     .brand-text {
-      font-size: clamp(14px, 1.35vw, 26px);
+      font-size: 17px;
       font-weight: 700;
       letter-spacing: -0.3px;
       color: #0f172a;
-      line-height: 1.25;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      line-height: 1.2;
     }
 
     .brand-subtext {
-      font-size: clamp(10px, 0.85vw, 16px);
+      font-size: 11px;
       font-weight: 500;
       color: #64748b;
       text-transform: uppercase;
@@ -154,29 +118,26 @@
     .header-right {
       display: flex;
       align-items: center;
-      gap: clamp(6px, 0.7vw, 14px);
+      gap: 10px;
       background: #f8fafc;
-      padding: clamp(6px, 0.6vw, 14px) clamp(10px, 1.2vw, 24px);
-      border-radius: var(--radius-md);
+      padding: 8px 16px;
+      border-radius: 8px;
       border: 1px solid #e2e8f0;
-      flex-shrink: 0;
     }
 
     .status-dot {
-      width: clamp(7px, 0.6vw, 13px);
-      height: clamp(7px, 0.6vw, 13px);
+      width: 8px;
+      height: 8px;
       background-color: #10b981;
       border-radius: 50%;
       box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
-      flex-shrink: 0;
     }
 
     .clock-display {
-      font-size: clamp(11px, 1vw, 20px);
+      font-size: 13px;
       color: #334155;
       font-weight: 500;
       font-variant-numeric: tabular-nums;
-      white-space: nowrap;
     }
 
     /* Main Content Layout */
@@ -185,9 +146,9 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      max-width: var(--container-max);
+      max-width: 1240px;
       margin: 0 auto;
-      padding: var(--container-py) var(--container-px);
+      padding: 48px 32px;
       width: 100%;
       z-index: 1;
     }
@@ -196,44 +157,43 @@
       display: grid;
       grid-template-columns: 1.15fr 0.85fr;
       align-items: center;
-      gap: var(--grid-gap);
+      gap: 72px;
       width: 100%;
     }
 
     /* Left Column */
     .left-col {
       width: 100%;
-      max-width: clamp(500px, 44vw, 960px);
+      max-width: 540px;
     }
 
     .badge {
       display: inline-flex;
       align-items: center;
-      gap: clamp(6px, 0.6vw, 12px);
+      gap: 8px;
       background: #eff6ff;
       color: #1d4ed8;
-      font-size: clamp(11px, 0.95vw, 19px);
+      font-size: 12px;
       font-weight: 600;
-      padding: clamp(5px, 0.5vw, 10px) clamp(10px, 1vw, 20px);
-      border-radius: var(--radius-sm);
-      margin-bottom: clamp(14px, 1.6vw, 32px);
+      padding: 6px 12px;
+      border-radius: 6px;
+      margin-bottom: 20px;
       border: 1px solid #bfdbfe;
       letter-spacing: 0.3px;
     }
 
     .badge svg {
-      width: clamp(13px, 1.1vw, 22px);
-      height: clamp(13px, 1.1vw, 22px);
-      flex-shrink: 0;
+      width: 14px;
+      height: 14px;
     }
 
     .main-heading {
-      font-size: clamp(28px, 3.6vw, 76px);
-      line-height: 1.13;
+      font-size: clamp(34px, 4vw, 46px);
+      line-height: 1.15;
       font-weight: 700;
       color: #0f172a;
-      margin-bottom: clamp(12px, 1.3vw, 28px);
-      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+      letter-spacing: -0.8px;
     }
 
     .main-heading span {
@@ -241,17 +201,17 @@
     }
 
     .sub-heading {
-      font-size: clamp(14px, 1.25vw, 26px);
+      font-size: 16px;
       line-height: 1.6;
       color: #475569;
-      margin-bottom: clamp(22px, 2.5vw, 48px);
+      margin-bottom: 32px;
     }
 
     .action-row {
       display: flex;
       align-items: center;
-      gap: clamp(10px, 1vw, 20px);
-      margin-bottom: clamp(22px, 2.2vw, 44px);
+      gap: 12px;
+      margin-bottom: 28px;
       width: 100%;
     }
 
@@ -260,14 +220,11 @@
       display: flex;
       align-items: center;
       flex: 1;
-      width: 100%;
     }
 
     .input-icon {
       position: absolute;
-      left: clamp(14px, 1.2vw, 24px);
-      width: clamp(17px, 1.4vw, 28px);
-      height: clamp(17px, 1.4vw, 28px);
+      left: 16px;
       color: #64748b;
       pointer-events: none;
       transition: color 0.2s;
@@ -275,12 +232,12 @@
 
     .input-wrapper input {
       width: 100%;
-      height: var(--control-height);
-      padding: 0 clamp(14px, 1.2vw, 24px) 0 clamp(42px, 3.4vw, 68px);
+      height: 50px;
+      padding: 0 16px 0 46px;
       border: 1px solid #cbd5e1;
       background: #ffffff;
-      border-radius: var(--radius-md);
-      font-size: clamp(15px, 1.2vw, 24px);
+      border-radius: 8px;
+      font-size: 15px;
       font-family: inherit;
       color: #0f172a;
       outline: none;
@@ -306,14 +263,14 @@
     }
 
     .join-btn {
-      height: var(--control-height);
-      padding: 0 clamp(24px, 2.2vw, 48px);
+      height: 50px;
+      padding: 0 28px;
       background: #1d4ed8;
       color: #ffffff;
       border: none;
-      border-radius: var(--radius-md);
+      border-radius: 8px;
       font-family: inherit;
-      font-size: clamp(15px, 1.2vw, 24px);
+      font-size: 15px;
       font-weight: 600;
       cursor: pointer;
       white-space: nowrap;
@@ -333,16 +290,14 @@
     .divider {
       height: 1px;
       background: #e2e8f0;
-      margin-bottom: clamp(16px, 1.6vw, 32px);
+      margin-bottom: 20px;
     }
 
     .meta-footer {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 10px 16px;
-      font-size: clamp(12px, 1.05vw, 21px);
+      font-size: 13px;
       color: #64748b;
     }
 
@@ -363,7 +318,7 @@
       width: 100%;
       background: #ffffff;
       border: 1px solid #e2e8f0;
-      border-radius: var(--radius-lg);
+      border-radius: 16px;
       box-shadow: 
         0 4px 6px -1px rgba(15, 23, 42, 0.04),
         0 20px 30px -8px rgba(15, 23, 42, 0.06);
@@ -371,7 +326,7 @@
     }
 
     .card-top-bar {
-      padding: clamp(12px, 1.3vw, 26px) clamp(18px, 1.8vw, 36px);
+      padding: 16px 24px;
       background: #f8fafc;
       border-bottom: 1px solid #e2e8f0;
       display: flex;
@@ -380,8 +335,386 @@
     }
 
     .card-top-title {
-      font-size: clamp(11px, 0.95vw, 19px);
+      font-size: 12px;
       font-weight: 600;
+      color: #475569;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+
+    .carousel-nav-group {
+      display: flex;
+      gap: 6px;
+    }
+
+    .nav-arrow {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      font-size: 11px;
+      color: #475569;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+    }
+
+    .nav-arrow:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+      border-color: #94a3b8;
+    }
+
+    .carousel-body {
+      padding: 40px 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .carousel-slide {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+
+    .carousel-slide.active {
+      display: flex;
+    }
+
+    .carousel-image {
+      width: 72px;
+      height: 72px;
+      border-radius: 14px;
+      background: #eff6ff;
+      border: 1px solid #dbeafe;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      color: #1d4ed8;
+    }
+
+    .carousel-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 10px;
+    }
+
+    .carousel-desc {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #475569;
+      max-width: 320px;
+      min-height: 46px;
+      margin-bottom: 24px;
+    }
+
+    .carousel-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 3px;
+      background: #cbd5e1;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .dot.active {
+      width: 20px;
+      background: #1d4ed8;
+    }
+
+    /* Responsive Queries */
+    @media (max-width: 1024px) {
+      .content-grid {
+        gap: 40px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header {
+        padding: 0 20px;
+        height: 68px;
+      }
+      .main-container {
+        padding: 32px 16px;
+      }
+      .content-grid {
+        grid-template-columns: 1fr;
+        gap: 36px;
+      }
+      .action-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .join-btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Corporate Brand Bar & Architectural Dot Pattern -->
+  <div class="top-accent-bar"></div>
+  <div class="bg-pattern"></div>
+
+  <!-- Navigation Header -->
+  <header class="header">
+    <a href="#" class="brand-logo">
+      <div class="brand-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 10l5-5v14l-5-5"></path>
+          <rect x="4" y="6" width="11" height="12" rx="2"></rect>
+        </svg>
+      </div>
+      <div class="brand-title-group">
+        <span class="brand-text">The Group</span>
+        <span class="brand-subtext">Communications Portal</span>
+      </div>
+    </a>
+    <div class="header-right">
+      <span class="status-dot"></span>
+      <span class="clock-display" id="clock"></span>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-container">
+    <div class="content-grid">
+      
+      <!-- Left Column: Credentials Input -->
+      <div class="left-col">
+        <div class="badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          Authorized Session Access
+        </div>
+        <h1 class="main-heading">Virtual Classroom &<br><span>Briefing Portal</span></h1>
+        <p class="sub-heading">
+          Enter your assigned participant username below to authenticate and join your scheduled Google Meet session.
+        </p>
+        <div class="action-row">
+          <div class="input-wrapper">
+            <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <input type="text" id="usernameInput" placeholder="Enter corporate username" autocomplete="off">
+          </div>
+          <button class="join-btn" id="joinBtn">Join Session</button>
+        </div>
+        <div class="divider"></div>
+        <div class="meta-footer">
+          <span>Session Window: 6:00 PM – 7:00 PM</span>
+          <a href="https://support.google.com/meet" target="_blank" rel="noopener">IT Support Desk →</a>
+        </div>
+      </div>
+
+      <!-- Right Column: Structured Info Card -->
+      <div class="right-col">
+        <div class="card-top-bar">
+          <span class="card-top-title">Portal Guidelines</span>
+          <div class="carousel-nav-group">
+            <button class="nav-arrow" id="prevSlide" aria-label="Previous Slide">❮</button>
+            <button class="nav-arrow" id="nextSlide" aria-label="Next Slide">❯</button>
+          </div>
+        </div>
+
+        <div class="carousel-body">
+          <!-- Slide 1 -->
+          <div class="carousel-slide active" data-index="0">
+            <div class="carousel-image">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            </div>
+            <h2 class="carousel-title">Scheduled Availability</h2>
+            <p class="carousel-desc">Live sessions operate strictly between 6:00 PM and 7:00 PM daily. Early or late connections are automatically restricted.</p>
+          </div>
+
+          <!-- Slide 2 -->
+          <div class="carousel-slide" data-index="1">
+            <div class="carousel-image">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            </div>
+            <h2 class="carousel-title">Verified Roster</h2>
+            <p class="carousel-desc">Only registered member credentials are permitted to route to the active conference bridge.</p>
+          </div>
+
+          <!-- Slide 3 -->
+          <div class="carousel-slide" data-index="2">
+            <div class="carousel-image">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            </div>
+            <h2 class="carousel-title">Temporary Guest Passes</h2>
+            <p class="carousel-desc">External guests may connect using the guest credential exclusively on scheduled event dates.</p>
+          </div>
+
+          <!-- Dots Indicator -->
+          <div class="carousel-dots" id="carouselDots">
+            <span class="dot active" data-index="0"></span>
+            <span class="dot" data-index="1"></span>
+            <span class="dot" data-index="2"></span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    // Meeting Links
+    const MEETING_LINK = "https://meet.google.com/gap-kaif-nbq";
+    const GUEST_MEETING_LINK = "https://meet.google.com/dtk-znwh-knf";
+
+    // Permitted usernames
+    const ALLOWED_USERS = ["avadhoot", "avadhot", "ethan", "guest"];
+    const GUEST_DATE = "2026-10-20";
+
+    // Real-Time Auto-Updating Clock Display
+    function updateHeaderClock() {
+      const now = new Date();
+      let hours = now.getHours();
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12;
+      hours = hours ? hours : 12;
+
+      const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+      const dayName = days[now.getDay()];
+      const monthName = months[now.getMonth()];
+      const dayNum = now.getDate();
+
+      const timeString = `${hours}:${minutes} ${ampm} • ${dayName}, ${monthName} ${dayNum}`;
+      document.getElementById('clock').textContent = timeString;
+    }
+
+    setInterval(updateHeaderClock, 1000);
+    updateHeaderClock();
+
+    // Carousel Logic
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.carousel-slide');
+    const dots = document.querySelectorAll('.dot');
+
+    function showSlide(index) {
+      slides.forEach(slide => slide.classList.remove('active'));
+      dots.forEach(dot => dot.classList.remove('active'));
+      
+      currentSlide = (index + slides.length) % slides.length;
+      slides[currentSlide].classList.add('active');
+      dots[currentSlide].classList.add('active');
+    }
+
+    document.getElementById('nextSlide').addEventListener('click', () => showSlide(currentSlide + 1));
+    document.getElementById('prevSlide').addEventListener('click', () => showSlide(currentSlide - 1));
+
+    dots.forEach(dot => {
+      dot.addEventListener('click', (e) => {
+        const index = parseInt(e.target.getAttribute('data-index'));
+        showSlide(index);
+      });
+    });
+
+    // Auto rotate carousel every 5 seconds
+    setInterval(() => {
+      showSlide(currentSlide + 1);
+    }, 5000);
+
+    // Access Handler Logic
+    function handleJoin() {
+      const rawInput = document.getElementById('usernameInput').value;
+      const cleanedUsername = rawInput.trim().toLowerCase();
+
+      if (!cleanedUsername) {
+        Swal.fire({
+          icon: 'info',
+          title: 'Username Required',
+          text: 'Please enter your assigned username to proceed.',
+          confirmButtonColor: '#1d4ed8'
+        });
+        return;
+      }
+
+      if (!ALLOWED_USERS.includes(cleanedUsername)) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Access Denied',
+          text: 'We do not recognise this username in our system. Contact your meeting organiser.',
+          confirmButtonColor: '#1d4ed8'
+        });
+        return;
+      }
+
+      const now = new Date();
+      const currentHour = now.getHours();
+      const localDate = [
+        now.getFullYear(),
+        String(now.getMonth() + 1).padStart(2, '0'),
+        String(now.getDate()).padStart(2, '0')
+      ].join('-');
+
+      // Guest access check
+      if (cleanedUsername === "guest") {
+        if (localDate !== GUEST_DATE) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Guest Access Expired',
+            text: 'The guest meeting link is only available on October 20, 2026.',
+            confirmButtonColor: '#1d4ed8'
+          });
+          return;
+        }
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Welcome, ' + rawInput.trim() + '!',
+          text: 'Connecting to your guest meeting room...',
+          timer: 1500,
+          showConfirmButton: false,
+          willClose: () => {
+            window.location.href = GUEST_MEETING_LINK;
+          }
+        });
+        return;
+      }
+
+      // Daily access for avadhoot and ethan: 6:00 PM to before 7:00 PM (18:00 - 18:59)
+      if (currentHour < 18) {
+        Swal.fire({
+          icon: 'info',
+          title: 'Meeting Not Started',
+          text: 'The meeting room opens daily at 6:00 PM. Please check back then.',
+          confirmButtonColor: '#1d4ed8'
+        });
+        return;
+      }
+
+      if (currentHour >= 19) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Meeting Closed',
+          text: 'The daily meeting session ended at 7:00 PM and is no longer accepting participants.',
+          confirmButtonColor: '#1d4ed8'
+        });
+        return;
+      }
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Welcome, ' + rawInput.trim() + '!',
+        text: 'Connecting to 
       color: #475569;
       text-transform: uppercase;
       letter-spacing: 0.6px;
