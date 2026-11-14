@@ -1,800 +1,1118 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Group (Google Meet Class)</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <!-- SweetAlert2 Library -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <style>
-    *, *::before, *::after {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    html, body {
-      width: 100%;
-      height: 100%;
-      overscroll-behavior-y: none; /* Disable pull-to-refresh on mobile browsers */
-    }
+<title>The Group | Meeting Portal</title>
 
-    body {
-      min-height: 100vh;
-      background-color: #f8fafc;
-      background-image: 
-        radial-gradient(1000px circle at 15% 10%, rgba(219, 234, 254, 0.7), transparent 60%),
-        radial-gradient(800px circle at 85% 90%, rgba(224, 231, 255, 0.5), transparent 60%),
-        linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      color: #0f172a;
-      display: flex;
-      flex-direction: column;
-      overflow-x: hidden;
-      position: relative;
-    }
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    /* Architectural Dot-Matrix Pattern with Radial Fade */
-    .bg-pattern {
-      position: fixed;
-      inset: 0;
-      background-image: radial-gradient(#cbd5e1 1.25px, transparent 1.25px);
-      background-size: 28px 28px;
-      mask-image: radial-gradient(ellipse 80% 70% at 50% 45%, #000 35%, transparent 100%);
-      -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 45%, #000 35%, transparent 100%);
-      opacity: 0.55;
-      pointer-events: none;
-      z-index: 0;
-    }
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    /* Subtle Structural Accent Line at Top */
-    .top-accent-bar {
-      height: 3px;
-      width: 100%;
-      background: linear-gradient(90deg, #1e40af 0%, #2563eb 50%, #0ea5e9 100%);
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 101;
-    }
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-    /* Header Styling */
-    .header {
-      height: 76px;
-      padding: 0 48px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid #e2e8f0;
-      background: rgba(255, 255, 255, 0.88);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      position: sticky;
-      top: 3px;
-      z-index: 100;
-    }
+html, body {
+  width: 100%;
+  min-height: 100%;
+  overscroll-behavior-y: none;
+}
 
-    .brand-logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-    }
+body {
+  min-height: 100vh;
+  background-color: #f8fafc;
+  background-image:
+    radial-gradient(1000px circle at 15% 10%, rgba(219,234,254,.7), transparent 60%),
+    radial-gradient(800px circle at 85% 90%, rgba(224,231,255,.5), transparent 60%),
+    linear-gradient(180deg,#fff 0%,#f1f5f9 100%);
+  font-family: 'Inter', sans-serif;
+  color: #0f172a;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  position: relative;
+}
 
-    .brand-icon {
-      width: 38px;
-      height: 38px;
-      background: #1e40af;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #ffffff;
-      box-shadow: 0 2px 6px rgba(30, 64, 175, 0.25);
-    }
+.bg-pattern {
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(#cbd5e1 1.25px, transparent 1.25px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 45%, #000 35%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 45%, #000 35%, transparent 100%);
+  opacity: .55;
+  pointer-events: none;
+  z-index: 0;
+}
 
-    .brand-title-group {
-      display: flex;
-      flex-direction: column;
-    }
+.top-accent-bar {
+  height: 3px;
+  width: 100%;
+  background: linear-gradient(90deg,#1e40af,#2563eb,#0ea5e9);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 101;
+}
 
-    .brand-text {
-      font-size: 17px;
-      font-weight: 700;
-      letter-spacing: -0.3px;
-      color: #0f172a;
-      line-height: 1.2;
-    }
+.header {
+  height: 76px;
+  padding: 0 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e2e8f0;
+  background: rgba(255,255,255,.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  position: sticky;
+  top: 3px;
+  z-index: 100;
+}
 
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: #f8fafc;
-      padding: 8px 16px;
-      border-radius: 8px;
-      border: 1px solid #e2e8f0;
-    }
+.brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
 
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      background-color: #10b981;
-      border-radius: 50%;
-      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
-    }
+.brand-icon {
+  width: 38px;
+  height: 38px;
+  background: #1e40af;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
 
-    .clock-display {
-      font-size: 13px;
-      color: #334155;
-      font-weight: 500;
-      font-variant-numeric: tabular-nums;
-    }
+.brand-text {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -.3px;
+  color: #0f172a;
+}
 
-    /* Main Content Layout */
-    .main-container {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      max-width: 1240px;
-      margin: 0 auto;
-      padding: 48px 32px;
-      width: 100%;
-      z-index: 1;
-    }
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f8fafc;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
 
-    .content-grid {
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      align-items: center;
-      gap: 72px;
-      width: 100%;
-    }
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background: #10b981;
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px rgba(16,185,129,.15);
+}
 
-    /* Left Column */
-    .left-col {
-      width: 100%;
-      max-width: 540px;
-    }
+.clock-display {
+  font-size: 13px;
+  color: #334155;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
 
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: #eff6ff;
-      color: #1d4ed8;
-      font-size: 12px;
-      font-weight: 600;
-      padding: 6px 12px;
-      border-radius: 6px;
-      margin-bottom: 20px;
-      border: 1px solid #bfdbfe;
-      letter-spacing: 0.3px;
-    }
+.main-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 48px 32px;
+  width: 100%;
+  z-index: 1;
+}
 
-    .badge svg {
-      width: 14px;
-      height: 14px;
-    }
+.content-grid {
+  display: grid;
+  grid-template-columns: 1.15fr .85fr;
+  align-items: center;
+  gap: 72px;
+  width: 100%;
+}
 
-    .main-heading {
-      font-size: clamp(34px, 4vw, 46px);
-      line-height: 1.15;
-      font-weight: 700;
-      color: #0f172a;
-      margin-bottom: 16px;
-      letter-spacing: -0.8px;
-    }
+.left-col {
+  width: 100%;
+  max-width: 540px;
+}
 
-    .main-heading span {
-      color: #1d4ed8;
-    }
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  border: 1px solid #bfdbfe;
+}
 
-    .sub-heading {
-      font-size: 16px;
-      line-height: 1.6;
-      color: #475569;
-      margin-bottom: 32px;
-    }
+.badge svg {
+  width: 14px;
+  height: 14px;
+}
 
-    .action-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 28px;
-      width: 100%;
-    }
+.main-heading {
+  font-size: clamp(34px,4vw,46px);
+  line-height: 1.15;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 16px;
+  letter-spacing: -.8px;
+}
 
-    .input-wrapper {
-      position: relative;
-      display: flex;
-      align-items: center;
-      flex: 1;
-    }
+.main-heading span {
+  color: #1d4ed8;
+}
 
-    .input-icon {
-      position: absolute;
-      left: 16px;
-      color: #64748b;
-      pointer-events: none;
-      transition: color 0.2s;
-    }
+.sub-heading {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #475569;
+  margin-bottom: 32px;
+}
 
-    .input-wrapper input {
-      width: 100%;
-      height: 50px;
-      padding: 0 16px 0 46px;
-      border: 1px solid #cbd5e1;
-      background: #ffffff;
-      border-radius: 8px;
-      font-size: 15px;
-      font-family: inherit;
-      color: #0f172a;
-      outline: none;
-      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
-      transition: all 0.2s ease;
-    }
+.action-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+  width: 100%;
+}
 
-    .input-wrapper input::placeholder {
-      color: #94a3b8;
-    }
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
 
-    .input-wrapper input:hover {
-      border-color: #94a3b8;
-    }
+.input-icon {
+  position: absolute;
+  left: 16px;
+  color: #64748b;
+  pointer-events: none;
+}
 
-    .input-wrapper input:focus {
-      border-color: #2563eb;
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-    }
+.input-wrapper input {
+  width: 100%;
+  height: 50px;
+  padding: 0 16px 0 46px;
+  border: 1px solid #cbd5e1;
+  background: white;
+  border-radius: 8px;
+  font-size: 15px;
+  font-family: inherit;
+  color: #0f172a;
+  outline: none;
+  transition: all .2s ease;
+}
 
-    .input-wrapper input:focus ~ .input-icon {
-      color: #2563eb;
-    }
+.input-wrapper input::placeholder {
+  color: #94a3b8;
+}
 
-    .join-btn {
-      height: 50px;
-      padding: 0 28px;
-      background: #1d4ed8;
-      color: #ffffff;
-      border: none;
-      border-radius: 8px;
-      font-family: inherit;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      white-space: nowrap;
-      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.12), 0 4px 10px rgba(29, 78, 216, 0.2);
-      transition: all 0.2s ease;
-    }
+.input-wrapper input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37,99,235,.15);
+}
 
-    .join-btn:hover {
-      background: #1e40af;
-      box-shadow: 0 4px 12px rgba(29, 78, 216, 0.3);
-    }
+.join-btn {
+  height: 50px;
+  padding: 0 28px;
+  background: #1d4ed8;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 4px 10px rgba(29,78,216,.2);
+  transition: all .2s ease;
+}
 
-    .join-btn:active {
-      transform: translateY(1px);
-    }
+.join-btn:hover {
+  background: #1e40af;
+}
 
-    .divider {
-      height: 1px;
-      background: #e2e8f0;
-      margin-bottom: 20px;
-    }
+.join-btn:active {
+  transform: translateY(1px);
+}
 
-    .meta-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 13px;
-      color: #64748b;
-    }
+.divider {
+  height: 1px;
+  background: #e2e8f0;
+  margin-bottom: 20px;
+}
 
-    .meta-footer a {
-      color: #1d4ed8;
-      text-decoration: none;
-      font-weight: 500;
-    }
+.meta-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 13px;
+  color: #64748b;
+}
 
-    .meta-footer a:hover {
-      text-decoration: underline;
-    }
+.meta-footer a {
+  color: #1d4ed8;
+  text-decoration: none;
+  font-weight: 500;
+  white-space: nowrap;
+}
 
-    /* Right Column (Executive Card Panel) */
-    .right-col {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 16px;
-      box-shadow: 
-        0 4px 6px -1px rgba(15, 23, 42, 0.04),
-        0 20px 30px -8px rgba(15, 23, 42, 0.06);
-      overflow: hidden;
-    }
+.meta-footer a:hover {
+  text-decoration: underline;
+}
 
-    .card-top-bar {
-      padding: 16px 24px;
-      background: #f8fafc;
-      border-bottom: 1px solid #e2e8f0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
+.right-col {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px -1px rgba(15,23,42,.04),
+              0 20px 30px -8px rgba(15,23,42,.06);
+  overflow: hidden;
+}
 
-    .card-top-title {
-      font-size: 12px;
-      font-weight: 600;
-      color: #475569;
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-    }
+.card-top-bar {
+  padding: 16px 24px;
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
-    .carousel-nav-group {
-      display: flex;
-      gap: 6px;
-    }
+.card-top-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: .6px;
+}
 
-    .nav-arrow {
-      background: #ffffff;
-      border: 1px solid #cbd5e1;
-      width: 28px;
-      height: 28px;
-      border-radius: 6px;
-      font-size: 11px;
-      color: #475569;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.15s ease;
-    }
+.carousel-nav-group {
+  display: flex;
+  gap: 6px;
+}
 
-    .nav-arrow:hover {
-      background: #f1f5f9;
-      color: #0f172a;
-      border-color: #94a3b8;
-    }
+.nav-arrow {
+  background: white;
+  border: 1px solid #cbd5e1;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  font-size: 11px;
+  color: #475569;
+  cursor: pointer;
+}
 
-    .carousel-body {
-      padding: 40px 32px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
+.nav-arrow:hover {
+  background: #f1f5f9;
+}
 
-    .carousel-slide {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
-    }
+.carousel-body {
+  padding: 40px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
 
-    .carousel-slide.active {
-      display: flex;
-    }
+.carousel-slide {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
 
-    .carousel-image {
-      width: 72px;
-      height: 72px;
-      border-radius: 14px;
-      background: #eff6ff;
-      border: 1px solid #dbeafe;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 24px;
-      color: #1d4ed8;
-    }
+.carousel-slide.active {
+  display: flex;
+}
 
-    .carousel-title {
-      font-size: 18px;
-      font-weight: 600;
-      color: #0f172a;
-      margin-bottom: 10px;
-    }
+.carousel-image {
+  width: 72px;
+  height: 72px;
+  border-radius: 14px;
+  background: #eff6ff;
+  border: 1px solid #dbeafe;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  color: #1d4ed8;
+}
 
-    .carousel-desc {
-      font-size: 14px;
-      line-height: 1.6;
-      color: #475569;
-      max-width: 320px;
-      min-height: 46px;
-      margin-bottom: 24px;
-    }
+.carousel-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #0f172a;
+  margin-bottom: 10px;
+}
 
-    .carousel-dots {
-      display: flex;
-      gap: 6px;
-    }
+.carousel-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #475569;
+  max-width: 320px;
+  min-height: 46px;
+  margin-bottom: 24px;
+}
 
-    .dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 3px;
-      background: #cbd5e1;
-      cursor: pointer;
-      transition: all 0.25s ease;
-    }
+.carousel-dots {
+  display: flex;
+  gap: 6px;
+}
 
-    .dot.active {
-      width: 20px;
-      background: #1d4ed8;
-    }
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 3px;
+  background: #cbd5e1;
+  cursor: pointer;
+  transition: all .25s ease;
+}
 
-    /* SweetAlert2 font match */
-    .swal2-popup {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    }
+.dot.active {
+  width: 20px;
+  background: #1d4ed8;
+}
 
-    /* Responsive Queries */
-    @media (max-width: 1024px) {
-      .content-grid {
-        gap: 40px;
-      }
-    }
+.swal2-popup {
+  font-family: 'Inter', sans-serif;
+}
 
-    @media (max-width: 768px) {
-      .header {
-        padding: 0 20px;
-        height: 68px;
-      }
-      .main-container {
-        padding: 24px 16px;
-        align-items: flex-start;
-      }
-      .content-grid {
-        grid-template-columns: 1fr;
-        gap: 36px;
-      }
-      .action-row {
-        flex-direction: column;
-        align-items: stretch;
-      }
-      .join-btn {
-        width: 100%;
-      }
-    }
-  </style>
+@media (max-width: 1024px) {
+  .content-grid {
+    gap: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 0 20px;
+    height: 68px;
+  }
+
+  .brand-text {
+    font-size: 14px;
+  }
+
+  .clock-display {
+    font-size: 11px;
+  }
+
+  .header-right {
+    padding: 7px 9px;
+  }
+
+  .main-container {
+    padding: 24px 16px;
+    align-items: flex-start;
+  }
+
+  .content-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .action-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .join-btn {
+    width: 100%;
+  }
+
+  .meta-footer {
+    flex-wrap: wrap;
+  }
+}
+</style>
 </head>
+
 <body>
 
-  <!-- Top Corporate Brand Bar & Architectural Dot Pattern -->
-  <div class="top-accent-bar"></div>
-  <div class="bg-pattern"></div>
+<div class="top-accent-bar"></div>
+<div class="bg-pattern"></div>
 
-  <!-- Navigation Header -->
-  <header class="header">
-    <a href="#" class="brand-logo">
-      <div class="brand-icon">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M15 10l5-5v14l-5-5"></path>
-          <rect x="4" y="6" width="11" height="12" rx="2"></rect>
+<!-- HEADER -->
+
+<header class="header">
+
+  <a href="#" class="brand-logo">
+
+    <div class="brand-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24"
+           fill="none" stroke="currentColor"
+           stroke-width="2.2" stroke-linecap="round"
+           stroke-linejoin="round">
+        <path d="M15 10l5-5v14l-5-5"></path>
+        <rect x="4" y="6" width="11" height="12" rx="2"></rect>
+      </svg>
+    </div>
+
+    <div>
+      <span class="brand-text">The Group (Google Meet Class)</span>
+    </div>
+
+  </a>
+
+  <div class="header-right">
+    <span class="status-dot"></span>
+    <span class="clock-display" id="clock"></span>
+  </div>
+
+</header>
+
+<!-- MAIN CONTENT -->
+
+<main class="main-container">
+
+<div class="content-grid">
+
+  <!-- LEFT COLUMN -->
+
+  <div class="left-col">
+
+    <div class="badge">
+
+      <svg viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2.2">
+        <rect x="3" y="11" width="18" height="11" rx="2"></rect>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+      </svg>
+
+      Authorized Session Access
+
+    </div>
+
+    <h1 class="main-heading">
+      Virtual Classroom &<br>
+      <span>Briefing Portal</span>
+    </h1>
+
+    <p class="sub-heading">
+      Enter your assigned participant username below
+      to authenticate and join your scheduled Google Meet session.
+    </p>
+
+    <div class="action-row">
+
+      <div class="input-wrapper">
+
+        <svg class="input-icon" width="18" height="18"
+             viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
         </svg>
-      </div>
-      <div class="brand-title-group">
-        <span class="brand-text">The Group (Google meet class)</span>
-      </div>
-    </a>
-    <div class="header-right">
-      <span class="status-dot"></span>
-      <span class="clock-display" id="clock"></span>
-    </div>
-  </header>
 
-  <!-- Main Content -->
-  <main class="main-container">
-    <div class="content-grid">
-      
-      <!-- Left Column: Credentials Input -->
-      <div class="left-col">
-        <div class="badge">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-          Authorized Session Access
+        <input
+          type="text"
+          id="usernameInput"
+          placeholder="Enter username"
+          autocomplete="off"
+        >
+
+      </div>
+
+      <button class="join-btn" id="joinBtn">
+        Join Session
+      </button>
+
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="meta-footer">
+
+      <span>
+        Session Window: 6:00 PM – 7:00 PM IST (Every Day)
+      </span>
+
+      <a href="https://support.google.com/meet"
+         id="supportLink"
+         target="_blank"
+         rel="noopener">
+        IT Support Desk →
+      </a>
+
+    </div>
+
+  </div>
+
+  <!-- RIGHT COLUMN -->
+
+  <div class="right-col">
+
+    <div class="card-top-bar">
+
+      <span class="card-top-title">
+        Portal Guidelines
+      </span>
+
+      <div class="carousel-nav-group">
+
+        <button class="nav-arrow" id="prevSlide"
+                aria-label="Previous Slide">❮</button>
+
+        <button class="nav-arrow" id="nextSlide"
+                aria-label="Next Slide">❯</button>
+
+      </div>
+
+    </div>
+
+    <div class="carousel-body">
+
+      <!-- SLIDE 1 -->
+
+      <div class="carousel-slide active" data-index="0">
+
+        <div class="carousel-image">
+          <svg width="32" height="32" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor"
+               stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
         </div>
-        <h1 class="main-heading">Virtual Classroom &<br><span>Briefing Portal</span></h1>
-        <p class="sub-heading">
-          Enter your assigned participant username below to authenticate and join your scheduled Google Meet session.
+
+        <h2 class="carousel-title">
+          Scheduled Availability
+        </h2>
+
+        <p class="carousel-desc">
+          Live sessions operate strictly between
+          6:00 PM and 7:00 PM IST every day, Monday to Sunday.
+          Early or late connections are automatically restricted.
         </p>
-        <div class="action-row">
-          <div class="input-wrapper">
-            <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-              <circle cx="12" cy="7" r="4"></circle>
-            </svg>
-            <input type="text" id="usernameInput" placeholder="Enter username" autocomplete="off">
-          </div>
-          <button class="join-btn" id="joinBtn">Join Session</button>
-        </div>
-        <div class="divider"></div>
-        <div class="meta-footer">
-          <span>Session Window: 6:00 PM – 7:00 PM (Mon–Sun)</span>
-          <a href="https://support.google.com/meet" id="supportLink" target="_blank" rel="noopener">IT Support Desk →</a>
-        </div>
+
       </div>
 
-      <!-- Right Column: Structured Info Card -->
-      <div class="right-col">
-        <div class="card-top-bar">
-          <span class="card-top-title">Portal Guidelines</span>
-          <div class="carousel-nav-group">
-            <button class="nav-arrow" id="prevSlide" aria-label="Previous Slide">❮</button>
-            <button class="nav-arrow" id="nextSlide" aria-label="Next Slide">❯</button>
-          </div>
+      <!-- SLIDE 2 -->
+
+      <div class="carousel-slide" data-index="1">
+
+        <div class="carousel-image">
+          <svg width="32" height="32" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor"
+               stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          </svg>
         </div>
 
-        <div class="carousel-body">
-          <!-- Slide 1 -->
-          <div class="carousel-slide active" data-index="0">
-            <div class="carousel-image">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-            </div>
-            <h2 class="carousel-title">Scheduled Availability</h2>
-            <p class="carousel-desc">Live sessions operate strictly between 6:00 PM and 7:00 PM, Monday to Sunday. Early or late connections are automatically restricted.</p>
-          </div>
+        <h2 class="carousel-title">
+          Verified Roster
+        </h2>
 
-          <!-- Slide 2 -->
-          <div class="carousel-slide" data-index="1">
-            <div class="carousel-image">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-            </div>
-            <h2 class="carousel-title">Verified Roster</h2>
-            <p class="carousel-desc">Only registered member credentials (avadhoot, ethan) are permitted to route to the active conference bridge.</p>
-          </div>
+        <p class="carousel-desc">
+          Only registered member credentials
+          (avadhoot, ethan) are permitted to access
+          the active conference bridge.
+        </p>
 
-          <!-- Slide 3 -->
-          <div class="carousel-slide" data-index="2">
-            <div class="carousel-image">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-            </div>
-            <h2 class="carousel-title">Secure Portal</h2>
-            <p class="carousel-desc">Browser refreshes and navigation attempts are restricted during active session periods.</p>
-          </div>
+      </div>
 
-          <!-- Dots Indicator -->
-          <div class="carousel-dots" id="carouselDots">
-            <span class="dot active" data-index="0"></span>
-            <span class="dot" data-index="1"></span>
-            <span class="dot" data-index="2"></span>
-          </div>
+      <!-- SLIDE 3 -->
+
+      <div class="carousel-slide" data-index="2">
+
+        <div class="carousel-image">
+          <svg width="32" height="32" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor"
+               stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
         </div>
+
+        <h2 class="carousel-title">
+          Secure Portal
+        </h2>
+
+        <p class="carousel-desc">
+          Access is restricted outside the scheduled
+          meeting hours. Please use your registered
+          username to join.
+        </p>
+
+      </div>
+
+      <!-- DOTS -->
+
+      <div class="carousel-dots" id="carouselDots">
+
+        <span class="dot active" data-index="0"></span>
+        <span class="dot" data-index="1"></span>
+        <span class="dot" data-index="2"></span>
+
       </div>
 
     </div>
-  </main>
 
-  <script>
-    // Meeting Link
-    const MEETING_LINK = "https://meet.google.com/eeo-hezm-twu";
+  </div>
 
-    // Permitted usernames
-    const ALLOWED_USERS = ["avadhoot", "avadhot", "ethan"];
-    const BRAND_COLOR = '#1d4ed8';
+</div>
 
-    // Flag to allow navigation specifically when successfully redirecting to Google Meet
-    let isRedirecting = false;
+</main>
 
-    // Block reload shortcuts (F5, Ctrl+R, Cmd+R, Ctrl+Shift+R, Cmd+Shift+R) silently
-    window.addEventListener('keydown', (e) => {
-      if (
-        e.key === 'F5' ||
-        ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'r') ||
-        ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'r')
-      ) {
-        e.preventDefault();
+<script>
+
+// ==========================================
+// THE GROUP - DAILY MEETING SYSTEM
+// ==========================================
+
+// MEETING CONFIGURATION
+
+const MEETING_LINK = "https://meet.google.com/eeo-hezm-twu";
+
+const ALLOWED_USERS = [
+  "avadhoot",
+  "avadhot",
+  "ethan"
+];
+
+const BRAND_COLOR = "#1d4ed8";
+
+// DAILY SCHEDULE
+// Always uses India Standard Time (IST), regardless of
+// the visitor's device timezone.
+
+const SCHEDULE_TIMEZONE = "Asia/Kolkata";
+const OPEN_HOUR = 18;
+const CLOSE_HOUR = 19;
+
+let isRedirecting = false;
+let currentSlide = 0;
+
+// ==========================================
+// IST TIME HELPER
+// ==========================================
+
+function getISTSecondsOfDay() {
+
+  const parts = new Intl.DateTimeFormat("en-GB", {
+    timeZone: SCHEDULE_TIMEZONE,
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+    hour12: false
+  }).formatToParts(new Date());
+
+  const get = type =>
+    Number(parts.find(p => p.type === type).value);
+
+  const h = get("hour") % 24;
+  const m = get("minute");
+  const s = get("second");
+
+  return h * 3600 + m * 60 + s;
+}
+
+// ==========================================
+// SESSION STATUS
+// ==========================================
+
+function getSessionStatus() {
+
+  const seconds = getISTSecondsOfDay();
+
+  if (seconds < OPEN_HOUR * 3600) {
+    return "not-started";
+  }
+
+  if (seconds >= CLOSE_HOUR * 3600) {
+    return "closed";
+  }
+
+  return "open";
+}
+
+// ==========================================
+// BROWSER PROTECTION
+// ==========================================
+
+window.addEventListener("keydown", (e) => {
+
+  if (
+    e.key === "F5" ||
+    ((e.ctrlKey || e.metaKey) &&
+    ["r", "R"].includes(e.key))
+  ) {
+    e.preventDefault();
+  }
+
+});
+
+window.addEventListener("contextmenu", (e) => {
+  e.preventDefault();
+});
+
+window.addEventListener("beforeunload", (e) => {
+
+  if (!isRedirecting) {
+    e.preventDefault();
+    e.returnValue = "";
+  }
+
+});
+
+// ==========================================
+// MOBILE PULL-TO-REFRESH PROTECTION
+// ==========================================
+
+let touchStartY = 0;
+
+window.addEventListener("touchstart", (e) => {
+
+  touchStartY = e.touches[0].clientY;
+
+}, { passive: true });
+
+window.addEventListener("touchmove", (e) => {
+
+  const touchY = e.touches[0].clientY;
+
+  if (window.scrollY === 0 && touchY > touchStartY) {
+    e.preventDefault();
+  }
+
+}, { passive: false });
+
+// ==========================================
+// TOAST NOTIFICATIONS
+// ==========================================
+
+const Toast = Swal.mixin({
+
+  toast: true,
+  position: "top-end",
+  showConfirmButton: false,
+  timer: 2500,
+  timerProgressBar: true
+
+});
+
+// ==========================================
+// MEETING NOT STARTED ALERT
+// ==========================================
+
+function showNotStartedAlert() {
+
+  Swal.fire({
+
+    icon: "info",
+
+    title: "Meeting Not Started",
+
+    html: `
+      The meeting room opens daily at
+      <b>6:00 PM IST</b> and automatically closes at
+      <b>7:00 PM IST</b>.
+
+      <br><br>
+
+      Please come back at <b>6:00 PM</b> to join.
+
+      <br><br>
+
+      <small>Every day, Monday to Sunday</small>
+    `,
+
+    confirmButtonText: "Understood",
+    confirmButtonColor: BRAND_COLOR
+
+  });
+
+}
+
+// ==========================================
+// MEETING CLOSED ALERT
+// ==========================================
+
+function showClosedAlert() {
+
+  Swal.fire({
+
+    icon: "warning",
+
+    title: "Meeting Closed",
+
+    html: `
+      Today's meeting session has ended.
+
+      <br><br>
+
+      The meeting room automatically closes
+      every day at <b>7:00 PM IST</b>.
+
+      <br><br>
+
+      Please join us again tomorrow at
+      <b>6:00 PM IST</b>.
+
+      <br><br>
+
+      <small>We look forward to seeing you!</small>
+    `,
+
+    confirmButtonText: "Understood",
+    confirmButtonColor: BRAND_COLOR
+
+  });
+
+}
+
+// ==========================================
+// HEADER CLOCK (IST)
+// ==========================================
+
+function updateHeaderClock() {
+
+  const now = new Date();
+
+  const time = now.toLocaleTimeString("en-IN", {
+    timeZone: SCHEDULE_TIMEZONE,
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true
+  });
+
+  const date = now.toLocaleDateString("en-IN", {
+    timeZone: SCHEDULE_TIMEZONE,
+    weekday: "short",
+    month: "short",
+    day: "numeric"
+  });
+
+  document.getElementById("clock").textContent =
+    `${time} IST • ${date}`;
+
+}
+
+updateHeaderClock();
+
+setInterval(updateHeaderClock, 1000);
+
+// ==========================================
+// CAROUSEL
+// ==========================================
+
+const slides = document.querySelectorAll(".carousel-slide");
+
+const dots = document.querySelectorAll(".dot");
+
+function showSlide(index) {
+
+  slides.forEach(slide => {
+    slide.classList.remove("active");
+  });
+
+  dots.forEach(dot => {
+    dot.classList.remove("active");
+  });
+
+  currentSlide = (index + slides.length) % slides.length;
+
+  slides[currentSlide].classList.add("active");
+
+  dots[currentSlide].classList.add("active");
+
+}
+
+document.getElementById("nextSlide")
+  .addEventListener("click", () => {
+    showSlide(currentSlide + 1);
+  });
+
+document.getElementById("prevSlide")
+  .addEventListener("click", () => {
+    showSlide(currentSlide - 1);
+  });
+
+dots.forEach(dot => {
+
+  dot.addEventListener("click", () => {
+
+    showSlide(Number(dot.dataset.index));
+
+  });
+
+});
+
+setInterval(() => {
+
+  showSlide(currentSlide + 1);
+
+}, 5000);
+
+// ==========================================
+// JOIN SESSION
+// ==========================================
+
+function handleJoin() {
+
+  const input = document.getElementById("usernameInput");
+
+  const username = input.value.trim().toLowerCase();
+
+  // EMPTY USERNAME
+
+  if (!username) {
+
+    Toast.fire({
+
+      icon: "info",
+
+      title: "Please enter your username"
+
+    });
+
+    input.focus();
+
+    return;
+  }
+
+  // USERNAME VERIFICATION
+
+  if (!ALLOWED_USERS.includes(username)) {
+
+    Swal.fire({
+
+      icon: "warning",
+
+      title: "Access Denied",
+
+      text: "We do not recognise this username in our system. Contact your meeting organiser.",
+
+      confirmButtonColor: BRAND_COLOR
+
+    });
+
+    return;
+  }
+
+  // CHECK MEETING SCHEDULE
+
+  const status = getSessionStatus();
+
+  if (status === "not-started") {
+
+    showNotStartedAlert();
+
+    return;
+  }
+
+  if (status === "closed") {
+
+    showClosedAlert();
+
+    return;
+  }
+
+  // MEETING ACTIVE
+
+  isRedirecting = true;
+
+  window.location.href = MEETING_LINK;
+
+}
+
+// ==========================================
+// SUPPORT DESK
+// ==========================================
+
+document.getElementById("supportLink")
+  .addEventListener("click", (e) => {
+
+    e.preventDefault();
+
+    const url = e.currentTarget.href;
+
+    Swal.fire({
+
+      icon: "question",
+
+      title: "Need help?",
+
+      html: `
+        This opens the Google Meet support page
+        in a new tab.
+
+        <br>
+        Your current page will stay open.
+      `,
+
+      showCancelButton: true,
+
+      confirmButtonText: "Open Support",
+
+      cancelButtonText: "Cancel",
+
+      confirmButtonColor: BRAND_COLOR,
+
+      cancelButtonColor: "#64748b",
+
+      reverseButtons: true
+
+    }).then(result => {
+
+      if (result.isConfirmed) {
+
+        window.open(url, "_blank", "noopener");
+
       }
+
     });
 
-    // Block right-click context menu
-    window.addEventListener('contextmenu', (e) => {
-      e.preventDefault();
-    });
+  });
 
-    // Block browser refresh/navigation attempt silently via beforeunload
-    window.addEventListener('beforeunload', (e) => {
-      if (!isRedirecting) {
-        e.preventDefault();
-        e.returnValue = '';
-      }
-    });
+// ==========================================
+// EVENT LISTENERS
+// ==========================================
 
-    // Disable mobile pull-to-refresh gestures silently
-    let touchStartY = 0;
-    window.addEventListener('touchstart', (e) => {
-      touchStartY = e.touches[0].clientY;
-    }, { passive: true });
+document.getElementById("usernameInput")
+  .addEventListener("keydown", (e) => {
 
-    window.addEventListener('touchmove', (e) => {
-      const touchY = e.touches[0].clientY;
-      const touchDelta = touchY - touchStartY;
-      if (window.scrollY === 0 && touchDelta > 0) {
-        e.preventDefault();
-      }
-    }, { passive: false });
-
-    // Toast helper for empty field warning
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 2500,
-      timerProgressBar: true
-    });
-
-    function formatCountdown(ms) {
-      const total = Math.max(0, Math.floor(ms / 1000));
-      const h = Math.floor(total / 3600);
-      const m = Math.floor((total % 3600) / 60);
-      const s = total % 60;
-      const pad = (n) => String(n).padStart(2, '0');
-      return `${pad(h)}:${pad(m)}:${pad(s)}`;
+    if (e.key === "Enter") {
+      handleJoin();
     }
 
-    // Meeting Not Started alert with live countdown to 6:00 PM
-    function showNotStartedAlert() {
-      const target = new Date();
-      target.setHours(18, 0, 0, 0);
-      let timerInterval;
+  });
 
-      Swal.fire({
-        icon: 'info',
-        title: 'Meeting Not Started',
-        html:
-          'The meeting room opens daily at 6:00 PM.<br><br>' +
-          'Opens in <b id="countdown"></b>',
-        confirmButtonColor: BRAND_COLOR,
-        didOpen: () => {
-          const el = Swal.getHtmlContainer().querySelector('#countdown');
-          const tick = () => {
-            const left = target - new Date();
-            if (left <= 0) {
-              el.textContent = 'now. Please click Join again.';
-              clearInterval(timerInterval);
-              return;
-            }
-            el.textContent = formatCountdown(left);
-          };
-          tick();
-          timerInterval = setInterval(tick, 1000);
-        },
-        willClose: () => {
-          clearInterval(timerInterval);
-        }
-      });
-    }
+document.getElementById("joinBtn")
+  .addEventListener("click", handleJoin);
 
-    // Real-Time Auto-Updating Clock Display
-    function updateHeaderClock() {
-      const now = new Date();
-      let hours = now.getHours();
-      const minutes = String(now.getMinutes()).padStart(2, '0');
-      const ampm = hours >= 12 ? 'PM' : 'AM';
-      hours = hours % 12;
-      hours = hours ? hours : 12;
+</script>
 
-      const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-      const dayName = days[now.getDay()];
-      const monthName = months[now.getMonth()];
-      const dayNum = now.getDate();
-
-      const timeString = `${hours}:${minutes} ${ampm} • ${dayName}, ${monthName} ${dayNum}`;
-      document.getElementById('clock').textContent = timeString;
-    }
-
-    setInterval(updateHeaderClock, 1000);
-    updateHeaderClock();
-
-    // Carousel Logic
-    let currentSlide = 0;
-    const slides = document.querySelectorAll('.carousel-slide');
-    const dots = document.querySelectorAll('.dot');
-
-    function showSlide(index) {
-      slides.forEach(slide => slide.classList.remove('active'));
-      dots.forEach(dot => dot.classList.remove('active'));
-      
-      currentSlide = (index + slides.length) % slides.length;
-      slides[currentSlide].classList.add('active');
-      dots[currentSlide].classList.add('active');
-    }
-
-    document.getElementById('nextSlide').addEventListener('click', () => showSlide(currentSlide + 1));
-    document.getElementById('prevSlide').addEventListener('click', () => showSlide(currentSlide - 1));
-
-    dots.forEach(dot => {
-      dot.addEventListener('click', (e) => {
-        const index = parseInt(e.target.getAttribute('data-index'));
-        showSlide(index);
-      });
-    });
-
-    setInterval(() => {
-      showSlide(currentSlide + 1);
-    }, 5000);
-
-    // Access Handler Logic
-    function handleJoin() {
-      const rawInput = document.getElementById('usernameInput').value;
-      const displayName = rawInput.trim();
-      const cleanedUsername = displayName.toLowerCase();
-
-      if (!cleanedUsername) {
-        Toast.fire({
-          icon: 'info',
-          title: 'Please enter your username'
-        });
-        document.getElementById('usernameInput').focus();
-        return;
-      }
-
-      if (!ALLOWED_USERS.includes(cleanedUsername)) {
-        Swal.fire({
-          icon: 'warning',
-          title: 'Access Denied',
-          text: 'We do not recognise this username in our system. Contact your meeting organiser.',
-          confirmButtonColor: BRAND_COLOR
-        });
-        return;
-      }
-
-      const now = new Date();
-      const currentHour = now.getHours();
-
-      // Daily access: 6:00 PM to before 7:00 PM (18:00 - 18:59)
-      if (currentHour < 18) {
-        showNotStartedAlert();
-        return;
-      }
-
-      if (currentHour >= 19) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Meeting Closed',
-          confirmButtonColor: BRAND_COLOR
-        });
-        return;
-      }
-
-      // Valid credentials within schedule -> allow redirect
-      isRedirecting = true;
-      window.location.href = MEETING_LINK;
-    }
-
-    // Support Link Dialog
-    document.getElementById('supportLink').addEventListener('click', (e) => {
-      e.preventDefault();
-      const url = e.currentTarget.href;
-
-      Swal.fire({
-        icon: 'question',
-        title: 'Need help?',
-        html: 'This opens the Google Meet support page in a new tab.<br>Your current page will stay open.',
-        showCancelButton: true,
-        confirmButtonText: 'Open Support',
-        cancelButtonText: 'Cancel',
-        confirmButtonColor: BRAND_COLOR,
-        cancelButtonColor: '#64748b',
-        reverseButtons: true
-      }).then((result) => {
-        if (result.isConfirmed) {
-          window.open(url, '_blank', 'noopener');
-        }
-      });
-    });
-
-    // Event Listeners for Joining
-    document.getElementById('usernameInput').addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') handleJoin();
-    });
-
-    document.getElementById('joinBtn').addEventListener('click', handleJoin);
-  </script>
 </body>
 </html>
