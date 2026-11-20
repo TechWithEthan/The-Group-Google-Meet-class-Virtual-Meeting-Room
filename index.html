@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
 <title>The Group ( Google Meet Class) | Meeting Portal</title>
 
@@ -48,7 +48,9 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <style>
-* {
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -57,21 +59,22 @@
 html, body {
   width: 100%;
   min-height: 100%;
+  min-height: 100dvh;
   overscroll-behavior-y: none;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  min-height: 100vh;
   background-color: #f8fafc;
   background-image:
     radial-gradient(1000px circle at 15% 10%, rgba(219,234,254,.7), transparent 60%),
     radial-gradient(800px circle at 85% 90%, rgba(224,231,255,.5), transparent 60%),
     linear-gradient(180deg,#fff 0%,#f1f5f9 100%);
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   color: #0f172a;
   display: flex;
   flex-direction: column;
-  overflow-x: hidden;
+  overflow-x: clip;
   position: relative;
 }
 
@@ -98,11 +101,14 @@ body {
 }
 
 .header {
-  height: 76px;
-  padding: 0 48px;
+  min-height: clamp(62px, 8vw, 76px);
+  padding: 10px clamp(16px, 4vw, 48px);
+  padding-left: max(clamp(16px, 4vw, 48px), env(safe-area-inset-left));
+  padding-right: max(clamp(16px, 4vw, 48px), env(safe-area-inset-right));
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
   border-bottom: 1px solid #e2e8f0;
   background: rgba(255,255,255,.88);
   backdrop-filter: blur(12px);
@@ -115,13 +121,14 @@ body {
 .brand-logo {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: clamp(8px, 1.5vw, 12px);
   text-decoration: none;
+  min-width: 0;
 }
 
 .brand-icon {
-  width: 42px;
-  height: 42px;
+  width: clamp(34px, 4.5vw, 42px);
+  height: clamp(34px, 4.5vw, 42px);
   border-radius: 10px;
   overflow: hidden;
   display: flex;
@@ -131,26 +138,33 @@ body {
   box-shadow: 0 2px 6px rgba(11, 59, 84, 0.25);
 }
 
-.brand-icon svg,
-.hero-logo svg {
+.brand-icon svg {
   width: 100%;
   height: 100%;
   display: block;
 }
 
 .brand-text {
-  font-size: 17px;
+  font-size: clamp(13px, 1.6vw, 17px);
   font-weight: 700;
   letter-spacing: -.3px;
   color: #0f172a;
+  line-height: 1.2;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
 }
 
 .header-right {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   background: #f8fafc;
-  padding: 8px 16px;
+  padding: 7px clamp(10px, 1.5vw, 16px);
   border-radius: 8px;
   border: 1px solid #e2e8f0;
 }
@@ -158,16 +172,18 @@ body {
 .status-dot {
   width: 8px;
   height: 8px;
+  flex-shrink: 0;
   background: #10b981;
   border-radius: 50%;
   box-shadow: 0 0 0 3px rgba(16,185,129,.15);
 }
 
 .clock-display {
-  font-size: 13px;
+  font-size: clamp(11px, 1.25vw, 13px);
   color: #334155;
   font-weight: 500;
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
 .main-container {
@@ -177,39 +193,23 @@ body {
   justify-content: center;
   max-width: 1240px;
   margin: 0 auto;
-  padding: 48px 32px;
+  padding: clamp(24px, 5vw, 56px) clamp(16px, 3.5vw, 32px);
+  padding-bottom: max(clamp(24px, 5vw, 56px), env(safe-area-inset-bottom));
   width: 100%;
   z-index: 1;
 }
 
 .content-grid {
   display: grid;
-  grid-template-columns: 1.15fr .85fr;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr);
   align-items: center;
-  gap: 72px;
+  gap: clamp(32px, 5vw, 72px);
   width: 100%;
 }
 
 .left-col {
   width: 100%;
-  max-width: 540px;
-}
-
-.hero-brand-row {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 20px;
-}
-
-.hero-logo {
-  width: 56px;
-  height: 56px;
-  border-radius: 14px;
-  overflow: hidden;
-  flex-shrink: 0;
-  box-shadow: 0 6px 16px rgba(11, 59, 84, 0.22);
-  border: 2px solid #ffffff;
+  max-width: 560px;
 }
 
 .badge {
@@ -223,19 +223,21 @@ body {
   padding: 6px 12px;
   border-radius: 6px;
   border: 1px solid #bfdbfe;
+  margin-bottom: 18px;
 }
 
 .badge svg {
   width: 14px;
   height: 14px;
+  flex-shrink: 0;
 }
 
 .main-heading {
-  font-size: clamp(34px,4vw,46px);
+  font-size: clamp(28px, 4.2vw, 46px);
   line-height: 1.15;
   font-weight: 700;
   color: #0f172a;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
   letter-spacing: -.8px;
 }
 
@@ -244,17 +246,17 @@ body {
 }
 
 .sub-heading {
-  font-size: 16px;
+  font-size: clamp(14.5px, 1.5vw, 16px);
   line-height: 1.6;
   color: #475569;
-  margin-bottom: 32px;
+  margin-bottom: clamp(22px, 3vw, 32px);
 }
 
 .action-row {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   gap: 12px;
-  margin-bottom: 28px;
+  margin-bottom: 24px;
   width: 100%;
 }
 
@@ -263,6 +265,7 @@ body {
   display: flex;
   align-items: center;
   flex: 1;
+  min-width: 0;
 }
 
 .input-icon {
@@ -270,24 +273,26 @@ body {
   left: 16px;
   color: #64748b;
   pointer-events: none;
+  flex-shrink: 0;
 }
 
 .input-wrapper input {
   width: 100%;
-  height: 50px;
+  height: clamp(46px, 5vw, 50px);
   padding: 0 16px 0 46px;
   border: 1px solid #cbd5e1;
   background: white;
   border-radius: 8px;
-  font-size: 15px;
+  font-size: 16px; /* Prevents iOS Safari auto-zoom on focus */
   font-family: inherit;
   color: #0f172a;
   outline: none;
-  transition: all .2s ease;
+  transition: border-color .2s ease, box-shadow .2s ease;
 }
 
 .input-wrapper input::placeholder {
   color: #94a3b8;
+  font-size: 15px;
 }
 
 .input-wrapper input:focus {
@@ -296,8 +301,8 @@ body {
 }
 
 .join-btn {
-  height: 50px;
-  padding: 0 28px;
+  height: clamp(46px, 5vw, 50px);
+  padding: 0 clamp(20px, 2.5vw, 28px);
   background: #1d4ed8;
   color: white;
   border: none;
@@ -308,7 +313,7 @@ body {
   cursor: pointer;
   white-space: nowrap;
   box-shadow: 0 4px 10px rgba(29,78,216,.2);
-  transition: all .2s ease;
+  transition: background-color .2s ease, transform .1s ease;
 }
 
 .join-btn:hover {
@@ -322,15 +327,16 @@ body {
 .divider {
   height: 1px;
   background: #e2e8f0;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .meta-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: 10px;
-  font-size: 13px;
+  font-size: clamp(12px, 1.2vw, 13px);
   color: #64748b;
 }
 
@@ -358,12 +364,13 @@ body {
 }
 
 .card-top-bar {
-  padding: 16px 24px;
+  padding: 14px clamp(16px, 2.2vw, 24px);
   background: #f8fafc;
   border-bottom: 1px solid #e2e8f0;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
 }
 
 .card-top-title {
@@ -376,18 +383,22 @@ body {
 
 .carousel-nav-group {
   display: flex;
-  gap: 6px;
+  gap: 8px;
 }
 
 .nav-arrow {
   background: white;
   border: 1px solid #cbd5e1;
-  width: 28px;
-  height: 28px;
-  border-radius: 6px;
-  font-size: 11px;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  font-size: 12px;
   color: #475569;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: manipulation;
 }
 
 .nav-arrow:hover {
@@ -395,7 +406,7 @@ body {
 }
 
 .carousel-body {
-  padding: 40px 32px;
+  padding: clamp(28px, 4vw, 40px) clamp(20px, 3vw, 32px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -414,20 +425,20 @@ body {
 }
 
 .carousel-image {
-  width: 72px;
-  height: 72px;
+  width: clamp(60px, 7vw, 72px);
+  height: clamp(60px, 7vw, 72px);
   border-radius: 14px;
   background: #eff6ff;
   border: 1px solid #dbeafe;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
   color: #1d4ed8;
 }
 
 .carousel-title {
-  font-size: 18px;
+  font-size: clamp(16px, 1.8vw, 18px);
   font-weight: 600;
   color: #0f172a;
   margin-bottom: 10px;
@@ -437,41 +448,43 @@ body {
   font-size: 14px;
   line-height: 1.6;
   color: #475569;
-  max-width: 320px;
-  min-height: 46px;
-  margin-bottom: 24px;
+  max-width: 340px;
+  min-height: 48px;
+  margin-bottom: 22px;
 }
 
 .carousel-dots {
   display: flex;
-  gap: 6px;
+  gap: 8px;
+  align-items: center;
 }
 
 .dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 3px;
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
   background: #cbd5e1;
   cursor: pointer;
   transition: all .25s ease;
 }
 
 .dot.active {
-  width: 20px;
+  width: 22px;
   background: #1d4ed8;
 }
 
 .swal2-popup {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  width: min(92vw, 440px) !important;
+  font-size: clamp(14px, 1.4vw, 16px) !important;
 }
 
 .install-btn {
   display: none;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   height: 36px;
-  padding: 0 14px;
-  margin-right: 12px;
+  padding: 0 12px;
   background: #1d4ed8;
   color: #fff;
   border: none;
@@ -491,61 +504,40 @@ body {
   display: inline-flex;
 }
 
-.header-actions {
-  display: flex;
-  align-items: center;
-}
-
-@media (max-width: 1024px) {
-  .content-grid {
-    gap: 40px;
-  }
-}
-
-@media (max-width: 768px) {
-  .header {
-    padding: 0 20px;
-    height: 68px;
-  }
-
-  .brand-icon {
-    width: 36px;
-    height: 36px;
-  }
-
-  .brand-text {
-    font-size: 14px;
-  }
-
-  .clock-display {
-    font-size: 11px;
-  }
-
-  .header-right {
-    padding: 7px 9px;
-  }
-
-  .main-container {
-    padding: 24px 16px;
-    align-items: flex-start;
-  }
-
+/* Tablet & smaller screens */
+@media (max-width: 900px) {
   .content-grid {
     grid-template-columns: 1fr;
-    gap: 36px;
+    max-width: 600px;
+  }
+
+  .left-col {
+    max-width: 100%;
+  }
+}
+
+/* Compact phone screens */
+@media (max-width: 560px) {
+  .brand-text span.sub-label {
+    display: none;
+  }
+
+  .install-btn span.install-label {
+    display: none;
+  }
+
+  .install-btn {
+    width: 36px;
+    padding: 0;
+    justify-content: center;
   }
 
   .action-row {
     flex-direction: column;
-    align-items: stretch;
   }
 
   .join-btn {
     width: 100%;
-  }
-
-  .meta-footer {
-    flex-wrap: wrap;
   }
 }
 </style>
@@ -567,18 +559,13 @@ body {
     </linearGradient>
     <symbol id="the-group-logo" viewBox="0 0 120 120">
       <rect width="120" height="120" fill="url(#portalBgGrad)"/>
-      <!-- Outer C Ring Shadow -->
       <path d="M 94 38 A 40 40 0 1 0 88 94 L 78 82 A 24 24 0 1 1 82 48 Z" fill="#07283a" opacity="0.55" transform="translate(2, 4)"/>
-      <!-- Outer C Ring -->
       <path d="M 94 36 A 40 40 0 1 0 88 92 L 78 80 A 24 24 0 1 1 82 46 Z" fill="url(#portalGoldGrad)"/>
-      <!-- Inner Play Triangle -->
       <path d="M 52 44 L 74 58 C 76 59.3 76 61.7 74 63 L 52 77 C 50 78.2 48 76.8 48 74.5 L 48 46.5 C 48 44.2 50 42.8 52 44 Z" fill="#07283a" opacity="0.45" transform="translate(1.5, 2.5)"/>
       <path d="M 52 43 L 74 57 C 76 58.3 76 60.7 74 62 L 52 76 C 50 77.2 48 75.8 48 73.5 L 48 45.5 C 48 43.2 50 41.8 52 43 Z" fill="url(#portalGoldGrad)"/>
-      <!-- Upper Right Abstract Person / Swoop -->
       <circle cx="94" cy="46" r="6.5" fill="url(#portalGoldGrad)"/>
       <path d="M 76 66 C 82 57 94 56 104 60 C 99 65 89 65 76 66 Z" fill="url(#portalGoldGrad)"/>
       <path d="M 76 66 C 89 65 99 65 104 60 L 101 82 L 82 86 Z" fill="#093044" opacity="0.7"/>
-      <!-- Lower Right Person Icon -->
       <circle cx="94" cy="83" r="6.5" fill="url(#portalGoldGrad)"/>
       <path d="M 81 103 C 81 94.5 107 94.5 107 103 Z" fill="url(#portalGoldGrad)"/>
     </symbol>
@@ -589,24 +576,16 @@ body {
 <div class="bg-pattern"></div>
 
 <!-- HEADER -->
-
 <header class="header">
-
   <a href="#" class="brand-logo">
-
     <div class="brand-icon">
       <svg aria-hidden="true"><use href="#the-group-logo"></use></svg>
     </div>
-
-    <div>
-      <span class="brand-text">The Group (Google Meet Class)</span>
-    </div>
-
+    <span class="brand-text">The Group <span class="sub-label">(Google Meet Class)</span></span>
   </a>
 
   <div class="header-actions">
-
-    <button class="install-btn" id="installBtn" type="button">
+    <button class="install-btn" id="installBtn" type="button" aria-label="Install App">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
            stroke="currentColor" stroke-width="2.2"
            stroke-linecap="round" stroke-linejoin="round">
@@ -614,29 +593,22 @@ body {
         <path d="M7 11l5 5 5-5"></path>
         <path d="M5 21h14"></path>
       </svg>
-      Install App
+      <span class="install-label">Install App</span>
     </button>
 
     <div class="header-right">
       <span class="status-dot"></span>
       <span class="clock-display" id="clock"></span>
     </div>
-
   </div>
-
 </header>
 
 <!-- MAIN CONTENT -->
-
 <main class="main-container">
+  <div class="content-grid">
 
-<div class="content-grid">
-
-  <!-- LEFT COLUMN -->
-
-  <div class="left-col">
-
-
+    <!-- LEFT COLUMN -->
+    <div class="left-col">
       <div class="badge">
         <svg viewBox="0 0 24 24" fill="none"
              stroke="currentColor" stroke-width="2.2">
@@ -645,185 +617,152 @@ body {
         </svg>
         Authorized Session Access
       </div>
-    </div>
 
-    <h1 class="main-heading">
-      Virtual Classroom &<br>
-      <span>Briefing Portal</span>
-    </h1>
+      <h1 class="main-heading">
+        Virtual Classroom &<br>
+        <span>Briefing Portal</span>
+      </h1>
 
-    <p class="sub-heading">
-      Enter your assigned participant username below
-      to authenticate and join your scheduled Google Meet session.
-    </p>
+      <p class="sub-heading">
+        Enter your assigned participant username below
+        to authenticate and join your scheduled Google Meet session.
+      </p>
 
-    <div class="action-row">
+      <div class="action-row">
+        <div class="input-wrapper">
+          <svg class="input-icon" width="18" height="18"
+               viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
 
-      <div class="input-wrapper">
+          <input
+            type="text"
+            id="usernameInput"
+            placeholder="Enter username"
+            autocomplete="off"
+            autocapitalize="none"
+          >
+        </div>
 
-        <svg class="input-icon" width="18" height="18"
-             viewBox="0 0 24 24" fill="none"
-             stroke="currentColor" stroke-width="2">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-          <circle cx="12" cy="7" r="4"></circle>
-        </svg>
-
-        <input
-          type="text"
-          id="usernameInput"
-          placeholder="Enter username"
-          autocomplete="off"
-        >
-
+        <button class="join-btn" id="joinBtn" type="button">
+          Join Session
+        </button>
       </div>
 
-      <button class="join-btn" id="joinBtn">
-        Join Session
-      </button>
+      <div class="divider"></div>
 
+      <div class="meta-footer">
+        <span>
+          Session Window: 6:00 PM – 7:00 PM IST (Every Day)
+        </span>
+
+        <a href="https://support.google.com/meet"
+           id="supportLink"
+           target="_blank"
+           rel="noopener">
+          IT Support Desk →
+        </a>
+      </div>
     </div>
 
-    <div class="divider"></div>
+    <!-- RIGHT COLUMN -->
+    <div class="right-col">
+      <div class="card-top-bar">
+        <span class="card-top-title">
+          Portal Guidelines
+        </span>
 
-    <div class="meta-footer">
+        <div class="carousel-nav-group">
+          <button class="nav-arrow" id="prevSlide" type="button" aria-label="Previous Slide">❮</button>
+          <button class="nav-arrow" id="nextSlide" type="button" aria-label="Next Slide">❯</button>
+        </div>
+      </div>
 
-      <span>
-        Session Window: 6:00 PM – 7:00 PM IST (Every Day)
-      </span>
+      <div class="carousel-body">
+        <!-- SLIDE 1 -->
+        <div class="carousel-slide active" data-index="0">
+          <div class="carousel-image">
+            <svg width="32" height="32" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor"
+                 stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+          </div>
 
-      <a href="https://support.google.com/meet"
-         id="supportLink"
-         target="_blank"
-         rel="noopener">
-        IT Support Desk →
-      </a>
+          <h2 class="carousel-title">
+            Scheduled Availability
+          </h2>
 
+          <p class="carousel-desc">
+            Live sessions operate strictly between
+            6:00 PM and 7:00 PM IST every day, Monday to Sunday.
+            Early or late connections are automatically restricted.
+          </p>
+        </div>
+
+        <!-- SLIDE 2 -->
+        <div class="carousel-slide" data-index="1">
+          <div class="carousel-image">
+            <svg width="32" height="32" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor"
+                 stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+          </div>
+
+          <h2 class="carousel-title">
+            Verified Roster
+          </h2>
+
+          <p class="carousel-desc">
+            Only registered member credentials
+            (avadhoot, ethan) are permitted to access
+            the active conference bridge.
+          </p>
+        </div>
+
+        <!-- SLIDE 3 -->
+        <div class="carousel-slide" data-index="2">
+          <div class="carousel-image">
+            <svg width="32" height="32" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor"
+                 stroke-width="2">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+          </div>
+
+          <h2 class="carousel-title">
+            Secure Portal
+          </h2>
+
+          <p class="carousel-desc">
+            Access is restricted outside the scheduled
+            meeting hours. Please use your registered
+            username to join.
+          </p>
+        </div>
+
+        <!-- DOTS -->
+        <div class="carousel-dots" id="carouselDots">
+          <span class="dot active" data-index="0"></span>
+          <span class="dot" data-index="1"></span>
+          <span class="dot" data-index="2"></span>
+        </div>
+      </div>
     </div>
 
   </div>
-
-  <!-- RIGHT COLUMN -->
-
-  <div class="right-col">
-
-    <div class="card-top-bar">
-
-      <span class="card-top-title">
-        Portal Guidelines
-      </span>
-
-      <div class="carousel-nav-group">
-
-        <button class="nav-arrow" id="prevSlide"
-                aria-label="Previous Slide">❮</button>
-
-        <button class="nav-arrow" id="nextSlide"
-                aria-label="Next Slide">❯</button>
-
-      </div>
-
-    </div>
-
-    <div class="carousel-body">
-
-      <!-- SLIDE 1 -->
-
-      <div class="carousel-slide active" data-index="0">
-
-        <div class="carousel-image">
-          <svg width="32" height="32" viewBox="0 0 24 24"
-               fill="none" stroke="currentColor"
-               stroke-width="2">
-            <rect x="3" y="4" width="18" height="18" rx="2"></rect>
-            <line x1="16" y1="2" x2="16" y2="6"></line>
-            <line x1="8" y1="2" x2="8" y2="6"></line>
-            <line x1="3" y1="10" x2="21" y2="10"></line>
-          </svg>
-        </div>
-
-        <h2 class="carousel-title">
-          Scheduled Availability
-        </h2>
-
-        <p class="carousel-desc">
-          Live sessions operate strictly between
-          6:00 PM and 7:00 PM IST every day, Monday to Sunday.
-          Early or late connections are automatically restricted.
-        </p>
-
-      </div>
-
-      <!-- SLIDE 2 -->
-
-      <div class="carousel-slide" data-index="1">
-
-        <div class="carousel-image">
-          <svg width="32" height="32" viewBox="0 0 24 24"
-               fill="none" stroke="currentColor"
-               stroke-width="2">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-          </svg>
-        </div>
-
-        <h2 class="carousel-title">
-          Verified Roster
-        </h2>
-
-        <p class="carousel-desc">
-          Only registered member credentials
-          (avadhoot, ethan) are permitted to access
-          the active conference bridge.
-        </p>
-
-      </div>
-
-      <!-- SLIDE 3 -->
-
-      <div class="carousel-slide" data-index="2">
-
-        <div class="carousel-image">
-          <svg width="32" height="32" viewBox="0 0 24 24"
-               fill="none" stroke="currentColor"
-               stroke-width="2">
-            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-            <circle cx="9" cy="7" r="4"></circle>
-            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-          </svg>
-        </div>
-
-        <h2 class="carousel-title">
-          Secure Portal
-        </h2>
-
-        <p class="carousel-desc">
-          Access is restricted outside the scheduled
-          meeting hours. Please use your registered
-          username to join.
-        </p>
-
-      </div>
-
-      <!-- DOTS -->
-
-      <div class="carousel-dots" id="carouselDots">
-
-        <span class="dot active" data-index="0"></span>
-        <span class="dot" data-index="1"></span>
-        <span class="dot" data-index="2"></span>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</div>
-
 </main>
 
 <script>
-
 // ==========================================
 // THE GROUP - DAILY MEETING SYSTEM
 // ==========================================
@@ -849,7 +788,6 @@ let currentSlide = 0;
 // ==========================================
 
 function getISTSecondsOfDay() {
-
   const parts = new Intl.DateTimeFormat("en-GB", {
     timeZone: SCHEDULE_TIMEZONE,
     hour: "numeric",
@@ -873,7 +811,6 @@ function getISTSecondsOfDay() {
 // ==========================================
 
 function getSessionStatus() {
-
   const seconds = getISTSecondsOfDay();
 
   if (seconds < OPEN_HOUR * 3600) {
@@ -892,7 +829,6 @@ function getSessionStatus() {
 // ==========================================
 
 window.addEventListener("keydown", (e) => {
-
   if (
     e.key === "F5" ||
     ((e.ctrlKey || e.metaKey) &&
@@ -900,7 +836,6 @@ window.addEventListener("keydown", (e) => {
   ) {
     e.preventDefault();
   }
-
 });
 
 window.addEventListener("contextmenu", (e) => {
@@ -908,12 +843,10 @@ window.addEventListener("contextmenu", (e) => {
 });
 
 window.addEventListener("beforeunload", (e) => {
-
   if (!isRedirecting) {
     e.preventDefault();
     e.returnValue = "";
   }
-
 });
 
 // ==========================================
@@ -923,19 +856,15 @@ window.addEventListener("beforeunload", (e) => {
 let touchStartY = 0;
 
 window.addEventListener("touchstart", (e) => {
-
   touchStartY = e.touches[0].clientY;
-
 }, { passive: true });
 
 window.addEventListener("touchmove", (e) => {
-
   const touchY = e.touches[0].clientY;
 
   if (window.scrollY === 0 && touchY > touchStartY) {
     e.preventDefault();
   }
-
 }, { passive: false });
 
 // ==========================================
@@ -943,13 +872,11 @@ window.addEventListener("touchmove", (e) => {
 // ==========================================
 
 const Toast = Swal.mixin({
-
   toast: true,
   position: "top-end",
   showConfirmButton: false,
   timer: 2500,
   timerProgressBar: true
-
 });
 
 // ==========================================
@@ -957,13 +884,9 @@ const Toast = Swal.mixin({
 // ==========================================
 
 function showNotStartedAlert() {
-
   Swal.fire({
-
     icon: "info",
-
     title: "Meeting Not Started",
-
     html: `
       The meeting room opens daily at
       <b>6:00 PM IST</b> and automatically closes at
@@ -977,11 +900,8 @@ function showNotStartedAlert() {
 
       <small>Every day, Monday to Sunday</small>
     `,
-
     confirmButtonColor: BRAND_COLOR
-
   });
-
 }
 
 // ==========================================
@@ -989,13 +909,9 @@ function showNotStartedAlert() {
 // ==========================================
 
 function showClosedAlert() {
-
   Swal.fire({
-
     icon: "warning",
-
     title: "Meeting Closed",
-
     html: `
       Today's meeting session has ended.
 
@@ -1013,11 +929,8 @@ function showClosedAlert() {
 
       <small>We look forward to seeing you!</small>
     `,
-
     confirmButtonColor: BRAND_COLOR
-
   });
-
 }
 
 // ==========================================
@@ -1025,7 +938,6 @@ function showClosedAlert() {
 // ==========================================
 
 function updateHeaderClock() {
-
   const now = new Date();
 
   const time = now.toLocaleTimeString("en-IN", {
@@ -1044,11 +956,9 @@ function updateHeaderClock() {
 
   document.getElementById("clock").textContent =
     `${time} IST • ${date}`;
-
 }
 
 updateHeaderClock();
-
 setInterval(updateHeaderClock, 1000);
 
 // ==========================================
@@ -1056,11 +966,9 @@ setInterval(updateHeaderClock, 1000);
 // ==========================================
 
 const slides = document.querySelectorAll(".carousel-slide");
-
 const dots = document.querySelectorAll(".dot");
 
 function showSlide(index) {
-
   slides.forEach(slide => {
     slide.classList.remove("active");
   });
@@ -1072,9 +980,7 @@ function showSlide(index) {
   currentSlide = (index + slides.length) % slides.length;
 
   slides[currentSlide].classList.add("active");
-
   dots[currentSlide].classList.add("active");
-
 }
 
 document.getElementById("nextSlide")
@@ -1088,19 +994,13 @@ document.getElementById("prevSlide")
   });
 
 dots.forEach(dot => {
-
   dot.addEventListener("click", () => {
-
     showSlide(Number(dot.dataset.index));
-
   });
-
 });
 
 setInterval(() => {
-
   showSlide(currentSlide + 1);
-
 }, 5000);
 
 // ==========================================
@@ -1108,63 +1008,42 @@ setInterval(() => {
 // ==========================================
 
 function handleJoin() {
-
   const input = document.getElementById("usernameInput");
-
   const username = input.value.trim().toLowerCase();
 
   if (!username) {
-
     Toast.fire({
-
       icon: "info",
-
       title: "Please enter your username"
-
     });
-
     input.focus();
-
     return;
   }
 
   if (!ALLOWED_USERS.includes(username)) {
-
     Swal.fire({
-
       icon: "warning",
-
       title: "Access Denied",
-
       text: "We do not recognise this username in our system. Contact your meeting organiser.",
-
       confirmButtonColor: BRAND_COLOR
-
     });
-
     return;
   }
 
   const status = getSessionStatus();
 
   if (status === "not-started") {
-
     showNotStartedAlert();
-
     return;
   }
 
   if (status === "closed") {
-
     showClosedAlert();
-
     return;
   }
 
   isRedirecting = true;
-
   window.location.href = MEETING_LINK;
-
 }
 
 // ==========================================
@@ -1173,17 +1052,12 @@ function handleJoin() {
 
 document.getElementById("supportLink")
   .addEventListener("click", (e) => {
-
     e.preventDefault();
-
     const url = e.currentTarget.href;
 
     Swal.fire({
-
       icon: "question",
-
       title: "Need help?",
-
       html: `
         This opens the Google Meet support page
         in a new tab.
@@ -1191,29 +1065,17 @@ document.getElementById("supportLink")
         <br>
         Your current page will stay open.
       `,
-
       showCancelButton: true,
-
       confirmButtonText: "Open Support",
-
       cancelButtonText: "Cancel",
-
       confirmButtonColor: BRAND_COLOR,
-
       cancelButtonColor: "#64748b",
-
       reverseButtons: true
-
     }).then(result => {
-
       if (result.isConfirmed) {
-
         window.open(url, "_blank", "noopener");
-
       }
-
     });
-
   });
 
 // ==========================================
@@ -1222,11 +1084,9 @@ document.getElementById("supportLink")
 
 document.getElementById("usernameInput")
   .addEventListener("keydown", (e) => {
-
     if (e.key === "Enter") {
       handleJoin();
     }
-
   });
 
 document.getElementById("joinBtn")
@@ -1262,7 +1122,6 @@ window.addEventListener("appinstalled", () => {
   deferredInstallPrompt = null;
   Toast.fire({ icon: "success", title: "App installed" });
 });
-
 </script>
 
 </body>
