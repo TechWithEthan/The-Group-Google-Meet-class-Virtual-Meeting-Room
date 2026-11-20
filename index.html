@@ -12,37 +12,9 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="The Group ( Google Meet Class) ">
 
-<!-- Replace YOUR_LOGO_BASE64_STRING with your PNG's base64 string (or replace the entire href with your hosted logo URL) -->
-<link id="faviconLink" rel="icon" type="image/png" sizes="192x192" href="data:image/png;base64,YOUR_LOGO_BASE64_STRING">
-<link id="appleTouchIcon" rel="apple-touch-icon" href="data:image/png;base64,YOUR_LOGO_BASE64_STRING">
-
-<script>
-// Build the web app manifest in-page using the icon from <link id="faviconLink"> so everything stays in one file.
-(function () {
-  var iconHref = document.getElementById("faviconLink").getAttribute("href");
-  var url = location.href.split('#')[0];
-  var manifest = {
-    name: "The Group - Meeting Portal",
-    short_name: "The Group",
-    description: "Virtual Classroom & Briefing Portal for The Group daily Google Meet session.",
-    start_url: url,
-    scope: url.substring(0, url.lastIndexOf('/') + 1),
-    display: "standalone",
-    background_color: "#f8fafc",
-    theme_color: "#1d4ed8",
-    icons: [
-      { src: iconHref, sizes: "192x192", type: "image/png", purpose: "any" },
-      { src: iconHref, sizes: "512x512", type: "image/png", purpose: "any" },
-      { src: iconHref, sizes: "512x512", type: "image/png", purpose: "maskable" }
-    ]
-  };
-  var blobUrl = URL.createObjectURL(new Blob([JSON.stringify(manifest)], { type: "application/manifest+json" }));
-  var link = document.createElement("link");
-  link.rel = "manifest";
-  link.href = blobUrl;
-  document.head.appendChild(link);
-})();
-</script>
+<!-- Optional: replace href with a base64 PNG string or hosted logo URL; otherwise the inline SVG logo is used automatically -->
+<link id="faviconLink" rel="icon" type="image/png" sizes="192x192" href="">
+<link id="appleTouchIcon" rel="apple-touch-icon" href="">
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -283,7 +255,7 @@ body {
   border: 1px solid #cbd5e1;
   background: white;
   border-radius: 8px;
-  font-size: 16px; /* Prevents iOS Safari auto-zoom on focus */
+  font-size: 16px;
   font-family: inherit;
   color: #0f172a;
   outline: none;
@@ -504,7 +476,6 @@ body {
   display: inline-flex;
 }
 
-/* Tablet & smaller screens */
 @media (max-width: 900px) {
   .content-grid {
     grid-template-columns: 1fr;
@@ -516,7 +487,6 @@ body {
   }
 }
 
-/* Compact phone screens */
 @media (max-width: 560px) {
   .brand-text span.sub-label {
     display: none;
@@ -546,7 +516,7 @@ body {
 <body>
 
 <!-- Reusable SVG Symbol Definition for the Custom Logo -->
-<svg width="0" height="0" style="position:absolute;visibility:hidden;" aria-hidden="true">
+<svg id="logoSourceSvg" width="0" height="0" style="position:absolute;visibility:hidden;" aria-hidden="true">
   <defs>
     <linearGradient id="portalBgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#1e6a87"/>
@@ -571,6 +541,77 @@ body {
     </symbol>
   </defs>
 </svg>
+
+<script>
+// Generate PNG data URL from #the-group-logo (or keep a custom href if set on #faviconLink),
+// then wire up the favicon, Apple touch icon, and inline PWA manifest.
+(function () {
+  var faviconEl = document.getElementById("faviconLink");
+  var appleEl = document.getElementById("appleTouchIcon");
+  var customHref = (faviconEl.getAttribute("href") || "").trim();
+
+  function applyIcons(iconHref) {
+    faviconEl.href = iconHref;
+    appleEl.href = iconHref;
+
+    var url = location.href.split('#')[0];
+    var manifest = {
+      name: "The Group - Meeting Portal",
+      short_name: "The Group",
+      description: "Virtual Classroom & Briefing Portal for The Group daily Google Meet session.",
+      start_url: url,
+      scope: url.substring(0, url.lastIndexOf('/') + 1),
+      display: "standalone",
+      background_color: "#f8fafc",
+      theme_color: "#1d4ed8",
+      icons: [
+        { src: iconHref, sizes: "192x192", type: "image/png", purpose: "any" },
+        { src: iconHref, sizes: "512x512", type: "image/png", purpose: "any" },
+        { src: iconHref, sizes: "512x512", type: "image/png", purpose: "maskable" }
+      ]
+    };
+
+    var blobUrl = URL.createObjectURL(new Blob([JSON.stringify(manifest)], { type: "application/manifest+json" }));
+    var link = document.createElement("link");
+    link.rel = "manifest";
+    link.href = blobUrl;
+    document.head.appendChild(link);
+  }
+
+  if (customHref) {
+    applyIcons(customHref);
+    return;
+  }
+
+  var sourceSvg = document.getElementById("logoSourceSvg");
+  var svgMarkup =
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="512" height="512">' +
+      sourceSvg.querySelector("defs").outerHTML +
+      '<use href="#the-group-logo"/>' +
+    '</svg>';
+
+  var svgBlob = new Blob([svgMarkup], { type: "image/svg+xml;charset=utf-8" });
+  var svgUrl = URL.createObjectURL(svgBlob);
+  var img = new Image();
+
+  img.onload = function () {
+    var canvas = document.createElement("canvas");
+    canvas.width = 512;
+    canvas.height = 512;
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, 512, 512);
+    URL.revokeObjectURL(svgUrl);
+    applyIcons(canvas.toDataURL("image/png"));
+  };
+
+  img.onerror = function () {
+    URL.revokeObjectURL(svgUrl);
+    applyIcons("data:image/svg+xml;charset=utf-8," + encodeURIComponent(svgMarkup));
+  };
+
+  img.src = svgUrl;
+})();
+</script>
 
 <div class="top-accent-bar"></div>
 <div class="bg-pattern"></div>
