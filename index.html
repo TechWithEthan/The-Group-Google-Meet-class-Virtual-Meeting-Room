@@ -11,32 +11,100 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="The Group ( Google Meet Class) ">
-<link rel="icon" type="image/png" sizes="192x192" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAEl0lEQVR4Xu3dYXLaRgCG4ZDJOdyruDdITureoLlKcxF3cAYHbBBaaSV293ue/wGq+V5WQCc5fHmwp+eX1we/BB7o188fhwc+/Zfdn9zgmbJ3ELsEYPQssUcMmwZg+NSwZQibBGD4bGGLEKoGYPjsoWYIVQIwfB6hRghf175w4+dRamxvVQA1XgCssXaDi26B1j4pbGHJLVHxCWD8tGrJNosCWPIEsKfSjc4OoPSB4VFKtjorgJIHhBbM3eysAGBUdwOYWxK0Zs52JwOY8wDQsnsbvhnAvT8IvZja8t1bIBjZ1QC8+zOaW5t2AhDtUwDe/RnVtW07AYh2EYB3f0b3ceNOAKK9B+DdnxTnW3cCEE0ARHsLwO0PaU6bdwIQTQBEEwDRDu7/SeYEIJoAiCYAogmAaAIgmgCIJgCiCYBoAiCaAIgmAKIJgGgCIJoAiCYAogmAaAIgmgCIJgCiCYBoAiCaAIgmAKIJgGgCIJoAiPatp//6//793tPL3dxff/+z+XOMrou/G9TwpwlhuaYDMPwyQijX7GcA4y/nmpVrNgDYQ5MBeCdbzrUr02QAjKnFOJsLoMWL1JsWr2GLr+mouQAYT6vjFwCba3n8R139Ekw/Wh/+iVsgqutl/G6BqK6n8QuAqnobvwCopsfxC4Aqeh2/AFit5/ELgFV6H/+R3wEoNsLwT/wOQJGRxu8WiCKjjV8AzDbi+AXALKOOXwDcNfL4BcCk0ccvAG5KGP+R3wG4kDL8E78D8C5t/G6BiB6/AHiT+M7vFoj48TsBwiW/8zsBwhn/b74FCmT8f/gdIIjhf+YECGH81wkggPHfJoDBGf80AQzOvxsmgHgicAsU7xiBEHwLFE8El3wGCCSCPwQQSgS/CSCYCAQQLz0CJwDR3xAJgHeJp4EAuJAWgQD4JCkCAXBVSgQC4KaECATApNH/HyIBMMuop4EAmG3ECARAkdEiEADFRopAACwySgQCYLERviESAKv1fBoIgCp6jUAAVNNjBAKgqt4iEADV9RSBANhEL98QCYBNtX4aCIDNtRyBANhFqxE0F0CrF6onrV7DFl9XcwHAnpoMoMV3il64dmWaDAD20mwA3snKuWblDk/PL6/lf2xf/p2raYa/XBcBnAjhkuGv11UAUFuznwFgDwIgmgCIJgCiCYBoAiCaAIgmAKIJgGgCIJoAiCYAogmAaAIgmgCIJgCiCYBoAiCaAIgmAKIJgGgCIJoAiCYAogmAaF9//fxxiL4CxDpu3wlANAEQTQBEewvA5wDSnDbvBCCaAIj2HoDbIFKcb90JQLSLAJwCjO7jxp0ARPsUgFOAUV3bthOAaFcDcAowmlubdgIQ7WYATgFGMbXlyRNABPTu3obv3gLdewBo1Zzt3g0ARjYrgDklQUvmbnZWAEdzHxAerWSrswMQAT0oGf9RUQAioGWl4z9a9VeiPD2/vLZ8QciwZPgnxSfAuTVPDDWs3eCqANwS8Uhrx7/6Fugjt0TsocbwT1Z9BrhFCGyh5vA3DeBECNSwxfB3CUAIrLHl8HcN4JxTgSl7jP7cJp8BSggi296D/+h/zURC9VT3OsAAAAAASUVORK5CYII=">
-<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAEl0lEQVR4Xu3dYXLaRgCG4ZDJOdyruDdITureoLlKcxF3cAYHbBBaaSV293ue/wGq+V5WQCc5fHmwp+eX1we/BB7o188fhwc+/Zfdn9zgmbJ3ELsEYPQssUcMmwZg+NSwZQibBGD4bGGLEKoGYPjsoWYIVQIwfB6hRghf175w4+dRamxvVQA1XgCssXaDi26B1j4pbGHJLVHxCWD8tGrJNosCWPIEsKfSjc4OoPSB4VFKtjorgJIHhBbM3eysAGBUdwOYWxK0Zs52JwOY8wDQsnsbvhnAvT8IvZja8t1bIBjZ1QC8+zOaW5t2AhDtUwDe/RnVtW07AYh2EYB3f0b3ceNOAKK9B+DdnxTnW3cCEE0ARHsLwO0PaU6bdwIQTQBEEwDRDu7/SeYEIJoAiCYAogmAaAIgmgCIJgCiCYBoAiCaAIgmAKIJgGgCIJoAiCYAogmAaAIgmgCIJgCiCYBoAiCaAIgmAKIJgGgCIJoAiPatp//6//793tPL3dxff/+z+XOMrou/G9TwpwlhuaYDMPwyQijX7GcA4y/nmpVrNgDYQ5MBeCdbzrUr02QAjKnFOJsLoMWL1JsWr2GLr+mouQAYT6vjFwCba3n8R139Ekw/Wh/+iVsgqutl/G6BqK6n8QuAqnobvwCopsfxC4Aqeh2/AFit5/ELgFV6H/+R3wEoNsLwT/wOQJGRxu8WiCKjjV8AzDbi+AXALKOOXwDcNfL4BcCk0ccvAG5KGP+R3wG4kDL8E78D8C5t/G6BiB6/AHiT+M7vFoj48TsBwiW/8zsBwhn/b74FCmT8f/gdIIjhf+YECGH81wkggPHfJoDBGf80AQzOvxsmgHgicAsU7xiBEHwLFE8El3wGCCSCPwQQSgS/CSCYCAQQLz0CJwDR3xAJgHeJp4EAuJAWgQD4JCkCAXBVSgQC4KaECATApNH/HyIBMMuop4EAmG3ECARAkdEiEADFRopAACwySgQCYLERviESAKv1fBoIgCp6jUAAVNNjBAKgqt4iEADV9RSBANhEL98QCYBNtX4aCIDNtRyBANhFqxE0F0CrF6onrV7DFl9XcwHAnpoMoMV3il64dmWaDAD20mwA3snKuWblDk/PL6/lf2xf/p2raYa/XBcBnAjhkuGv11UAUFuznwFgDwIgmgCIJgCiCYBoAiCaAIgmAKIJgGgCIJoAiCYAogmAaAIgmgCIJgCiCYBoAiCaAIgmAKIJgGgCIJoAiCYAogmAaF9//fxxiL4CxDpu3wlANAEQTQBEewvA5wDSnDbvBCCaAIj2HoDbIFKcb90JQLSLAJwCjO7jxp0ARPsUgFOAUV3bthOAaFcDcAowmlubdgIQ7WYATgFGMbXlyRNABPTu3obv3gLdewBo1Zzt3g0ARjYrgDklQUvmbnZWAEdzHxAerWSrswMQAT0oGf9RUQAioGWl4z9a9VeiPD2/vLZ8QciwZPgnxSfAuTVPDDWs3eCqANwS8Uhrx7/6Fugjt0TsocbwT1Z9BrhFCGyh5vA3DeBECNSwxfB3CUAIrLHl8HcN4JxTgSl7jP7cJp8BSggi296D/+h/zURC9VT3OsAAAAAASUVORK5CYII=">
+
 <script>
-// Build the web app manifest in-page so no extra files are needed.
+// Generate crisp PNG icons from the custom logo SVG & build the PWA manifest inline
 (function () {
-  var url = location.href.split('#')[0];
-  var manifest = {
-    name: "The Group - Meeting Portal",
-    short_name: "The Group",
-    description: "Virtual Classroom & Briefing Portal for The Group daily Google Meet session.",
-    start_url: url,
-    scope: url.substring(0, url.lastIndexOf('/') + 1),
-    display: "standalone",
-    background_color: "#f8fafc",
-    theme_color: "#1d4ed8",
-    icons: [
-      { src: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAEl0lEQVR4Xu3dYXLaRgCG4ZDJOdyruDdITureoLlKcxF3cAYHbBBaaSV293ue/wGq+V5WQCc5fHmwp+eX1we/BB7o188fhwc+/Zfdn9zgmbJ3ELsEYPQssUcMmwZg+NSwZQibBGD4bGGLEKoGYPjsoWYIVQIwfB6hRghf175w4+dRamxvVQA1XgCssXaDi26B1j4pbGHJLVHxCWD8tGrJNosCWPIEsKfSjc4OoPSB4VFKtjorgJIHhBbM3eysAGBUdwOYWxK0Zs52JwOY8wDQsnsbvhnAvT8IvZja8t1bIBjZ1QC8+zOaW5t2AhDtUwDe/RnVtW07AYh2EYB3f0b3ceNOAKK9B+DdnxTnW3cCEE0ARHsLwO0PaU6bdwIQTQBEEwDRDu7/SeYEIJoAiCYAogmAaAIgmgCIJgCiCYBoAiCaAIgmAKIJgGgCIJoAiCYAogmAaAIgmgCIJgCiCYBoAiCaAIgmAKIJgGgCIJoAiPatp//6//793tPL3dxff/+z+XOMrou/G9TwpwlhuaYDMPwyQijX7GcA4y/nmpVrNgDYQ5MBeCdbzrUr02QAjKnFOJsLoMWL1JsWr2GLr+mouQAYT6vjFwCba3n8R139Ekw/Wh/+iVsgqutl/G6BqK6n8QuAqnobvwCopsfxC4Aqeh2/AFit5/ELgFV6H/+R3wEoNsLwT/wOQJGRxu8WiCKjjV8AzDbi+AXALKOOXwDcNfL4BcCk0ccvAG5KGP+R3wG4kDL8E78D8C5t/G6BiB6/AHiT+M7vFoj48TsBwiW/8zsBwhn/b74FCmT8f/gdIIjhf+YECGH81wkggPHfJoDBGf80AQzOvxsmgHgicAsU7xiBEHwLFE8El3wGCCSCPwQQSgS/CSCYCAQQLz0CJwDR3xAJgHeJp4EAuJAWgQD4JCkCAXBVSgQC4KaECATApNH/HyIBMMuop4EAmG3ECARAkdEiEADFRopAACwySgQCYLERviESAKv1fBoIgCp6jUAAVNNjBAKgqt4iEADV9RSBANhEL98QCYBNtX4aCIDNtRyBANhFqxE0F0CrF6onrV7DFl9XcwHAnpoMoMV3il64dmWaDAD20mwA3snKuWblDk/PL6/lf2xf/p2raYa/XBcBnAjhkuGv11UAUFuznwFgDwIgmgCIJgCiCYBoAiCaAIgmAKIJgGgCIJoAiCYAogmAaAIgmgCIJgCiCYBoAiCaAIgmAKIJgGgCIJoAiCYAogmAaF9//fxxiL4CxDpu3wlANAEQTQBEewvA5wDSnDbvBCCaAIj2HoDbIFKcb90JQLSLAJwCjO7jxp0ARPsUgFOAUV3bthOAaFcDcAowmlubdgIQ7WYATgFGMbXlyRNABPTu3obv3gLdewBo1Zzt3g0ARjYrgDklQUvmbnZWAEdzHxAerWSrswMQAT0oGf9RUQAioGWl4z9a9VeiPD2/vLZ8QciwZPgnxSfAuTVPDDWs3eCqANwS8Uhrx7/6Fugjt0TsocbwT1Z9BrhFCGyh5vA3DeBECNSwxfB3CUAIrLHl8HcN4JxTgSl7jP7cJp8BSggi296D/+h/zURC9VT3OsAAAAAASUVORK5CYII=", sizes: "192x192", type: "image/png", purpose: "any" },
-      { src: "data:image/png;base64,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", sizes: "512x512", type: "image/png", purpose: "any" },
-      { src: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAIAAAB7GkOtAAAJrElEQVR4Xu3bi3ETSRhGUbNFHJAKZECmkAGxkMkW5S1ea2w9Rtbffc+JwENb33VTmjfvPnx+AKDnn94jA/CdAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABEvY0+9y6+ff20y6Ps4P3HLzs8Bhlv3n34nHnYTRj9JYgB8wnASkz/cmSAyQRgDaZ/aTLATAIwnenfhgwwjW8BjWb9d+I0mUYA5rIX+3GmjCIAQ1mKXTlZ5hCAiWzE3pwvQwjAONahwCkzgQDMYhc6nDV3JwCDWIQaJ859CQBwNxJ4XwIwhU9CU/ncy88+hAAAd2D9JxCAEXwYyoKnH3zkmQQAeFXWfw4BuD+fByK/A9++foo86SoEAHgNpn8g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", sizes: "512x512", type: "image/png", purpose: "maskable" }
-    ]
+  var svgMarkup = `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="512" height="512">
+      <defs>
+        <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#1e6a87"/>
+          <stop offset="100%" stop-color="#0b3b54"/>
+        </linearGradient>
+        <linearGradient id="goldGrad" x1="15%" y1="10%" x2="85%" y2="90%">
+          <stop offset="0%" stop-color="#f3d8a3"/>
+          <stop offset="50%" stop-color="#d8b26e"/>
+          <stop offset="100%" stop-color="#a88142"/>
+        </linearGradient>
+        <linearGradient id="goldDark" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#b58d4c"/>
+          <stop offset="100%" stop-color="#7c5b28"/>
+        </linearGradient>
+      </defs>
+      <rect width="120" height="120" rx="22" fill="url(#bgGrad)"/>
+      <!-- Outer C Ring Shadow -->
+      <path d="M 94 38 A 40 40 0 1 0 88 94 L 78 82 A 24 24 0 1 1 82 48 Z" fill="#07283a" opacity="0.55" transform="translate(2, 4)"/>
+      <!-- Outer C Ring -->
+      <path d="M 94 36 A 40 40 0 1 0 88 92 L 78 80 A 24 24 0 1 1 82 46 Z" fill="url(#goldGrad)"/>
+      <!-- Inner Play Triangle -->
+      <path d="M 52 44 L 74 58 C 76 59.3 76 61.7 74 63 L 52 77 C 50 78.2 48 76.8 48 74.5 L 48 46.5 C 48 44.2 50 42.8 52 44 Z" fill="#07283a" opacity="0.45" transform="translate(1.5, 2.5)"/>
+      <path d="M 52 43 L 74 57 C 76 58.3 76 60.7 74 62 L 52 76 C 50 77.2 48 75.8 48 73.5 L 48 45.5 C 48 43.2 50 41.8 52 43 Z" fill="url(#goldGrad)"/>
+      <!-- Upper Right Abstract Person / Swoop -->
+      <circle cx="94" cy="46" r="6.5" fill="url(#goldGrad)"/>
+      <path d="M 76 66 C 82 57 94 56 104 60 C 99 65 89 65 76 66 Z" fill="url(#goldGrad)"/>
+      <path d="M 76 66 C 89 65 99 65 104 60 L 101 82 L 82 86 Z" fill="#093044" opacity="0.7"/>
+      <!-- Lower Right Person Icon -->
+      <circle cx="94" cy="83" r="6.5" fill="url(#goldGrad)"/>
+      <path d="M 81 103 C 81 94.5 107 94.5 107 103 Z" fill="url(#goldGrad)"/>
+    </svg>
+  `.trim();
+
+  var svgBlob = new Blob([svgMarkup], { type: "image/svg+xml;charset=utf-8" });
+  var svgUrl = URL.createObjectURL(svgBlob);
+
+  // Set immediate SVG favicon
+  var faviconLink = document.createElement("link");
+  faviconLink.rel = "icon";
+  faviconLink.type = "image/svg+xml";
+  faviconLink.href = svgUrl;
+  document.head.appendChild(faviconLink);
+
+  // Render to Canvas to generate PNG icons for Apple Touch Icon & PWA Manifest
+  var img = new Image();
+  img.onload = function () {
+    function renderPng(size) {
+      var canvas = document.createElement("canvas");
+      canvas.width = size;
+      canvas.height = size;
+      var ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, size, size);
+      return canvas.toDataURL("image/png");
+    }
+
+    var png192 = renderPng(192);
+    var png512 = renderPng(512);
+
+    var appleIcon = document.createElement("link");
+    appleIcon.rel = "apple-touch-icon";
+    appleIcon.href = png192;
+    document.head.appendChild(appleIcon);
+
+    var url = location.href.split('#')[0];
+    var manifest = {
+      name: "The Group - Meeting Portal",
+      short_name: "The Group",
+      description: "Virtual Classroom & Briefing Portal for The Group daily Google Meet session.",
+      start_url: url,
+      scope: url.substring(0, url.lastIndexOf('/') + 1),
+      display: "standalone",
+      background_color: "#f8fafc",
+      theme_color: "#1d4ed8",
+      icons: [
+        { src: png192, sizes: "192x192", type: "image/png", purpose: "any" },
+        { src: png512, sizes: "512x512", type: "image/png", purpose: "any" },
+        { src: png512, sizes: "512x512", type: "image/png", purpose: "maskable" }
+      ]
+    };
+
+    var manifestBlob = new Blob([JSON.stringify(manifest)], { type: "application/manifest+json" });
+    var manifestLink = document.createElement("link");
+    manifestLink.rel = "manifest";
+    manifestLink.href = URL.createObjectURL(manifestBlob);
+    document.head.appendChild(manifestLink);
+    URL.revokeObjectURL(svgUrl);
   };
-  var blobUrl = URL.createObjectURL(new Blob([JSON.stringify(manifest)], { type: "application/manifest+json" }));
-  var link = document.createElement("link");
-  link.rel = "manifest";
-  link.href = blobUrl;
-  document.head.appendChild(link);
+  img.src = svgUrl;
 })();
 </script>
 
@@ -117,14 +185,21 @@ body {
 }
 
 .brand-icon {
-  width: 38px;
-  height: 38px;
-  background: #1e40af;
-  border-radius: 8px;
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(11, 59, 84, 0.25);
+}
+
+.brand-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
 .brand-text {
@@ -481,6 +556,11 @@ body {
     height: 68px;
   }
 
+  .brand-icon {
+    width: 36px;
+    height: 36px;
+  }
+
   .brand-text {
     font-size: 14px;
   }
@@ -531,17 +611,38 @@ body {
   <a href="#" class="brand-logo">
 
     <div class="brand-icon">
-      <svg width="20" height="20" viewBox="0 0 24 24"
-           fill="none" stroke="currentColor"
-           stroke-width="2.2" stroke-linecap="round"
-           stroke-linejoin="round">
-        <path d="M15 10l5-5v14l-5-5"></path>
-        <rect x="4" y="6" width="11" height="12" rx="2"></rect>
+      <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <linearGradient id="headerBgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#1e6a87"/>
+            <stop offset="100%" stop-color="#0b3b54"/>
+          </linearGradient>
+          <linearGradient id="headerGoldGrad" x1="15%" y1="10%" x2="85%" y2="90%">
+            <stop offset="0%" stop-color="#f3d8a3"/>
+            <stop offset="50%" stop-color="#d8b26e"/>
+            <stop offset="100%" stop-color="#a88142"/>
+          </linearGradient>
+        </defs>
+        <rect width="120" height="120" fill="url(#headerBgGrad)"/>
+        <!-- Outer C Ring Shadow -->
+        <path d="M 94 38 A 40 40 0 1 0 88 94 L 78 82 A 24 24 0 1 1 82 48 Z" fill="#07283a" opacity="0.55" transform="translate(2, 4)"/>
+        <!-- Outer C Ring -->
+        <path d="M 94 36 A 40 40 0 1 0 88 92 L 78 80 A 24 24 0 1 1 82 46 Z" fill="url(#headerGoldGrad)"/>
+        <!-- Inner Play Triangle -->
+        <path d="M 52 44 L 74 58 C 76 59.3 76 61.7 74 63 L 52 77 C 50 78.2 48 76.8 48 74.5 L 48 46.5 C 48 44.2 50 42.8 52 44 Z" fill="#07283a" opacity="0.45" transform="translate(1.5, 2.5)"/>
+        <path d="M 52 43 L 74 57 C 76 58.3 76 60.7 74 62 L 52 76 C 50 77.2 48 75.8 48 73.5 L 48 45.5 C 48 43.2 50 41.8 52 43 Z" fill="url(#headerGoldGrad)"/>
+        <!-- Upper Right Abstract Person / Swoop -->
+        <circle cx="94" cy="46" r="6.5" fill="url(#headerGoldGrad)"/>
+        <path d="M 76 66 C 82 57 94 56 104 60 C 99 65 89 65 76 66 Z" fill="url(#headerGoldGrad)"/>
+        <path d="M 76 66 C 89 65 99 65 104 60 L 101 82 L 82 86 Z" fill="#093044" opacity="0.7"/>
+        <!-- Lower Right Person Icon -->
+        <circle cx="94" cy="83" r="6.5" fill="url(#headerGoldGrad)"/>
+        <path d="M 81 103 C 81 94.5 107 94.5 107 103 Z" fill="url(#headerGoldGrad)"/>
       </svg>
     </div>
 
     <div>
-      <span class="brand-text">The Group(Google Meet Class)</span>
+      <span class="brand-text">The Group (Google Meet Class)</span>
     </div>
 
   </a>
@@ -776,7 +877,6 @@ body {
 const MEETING_LINK = "https://meet.google.com/vkj-mrkj-rey";
 
 const ALLOWED_USERS = [
-  "avadhoot",
   "avadhoot",
   "ethan"
 ];
